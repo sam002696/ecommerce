@@ -1,8 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// public routes (no authentication required)
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+
+// protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
+});
