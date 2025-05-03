@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin-only routes with /admin prefix
     Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::apiResource('categories', CategoryController::class);
+        Route::apiResource('brands', BrandController::class);
     });
 
     // Customer-only routes
