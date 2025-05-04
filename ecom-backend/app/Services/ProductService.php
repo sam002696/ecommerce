@@ -3,7 +3,11 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\TempImage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Str;
 
 class ProductService
 {
@@ -45,7 +49,7 @@ class ProductService
             'status' => 'integer|in:0,1',
         ])->validate();
 
-        // Add optional fields manually
+        // Add optional fields
         $optional = $request->only([
             'compare_price',
             'description',
@@ -58,8 +62,46 @@ class ProductService
 
         $data = array_merge($validated, $optional);
 
-        return Product::create($data);
+        // Create the product first
+        $product = Product::create($data);
+
+        //  Then handle images
+        if (!empty($request->gallery)) {
+            foreach ($request->gallery as $key => $tempImageId) {
+                $tempImage = TempImage::find($tempImageId);
+
+                if (!$tempImage) continue;
+
+                $ext = pathinfo($tempImage->name, PATHINFO_EXTENSION);
+                $imageName = $product->id . '-' . time() . '-' . Str::random(6) . '.' . $ext;
+
+                $manager = new ImageManager(new Driver());
+
+                $sourcePath = public_path('uploads/temp/' . $tempImage->name);
+                $largePath = public_path('uploads/products/large/' . $imageName);
+                $smallPath = public_path('uploads/products/small/' . $imageName);
+
+                // Generate images
+                $manager->read($sourcePath)->scaleDown(1200)->save($largePath);
+                $manager->read($sourcePath)->scaleDown(400, 460)->save($smallPath);
+
+                // Set main image if first
+                if ($key == 0) {
+                    $product->image = $imageName;
+                    $product->save();
+                }
+
+                // Optional: Save to product_images
+                // ProductImage::create([
+                //     'product_id' => $product->id,
+                //     'image' => $imageName,
+                // ]);
+            }
+        }
+
+        return $product;
     }
+
 
     public function getProductById($id)
     {
@@ -96,6 +138,8 @@ class ProductService
         $data = array_merge($validated, $optional);
 
         $product->update($data);
+
+
 
         return $product;
     }

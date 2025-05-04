@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
+use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('brands', BrandController::class);
         Route::get('sizes', [SizeController::class, 'index']);
         Route::apiResource('products', ProductController::class);
+        Route::post('upload-temp-image', [TempImageController::class, 'store']);
     });
 
     // Customer-only routes
