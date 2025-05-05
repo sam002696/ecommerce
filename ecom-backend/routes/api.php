@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
+// routes open for all users
 Route::get('products/latest', [FrontProductController::class, 'latestProducts']);
 Route::get('products/featured', [FrontProductController::class, 'featuredProducts']);
 Route::get('products-categories', [FrontProductController::class, 'getCategories']);
 Route::get('products-brands', [FrontProductController::class, 'getBrands']);
 Route::get('all-products', [FrontProductController::class, 'allProducts']);
+Route::get('product-details/{id}', [FrontProductController::class, 'singleProduct']);
 
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {

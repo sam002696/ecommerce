@@ -96,4 +96,6 @@ class AuthController extends Controller
             'User data retrieved'
         );
     }
+
+    // user profile info  :: todo
 }

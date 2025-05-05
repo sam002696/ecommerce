@@ -42,6 +42,14 @@ class ProductFrontendService
 
 
 
+    public function getsingleProduct($id)
+    {
+        return Product::with(['product_images', 'product_size'])
+            ->find($id);
+    }
+
+
+
 
     /**
      * Get the latest active products.

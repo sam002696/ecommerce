@@ -35,6 +35,27 @@ class ProductController extends Controller
         }
     }
 
+    public function singleProduct($id)
+    {
+        try {
+            $product = $this->productFrontendService->getsingleProduct($id);
+
+            if (!$product) {
+                return ApiResponseService::errorResponse(
+                    'Product not found',
+                    404
+                );
+            }
+
+            return ApiResponseService::successResponse(
+                $product,
+                'Product retrieved successfully'
+            );
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
+
 
 
     /**
