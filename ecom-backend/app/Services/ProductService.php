@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductSize;
 use App\Models\TempImage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -68,15 +69,28 @@ class ProductService
         // Create the product first
         $product = Product::create($data);
 
+
+        // handle sizes
+        if (!empty($request->sizes)) {
+            ProductSize::where('product_id', $product->id)->delete();
+            foreach ($request->sizes as $sizeId) {
+                $productSize = new ProductSize();
+                $productSize->size_id = $sizeId;
+                $productSize->product_id = $product->id;
+                $productSize->save();
+            }
+        }
+
         //  Then handle images
         if (!empty($request->gallery)) {
             foreach ($request->gallery as $key => $tempImageId) {
                 $tempImage = TempImage::find($tempImageId);
+                $rand = rand(1000, 10000);
 
                 if (!$tempImage) continue;
 
                 $ext = pathinfo($tempImage->name, PATHINFO_EXTENSION);
-                $imageName = $product->id . '-' . time() . '-' . Str::random(6) . '.' . $ext;
+                $imageName = $product->id . '-' . $rand . time() . '-' . Str::random(6) . '.' . $ext;
 
                 $manager = new ImageManager(new Driver());
 
@@ -113,7 +127,12 @@ class ProductService
 
     public function getProductById($id)
     {
-        return Product::with(['product_images', 'product_sizes'])->find($id);
+        $product = Product::with(['product_images', 'product_sizes'])->find($id);
+
+        // to-do 
+        // $productSizes = $product->product_sizes->pluck('size_id')->toArray();
+
+        return $product;
     }
 
     public function updateProduct($request, $id)
@@ -148,6 +167,18 @@ class ProductService
         $product->update($data);
 
 
+        // handle sizes
+        if (!empty($request->sizes)) {
+            ProductSize::where('product_id', $product->id)->delete();
+            foreach ($request->sizes as $sizeId) {
+                $productSize = new ProductSize();
+                $productSize->size_id = $sizeId;
+                $productSize->product_id = $product->id;
+                $productSize->save();
+            }
+        }
+
+
 
         return $product;
     }
@@ -165,5 +196,50 @@ class ProductService
 
         $product->delete();
         return true;
+    }
+
+
+    public function saveProductImage($request)
+    {
+        //  Validate image and product ID
+        $validated = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_id' => 'required|exists:products,id',
+        ])->validate();
+
+        $image = $request->file('image');
+        $imageName = $request->product_id . '-' . time() . '.' . $image->extension();
+
+        // Setup Intervention Image manager
+        $manager = new ImageManager(new Driver());
+
+        //  Large Thumbnail
+        $img = $manager->read($image->getPathName());
+        $img->scaleDown(1200);
+        $img->save(public_path('uploads/products/large/' . $imageName));
+
+        //  Small Thumbnail
+        $img = $manager->read($image->getPathName());
+        $img->coverDown(400, 460);
+        $img->save(public_path('uploads/products/small/' . $imageName));
+
+        //  Store image in product_images table
+        $productImage = new ProductImage();
+        $productImage->product_id = $request->product_id;
+        $productImage->image = $imageName;
+        $productImage->save();
+
+        return $productImage;
+    }
+
+
+    public function updateDefaultImage($request)
+    {
+        $product = Product::find($request->product_id);
+
+        $product->image = $request->image;
+        $product->save();
+
+        return $product;
     }
 }

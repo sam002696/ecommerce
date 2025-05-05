@@ -22,7 +22,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('brands', BrandController::class);
         Route::get('sizes', [SizeController::class, 'index']);
+
+
         Route::apiResource('products', ProductController::class);
+        Route::post('save-product-image', [ProductController::class, 'saveProductImage']);
+        Route::post('change-product-default-image', [ProductController::class, 'updateDefaultImage']);
+
+
+
         Route::post('upload-temp-image', [TempImageController::class, 'store']);
     });
 

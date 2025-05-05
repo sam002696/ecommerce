@@ -98,4 +98,46 @@ class ProductController extends Controller
             return ApiResponseService::handleUnexpectedError($e);
         }
     }
+
+
+    public function saveProductImage(Request $request)
+    {
+        try {
+            $product = $this->productService->saveProductImage($request);
+
+            if (!$product) {
+                return ApiResponseService::errorResponse('Product not found', 404);
+            }
+
+            return ApiResponseService::successResponse(
+                $product,
+                'Product image saved successfully'
+            );
+        } catch (ValidationException $e) {
+            return ApiResponseService::handleValidationError($e);
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
+
+
+    public function updateDefaultImage(Request $request)
+    {
+        try {
+            $product = $this->productService->updateDefaultImage($request);
+
+            if (!$product) {
+                return ApiResponseService::errorResponse('Product not found', 404);
+            }
+
+            return ApiResponseService::successResponse(
+                $product,
+                'Product default image changed successfully'
+            );
+        } catch (ValidationException $e) {
+            return ApiResponseService::handleValidationError($e);
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
 }
