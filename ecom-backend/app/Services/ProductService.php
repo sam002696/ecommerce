@@ -185,14 +185,19 @@ class ProductService
 
     public function deleteProduct($id)
     {
-        $product = Product::find($id);
+        $product = Product::with('product_images')->find($id);
 
         if (!$product) {
             return null;
         }
 
-        File::delete(public_path('uploads/products/large/' . $product->image));
-        File::delete(public_path('uploads/products/small/' . $product->image));
+        // Delete product images from storage
+        if ($product->product_images) {
+            foreach ($product->product_images as $productImage) {
+                File::delete(public_path('uploads/products/large/' . $productImage->image));
+                File::delete(public_path('uploads/products/small/' . $productImage->image));
+            }
+        }
 
         $product->delete();
         return true;

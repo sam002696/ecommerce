@@ -6,11 +6,15 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\front\ProductController as FrontProductController;
 use Illuminate\Support\Facades\Route;
 
 // public routes (no authentication required)
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
+
+Route::get('products/latest', [FrontProductController::class, 'latestProducts']);
+Route::get('products/featured', [FrontProductController::class, 'featuredProducts']);
 
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {
