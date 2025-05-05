@@ -140,4 +140,25 @@ class ProductController extends Controller
             return ApiResponseService::handleUnexpectedError($e);
         }
     }
+
+
+    public function deleteProductImage($id)
+    {
+        try {
+            $deleted = $this->productService->deleteProductImage($id);
+
+            if (!$deleted) {
+                return ApiResponseService::errorResponse('Product image not found', 404);
+            }
+
+            return ApiResponseService::successResponse(
+                null,
+                'Product image deleted successfully'
+            );
+        } catch (ValidationException $e) {
+            return ApiResponseService::handleValidationError($e);
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
 }

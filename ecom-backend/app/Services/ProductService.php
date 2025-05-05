@@ -242,4 +242,17 @@ class ProductService
 
         return $product;
     }
+
+
+    public function deleteProductImage($id)
+    {
+        $productImage = ProductImage::find($id);
+
+
+        File::delete(public_path('uploads/products/large/' . $productImage->image));
+        File::delete(public_path('uploads/products/small/' . $productImage->image));
+
+        $productImage->delete();
+        return true;
+    }
 }

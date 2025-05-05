@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('products', ProductController::class);
         Route::post('save-product-image', [ProductController::class, 'saveProductImage']);
         Route::post('change-product-default-image', [ProductController::class, 'updateDefaultImage']);
+        Route::delete('delete-product-image/{id}', [ProductController::class, 'deleteProductImage']);
 
 
 
