@@ -2,6 +2,8 @@
 
 namespace App\Services\front;
 
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 
 class ProductFrontendService
@@ -27,5 +29,28 @@ class ProductFrontendService
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();
+    }
+
+
+    /**
+     * Get all categories.
+     */
+    public function getCategories()
+    {
+        $categories = Category::orderBy('name', 'asc')
+            ->where('status', 1)
+            ->get();
+
+
+        return $categories;
+    }
+
+    public function getBrands()
+    {
+        $brands = Brand::orderBy('name', 'asc')
+            ->where('status', 1)
+            ->get();
+
+        return $brands;
     }
 }

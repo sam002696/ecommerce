@@ -49,4 +49,34 @@ class ProductController extends Controller
             return ApiResponseService::handleUnexpectedError($e);
         }
     }
+
+
+
+    public function getCategories()
+    {
+        try {
+            $categories = $this->productFrontendService->getCategories();
+
+            return ApiResponseService::successResponse(
+                $categories,
+                'Categories fetched successfully'
+            );
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
+
+    public function getBrands()
+    {
+        try {
+            $brands = $this->productFrontendService->getBrands();
+
+            return ApiResponseService::successResponse(
+                $brands,
+                'Brands fetched successfully'
+            );
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
 }
