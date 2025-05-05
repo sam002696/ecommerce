@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\front\OrderController;
 use App\Http\Controllers\front\ProductController as FrontProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::get('products-categories', [FrontProductController::class, 'getCategories
 Route::get('products-brands', [FrontProductController::class, 'getBrands']);
 Route::get('all-products', [FrontProductController::class, 'allProducts']);
 Route::get('product-details/{id}', [FrontProductController::class, 'singleProduct']);
+
 
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -44,5 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Customer-only routes
-    Route::middleware('role:customer')->group(function () {});
+    Route::middleware('role:customer')->group(function () {
+        Route::post('save-order', [OrderController::class, 'saveOrder']);
+    });
 });
