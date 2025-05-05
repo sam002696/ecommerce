@@ -13,7 +13,7 @@ class Product extends Model
 
     protected $appends = ['image_url'];
 
-    // ✅ Hide the actual 'image' column from API output
+    // Hiding the actual 'image' column from API output
     protected $hidden = ['image'];
 
 
@@ -47,5 +47,16 @@ class Product extends Model
 
         // Otherwise, treat as local image filename
         return asset('uploads/products/small/' . $this->image);
+    }
+
+
+    public function product_images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function product_size()
+    {
+        return $this->hasMany(ProductSize::class);
     }
 }

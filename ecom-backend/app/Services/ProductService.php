@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\TempImage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -13,7 +15,8 @@ class ProductService
 {
     public function getAllProducts($request)
     {
-        $query = Product::query();
+        $query = Product::with(['product_images', 'product_sizes']);
+
 
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
@@ -85,6 +88,11 @@ class ProductService
                 $manager->read($sourcePath)->scaleDown(1200)->save($largePath);
                 $manager->read($sourcePath)->scaleDown(400, 460)->save($smallPath);
 
+                $productImage = new ProductImage();
+                $productImage->product_id = $product->id;
+                $productImage->image = $imageName;
+                $productImage->save();
+
                 // Set main image if first
                 if ($key == 0) {
                     $product->image = $imageName;
@@ -105,7 +113,7 @@ class ProductService
 
     public function getProductById($id)
     {
-        return Product::find($id);
+        return Product::with(['product_images', 'product_sizes'])->find($id);
     }
 
     public function updateProduct($request, $id)
@@ -151,6 +159,9 @@ class ProductService
         if (!$product) {
             return null;
         }
+
+        File::delete(public_path('uploads/products/large/' . $product->image));
+        File::delete(public_path('uploads/products/small/' . $product->image));
 
         $product->delete();
         return true;
