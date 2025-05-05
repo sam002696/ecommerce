@@ -18,6 +18,25 @@ class ProductController extends Controller
         $this->productFrontendService = $productFrontendService;
     }
 
+
+    public function allProducts(Request $request)
+    {
+        try {
+            $productsData = $this->productFrontendService->getAllProductsWithFilters($request);
+
+            return ApiResponseService::successResponse(
+                $productsData['products'],
+                'Products retrieved successfully',
+                200,
+                $productsData['pagination']
+            );
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
+
+
+
     /**
      * Return latest active products (for frontend).
      */

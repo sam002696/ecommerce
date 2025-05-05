@@ -17,6 +17,7 @@ Route::get('products/latest', [FrontProductController::class, 'latestProducts'])
 Route::get('products/featured', [FrontProductController::class, 'featuredProducts']);
 Route::get('products-categories', [FrontProductController::class, 'getCategories']);
 Route::get('products-brands', [FrontProductController::class, 'getBrands']);
+Route::get('all-products', [FrontProductController::class, 'allProducts']);
 
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {

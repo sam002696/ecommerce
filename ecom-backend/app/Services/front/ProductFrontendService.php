@@ -8,6 +8,41 @@ use App\Models\Product;
 
 class ProductFrontendService
 {
+
+
+    public function getAllProductsWithFilters($request)
+    {
+        $query = Product::where('status', 1);
+
+        // Filter by multiple category IDs (comma-separated)
+        if (!empty($request->category)) {
+            $categoryIds = explode(',', $request->category);
+            $query->whereIn('category_id', $categoryIds);
+        }
+
+        // Filter by multiple brand IDs (comma-separated)
+        if (!empty($request->brand)) {
+            $brandIds = explode(',', $request->brand);
+            $query->whereIn('brand_id', $brandIds);
+        }
+
+        $products = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return [
+            'products' => $products->items(),
+            'pagination' => [
+                'current_page' => $products->currentPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+                'total_pages' => $products->lastPage(),
+                'has_more_pages' => $products->hasMorePages(),
+            ]
+        ];
+    }
+
+
+
+
     /**
      * Get the latest active products.
      */
