@@ -70,4 +70,31 @@ class OrderService
             ->with('order_items')
             ->first();
     }
+
+    public function fetchAllOrders($request)
+    {
+        $query = Order::where('user_id', $request->user()->id)->with('order_items');
+
+        // Optional filtering
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->payment_status);
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return [
+            'orders' => $orders->items(),
+            'pagination' => [
+                'current_page' => $orders->currentPage(),
+                'per_page' => $orders->perPage(),
+                'total' => $orders->total(),
+                'total_pages' => $orders->lastPage(),
+                'has_more_pages' => $orders->hasMorePages(),
+            ]
+        ];
+    }
 }

@@ -51,4 +51,20 @@ class OrderController extends Controller
             return ApiResponseService::handleUnexpectedError($e);
         }
     }
+
+    public function getAllOrders(Request $request)
+    {
+        try {
+            $orders = $this->orderService->fetchAllOrders($request);
+
+            return ApiResponseService::successResponse(
+                $orders['orders'],
+                'Orders fetched successfully',
+                200,
+                $orders['pagination']
+            );
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
 }

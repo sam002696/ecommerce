@@ -4,11 +4,13 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderController as AdminOrderController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\front\OrderController;
 use App\Http\Controllers\front\ProductController as FrontProductController;
+use App\Http\Controllers\front\ShippingController as FrontShippingController;
 use Illuminate\Support\Facades\Route;
 
 // public routes (no authentication required)
@@ -47,11 +49,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
         Route::post('upload-temp-image', [TempImageController::class, 'store']);
+
+
+        Route::get('shipping-charge', [ShippingController::class, 'getShipping']);
+        Route::post('shipping-charge', [ShippingController::class, 'updateShipping']);
     });
 
     // Customer-only routes
     Route::middleware('role:customer')->group(function () {
         Route::post('save-order', [OrderController::class, 'saveOrder']);
         Route::get('get-order-details/{id}', [OrderController::class, 'getOrderDetails']);
+        Route::get('get-all-orders', [OrderController::class, 'getAllOrders']);
+
+        Route::get('shipping-charge', [FrontShippingController::class, 'getShipping']);
     });
 });
