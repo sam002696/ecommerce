@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\OrderController as AdminOrderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\TempImageController;
@@ -39,6 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('save-product-image', [ProductController::class, 'saveProductImage']);
         Route::post('change-product-default-image', [ProductController::class, 'updateDefaultImage']);
         Route::delete('delete-product-image/{id}', [ProductController::class, 'deleteProductImage']);
+
+
+        Route::apiResource('orders', AdminOrderController::class);
 
 
 
