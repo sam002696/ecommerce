@@ -42,7 +42,7 @@ class OrderService
      */
     public function getOrderById($id)
     {
-        return Order::with('order_items')->find($id);
+        return Order::with('order_items', 'order_items.product')->find($id);
     }
 
     /**
