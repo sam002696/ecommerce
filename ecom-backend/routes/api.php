@@ -48,5 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Customer-only routes
     Route::middleware('role:customer')->group(function () {
         Route::post('save-order', [OrderController::class, 'saveOrder']);
+        Route::get('get-order-details/{id}', [OrderController::class, 'getOrderDetails']);
     });
 });

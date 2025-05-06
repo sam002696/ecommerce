@@ -60,4 +60,14 @@ class OrderService
 
         return $order;
     }
+
+    public function fetchOrderDetails($orderId, $userId)
+    {
+        return Order::where([
+            'user_id' => $userId,
+            'id' => $orderId
+        ])
+            ->with('order_items')
+            ->first();
+    }
 }

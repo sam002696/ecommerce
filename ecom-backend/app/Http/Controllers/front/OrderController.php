@@ -33,4 +33,22 @@ class OrderController extends Controller
             return ApiResponseService::handleUnexpectedError($e);
         }
     }
+
+    public function getOrderDetails($id, Request $request)
+    {
+        try {
+            $order = $this->orderService->fetchOrderDetails($id, $request->user()->id);
+
+            if (!$order) {
+                return ApiResponseService::errorResponse('Order not found.', 404);
+            }
+
+            return ApiResponseService::successResponse(
+                $order,
+                'Order fetched successfully'
+            );
+        } catch (Exception $e) {
+            return ApiResponseService::handleUnexpectedError($e);
+        }
+    }
 }
