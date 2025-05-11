@@ -12,8 +12,8 @@ import Button from "../../../components/common/Button";
 // import Taskify from "../../src/assets/images/taskify.png";
 
 const Login = () => {
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   //   // Getting loading state and login response from Redux store
   //   const {
   //     loading, // True while the API request is in progress
@@ -62,18 +62,12 @@ const Login = () => {
     // What happens when the form is submitted
     onSubmit: (values) => {
       console.log("values", values);
-      //   dispatch(
-      //     callApi({
-      //       // Making an API request to login
-      //       operationId: AUTH_API.LOGIN, // The API endpoint for login
-      //       parameters: {
-      //         method: "POST", // POST method for login
-      //         body: JSON.stringify(values), // Convert form data to JSON format
-      //       },
-      //       output: "loginInfo", // Store API response in Redux under `loginInfo`
-      //       storeName: "loginInfo",
-      //     })
-      //   );
+      dispatch({
+        type: "LOGIN", // Redux action to add a new task
+        payload: {
+          loginData: values, // Task data from the form
+        },
+      });
     },
   });
 
