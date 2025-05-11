@@ -13,7 +13,7 @@ use App\Http\Controllers\front\ProductController as FrontProductController;
 use App\Http\Controllers\front\ShippingController as FrontShippingController;
 use Illuminate\Support\Facades\Route;
 
-// public routes (no authentication required)
+// auth routes (no authentication required)
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
@@ -51,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('upload-temp-image', [TempImageController::class, 'store']);
 
 
+        // to-do : optimize this
         Route::get('shipping-charge', [ShippingController::class, 'getShipping']);
         Route::post('shipping-charge', [ShippingController::class, 'updateShipping']);
     });
