@@ -3,46 +3,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { useDispatch, useSelector } from "react-redux";
-// import { callApi, clearState, selectApi } from "../store/apiSlice";
-// import { AUTH_API } from "../constants/apiConstants";
+
 import { Link, useNavigate } from "react-router";
-// import { AuthUser } from "../helpers/AuthUser";
+
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
-// import Taskify from "../../src/assets/images/taskify.png";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   // Getting loading state and login response from Redux store
-  //   const {
-  //     loading, // True while the API request is in progress
-  //     loginInfo = {
-  //       // Stores the login response (success or failure)
-  //       data: {},
-  //     },
-  //   } = useSelector(selectApi);
-
-  //   // If login is successful, saving the login data and navigating to the taskboard
-  //   useEffect(() => {
-  //     if (loginInfo?.status === "success" && loginInfo?.data?.token) {
-  //       AuthUser.saveLoginData(loginInfo?.data);
-  //       // Clearing the loginInfo state after saving the login data
-  //       // This is done to prevent the login data from being stored in Redux
-  //       dispatch(
-  //         clearState({
-  //           output: "loginInfo",
-  //         })
-  //       );
-  //       navigate("/taskboard");
-  //     }
-  //   }, [
-  //     loginInfo?.data?.token,
-  //     loginInfo?.data,
-  //     loginInfo?.status,
-  //     navigate,
-  //     dispatch,
-  //   ]);
 
   // Setting up form handling with Formik
   const formik = useFormik({
@@ -63,9 +32,10 @@ const Login = () => {
     onSubmit: (values) => {
       console.log("values", values);
       dispatch({
-        type: "LOGIN", // Redux action to add a new task
+        type: "LOGIN",
         payload: {
-          loginData: values, // Task data from the form
+          loginData: values,
+          navigate,
         },
       });
     },

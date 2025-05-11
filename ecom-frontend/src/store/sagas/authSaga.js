@@ -12,23 +12,30 @@ import { AUTH_API } from "../../utils/api";
 
 import fetcher from "../../services/fetcher";
 import { setToastAlert } from "../slices/errorSlice";
+import { AuthUser } from "../../helpers/AuthUser";
 
 // Login Saga
 function* loginSaga({ payload }) {
+  const { loginData, navigate } = payload;
   try {
     yield put(loginStart());
 
     const response = yield call(() =>
       fetcher(AUTH_API.LOGIN, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(loginData),
       })
     );
 
     if (response.status !== "success") throw new Error(response.message);
 
+    // Saving login data using your helper class (persists token & user)
+    yield call([AuthUser, AuthUser.saveLoginData], response.data);
+
     yield put(loginSuccess(response.data));
     yield put(setToastAlert({ type: "success", message: "Login successful!" }));
+
+    if (navigate) navigate("/example");
   } catch (error) {
     const message = error.message || "Login failed.";
     yield put(loginFailure(message));
@@ -61,8 +68,20 @@ function* registerSaga({ payload }) {
   }
 }
 
+function* logoutSaga() {
+  // Clear cookies and storage
+  yield call([AuthUser, AuthUser.logout]);
+
+  // Reset Redux auth state
+  yield put({ type: "auth/logout" });
+
+  // Optionally redirect to login page
+  // navigate("/login"); <-- only if you pass it in
+}
+
 // Root Auth Saga
 export default function* authSaga() {
   yield takeLatest("LOGIN", loginSaga);
   yield takeLatest("REGISTER", registerSaga);
+  yield takeLatest("LOGOUT", logoutSaga);
 }

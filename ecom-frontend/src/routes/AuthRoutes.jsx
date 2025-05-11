@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 
 const Login = lazy(() => import("../pages/Auth/Login/Login"));
 const Register = lazy(() => import("../pages/Auth/Register/Register"));
+const Example = lazy(() => import("../pages/Auth/example"));
 
 // Defining routes
 const Authroutes = [
@@ -14,6 +15,10 @@ const Authroutes = [
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/example",
+    element: <Example />,
   },
   //   {
   //     path: "*",
