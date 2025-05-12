@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { Suspense } from "react";
 import Loader from "./components/common/Loader";
-import Authroutes from "./routes/AuthRoutes";
+import AppRoutes from "./routes";
 
 const App = () => {
   return (
@@ -10,7 +10,7 @@ const App = () => {
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Rendering routes and their children */}
-          {Authroutes.map(({ path, element, children }, index) => (
+          {AppRoutes.map(({ path, element, children }, index) => (
             <Route key={index} path={path} element={element}>
               {children?.map(({ path, element }, subIndex) => (
                 <Route key={subIndex} path={path} element={element} />

@@ -1,5 +1,5 @@
-// src/layouts/AdminLayout/Sidebar.jsx
 import { useState } from "react";
+import { Link, useLocation } from "react-router";
 import {
   Dialog,
   DialogPanel,
@@ -13,14 +13,24 @@ import {
   CalendarIcon,
   DocumentDuplicateIcon,
   ChartPieIcon,
-  Cog6ToothIcon,
+  // Cog6ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
+  {
+    name: "Team",
+    href: "/team",
+    icon: UsersIcon,
+    current: false,
+  },
+  {
+    name: "Products",
+    href: "/products",
+    icon: FolderIcon,
+    current: false,
+  },
   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
@@ -31,6 +41,7 @@ function classNames(...classes) {
 }
 
 export default function Sidebar() {
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -54,11 +65,12 @@ export default function Sidebar() {
             </TransitionChild>
             <nav className="flex flex-col space-y-4">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className={classNames(
-                    item.current
+                    location.pathname === item.href ||
+                      location.pathname.startsWith(`${item.href}/`)
                       ? "bg-gray-100 text-indigo-600"
                       : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                     "flex items-center gap-3 p-2 rounded-md text-sm font-medium"
@@ -66,7 +78,7 @@ export default function Sidebar() {
                 >
                   <item.icon className="h-5 w-5" />
                   {item.name}
-                </a>
+                </Link>
               ))}
             </nav>
           </DialogPanel>
@@ -84,11 +96,13 @@ export default function Sidebar() {
         </div>
         <nav className="mt-8 flex flex-col gap-4">
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.href}
+              onClick={() => setSidebarOpen(false)}
               className={classNames(
-                item.current
+                location.pathname === item.href ||
+                  location.pathname.startsWith(`${item.href}/`)
                   ? "bg-gray-100 text-indigo-600"
                   : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                 "flex items-center gap-3 p-2 rounded-md text-sm font-medium"
@@ -96,7 +110,7 @@ export default function Sidebar() {
             >
               <item.icon className="h-5 w-5" />
               {item.name}
-            </a>
+            </Link>
           ))}
         </nav>
       </aside>
