@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -10,6 +10,7 @@ import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
 
 const Login = () => {
+  const isLoading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -98,7 +99,7 @@ const Login = () => {
               </div>
             </div>
 
-            <Button type="submit" variant="primary">
+            <Button type="submit" variant="primary" isLoading={isLoading}>
               Sign in
             </Button>
           </form>

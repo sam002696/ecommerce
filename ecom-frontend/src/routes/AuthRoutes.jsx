@@ -3,7 +3,7 @@ import { Navigate } from "react-router";
 
 const Login = lazy(() => import("../pages/Auth/Login/Login"));
 const Register = lazy(() => import("../pages/Auth/Register/Register"));
-const Example = lazy(() => import("../pages/Auth/example"));
+const AdminDashboard = lazy(() => import("../pages/admin/Dashboard/Dashboard"));
 
 // Defining routes
 const Authroutes = [
@@ -17,8 +17,8 @@ const Authroutes = [
     element: <Register />,
   },
   {
-    path: "/example",
-    element: <Example />,
+    path: "/dashboard",
+    element: <AdminDashboard />,
   },
   //   {
   //     path: "*",

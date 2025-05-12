@@ -35,7 +35,7 @@ function* loginSaga({ payload }) {
     yield put(loginSuccess(response.data));
     yield put(setToastAlert({ type: "success", message: "Login successful!" }));
 
-    if (navigate) navigate("/example");
+    if (navigate) navigate("/dashboard");
   } catch (error) {
     const message = error.message || "Login failed.";
     yield put(loginFailure(message));
@@ -45,13 +45,14 @@ function* loginSaga({ payload }) {
 
 // Registration Saga
 function* registerSaga({ payload }) {
+  const { registerData, navigate } = payload;
   try {
     yield put(registerStart());
 
     const response = yield call(() =>
       fetcher(AUTH_API.REGISTER, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(registerData),
       })
     );
 
@@ -61,6 +62,12 @@ function* registerSaga({ payload }) {
     yield put(
       setToastAlert({ type: "success", message: "Registration successful!" })
     );
+
+    /* -----------------
+       Navigation to login page
+       -----------------
+    */
+    if (navigate) navigate("/login");
   } catch (error) {
     const message = error.message || "Registration failed.";
     yield put(registerFailure(message));
