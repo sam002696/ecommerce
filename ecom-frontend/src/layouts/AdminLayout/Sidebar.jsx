@@ -13,27 +13,25 @@ import {
   CalendarIcon,
   DocumentDuplicateIcon,
   ChartPieIcon,
-  // Cog6ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
-  {
-    name: "Team",
-    href: "/team",
-    icon: UsersIcon,
-    current: false,
-  },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+  { name: "Team", href: "/team", icon: UsersIcon },
   {
     name: "Products",
-    href: "/products",
     icon: FolderIcon,
-    current: false,
+    href: "/products",
+    children: [
+      { name: "All Products", href: "/products" },
+      { name: "Create Product", href: "/products/create" },
+    ],
   },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Calendar", href: "#", icon: CalendarIcon },
+  { name: "Documents", href: "#", icon: DocumentDuplicateIcon },
+  { name: "Reports", href: "#", icon: ChartPieIcon },
 ];
 
 function classNames(...classes) {
@@ -43,6 +41,73 @@ function classNames(...classes) {
 export default function Sidebar() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [expanded, setExpanded] = useState({ Products: true }); // Default expanded menu
+
+  const renderNavItem = (item) => {
+    const isActive = location.pathname.startsWith(item.href);
+    const isExpanded = expanded[item.name];
+
+    return item.children ? (
+      <div key={item.name}>
+        <button
+          onClick={() =>
+            setExpanded((prev) => ({ ...prev, [item.name]: !prev[item.name] }))
+          }
+          className={classNames(
+            isActive
+              ? "bg-gray-100 text-indigo-600"
+              : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+            "flex w-full items-center justify-between p-2 rounded-md text-sm font-medium"
+          )}
+        >
+          <div className="flex items-center gap-3">
+            <item.icon className="h-5 w-5" />
+            {item.name}
+          </div>
+          <ChevronDownIcon
+            className={classNames(
+              "h-4 w-4 transition-transform duration-200",
+              isExpanded ? "rotate-180 text-indigo-600" : "text-gray-400"
+            )}
+          />
+        </button>
+
+        {isExpanded && (
+          <div className="ml-8 mt-1 space-y-1">
+            {item.children.map((child) => (
+              <Link
+                key={child.name}
+                to={child.href}
+                className={classNames(
+                  location.pathname === child.href
+                    ? "text-indigo-600 font-medium"
+                    : "text-gray-600 hover:text-indigo-600",
+                  "block text-sm"
+                )}
+              >
+                {child.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    ) : (
+      <Link
+        key={item.name}
+        to={item.href}
+        onClick={() => setSidebarOpen(false)}
+        className={classNames(
+          isActive
+            ? "bg-gray-100 text-indigo-600"
+            : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+          "flex items-center gap-3 p-2 rounded-md text-sm font-medium"
+        )}
+      >
+        <item.icon className="h-5 w-5" />
+        {item.name}
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -64,22 +129,7 @@ export default function Sidebar() {
               </button>
             </TransitionChild>
             <nav className="flex flex-col space-y-4">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={classNames(
-                    location.pathname === item.href ||
-                      location.pathname.startsWith(`${item.href}/`)
-                      ? "bg-gray-100 text-indigo-600"
-                      : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                    "flex items-center gap-3 p-2 rounded-md text-sm font-medium"
-                  )}
-                >
-                  <item.icon className="h-5 w-5" />
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map(renderNavItem)}
             </nav>
           </DialogPanel>
         </div>
@@ -87,7 +137,7 @@ export default function Sidebar() {
 
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex lg:w-72 lg:flex-col lg:fixed lg:inset-y-0 border-r border-gray-200 bg-white px-6 py-4">
-        <div className="flex items-center  h-16">
+        <div className="flex items-center h-16">
           <img
             src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
             alt="Logo"
@@ -95,23 +145,7 @@ export default function Sidebar() {
           />
         </div>
         <nav className="mt-8 flex flex-col gap-4">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              onClick={() => setSidebarOpen(false)}
-              className={classNames(
-                location.pathname === item.href ||
-                  location.pathname.startsWith(`${item.href}/`)
-                  ? "bg-gray-100 text-indigo-600"
-                  : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                "flex items-center gap-3 p-2 rounded-md text-sm font-medium"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              {item.name}
-            </Link>
-          ))}
+          {navigation.map(renderNavItem)}
         </nav>
       </aside>
     </>
