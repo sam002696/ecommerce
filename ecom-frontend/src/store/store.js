@@ -12,7 +12,7 @@ export const store = configureStore({
   reducer: {
     toastAlert: toastAlertReducer,
     auth: authReducer,
-    adminProduct: adminProductSlice,
+    adminProducts: adminProductSlice,
   },
 
   middleware: (getDefaultMiddleware) =>
