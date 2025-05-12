@@ -16,7 +16,7 @@ class ProductService
 {
     public function getAllProducts($request)
     {
-        $query = Product::with(['product_images', 'product_sizes']);
+        $query = Product::with(['product_images', 'product_size']);
 
 
         if ($request->filled('search')) {

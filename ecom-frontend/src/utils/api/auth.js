@@ -1,4 +1,3 @@
-// src/utils/api/auth.js
 import { API_BASE_URL } from "./base";
 
 export const AUTH_API = {

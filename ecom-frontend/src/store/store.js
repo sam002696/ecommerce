@@ -3,25 +3,22 @@ import createSagaMiddleware from "redux-saga";
 import toastAlertReducer from "./slices/errorSlice";
 import rootSaga from "./sagas/rootSaga";
 import authReducer from "./slices/authSlice";
+import adminProductSlice from "../features/admin/products/slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 // Creating the Redux store
 export const store = configureStore({
   reducer: {
-    toastAlert: toastAlertReducer, // The errorSlice reducer is added to the store configuration under the toastAlert key
-    auth: authReducer, // The apiSlice reducer is added to the store configuration under the api key
+    toastAlert: toastAlertReducer,
+    auth: authReducer,
+    adminProduct: adminProductSlice,
   },
-  // The store configuration is a key part of the Redux architecture,
-  // as it defines how the application state is managed and updated.
-  // The configureStore function from the Redux Toolkit library is used to create the store.
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
 });
 
-// Running the root saga
-// The sagaMiddleware.run function is called with the rootSaga as an argument.
-// This starts the rootSaga and runs all the sagas in the application.
 sagaMiddleware.run(rootSaga);
 
 export default store;
