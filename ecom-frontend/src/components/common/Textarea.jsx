@@ -8,7 +8,7 @@ const Textarea = ({
   onBlur,
   placeholder,
   error,
-  rows = 3,
+  rows = 5,
   maxLength = 200,
 }) => {
   return (
