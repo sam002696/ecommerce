@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import ProductInfo from "./ProductInfo";
@@ -8,30 +9,43 @@ import Gallery from "./Gallery";
 
 const initialValues = {
   title: "",
-  category: "",
-  brand: "",
-  shortDescription: "",
-  description: "",
   price: "",
-  quantity: "",
-  images: [],
+  category_id: "",
+  sku: "",
+  is_featured: "",
+  status: "",
+  compare_price: "",
+  description: "",
+  short_description: "",
+  image: null,
+  brand_id: "",
+  qty: "",
+  barcode: "",
 };
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
-  category: Yup.string().required("Category is required"),
-  brand: Yup.string().required("Brand is required"),
-  shortDescription: Yup.string()
-    .max(200)
-    .required("Short description is required"),
-  description: Yup.string().max(200).required("Description is required"),
-  price: Yup.number().required("Price is required"),
-  quantity: Yup.number().required("Quantity is required"),
+  category_id: Yup.string()
+    .required("Category is required")
+    .notOneOf([""], "Category is required"),
+  sku: Yup.string().required("SKU is required"),
+  is_featured: Yup.string().required("Featured is required"),
+  status: Yup.number()
+    .required("Status is required")
+    .notOneOf([""], "Status is required"),
 });
 
 const CreateProduct = () => {
+  const dispatch = useDispatch();
   const handleSubmit = (values) => {
     console.log("Submitting full product:", values);
+
+    dispatch({
+      type: "CREATE_PRODUCT",
+      payload: {
+        productData: values,
+      },
+    });
   };
 
   return (

@@ -36,11 +36,11 @@ const Pricing = () => {
               <Input
                 label="Discounted Price"
                 type="number"
-                name="discountedPrice"
-                value={values.discountedPrice}
+                name="compare_price"
+                value={values.compare_price}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.discountedPrice && errors.discountedPrice}
+                error={touched.compare_price && errors.compare_price}
               />
             </div>
           </div>

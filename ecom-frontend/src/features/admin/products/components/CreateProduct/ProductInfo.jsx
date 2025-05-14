@@ -37,46 +37,42 @@ const ProductInfo = () => {
             <div className="sm:col-span-2">
               <InputSelect
                 label="Category"
-                name="category"
-                value={values.category}
+                name="category_id"
+                value={values.category_id}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 options={[
                   { value: "", label: "Select category" },
-                  { value: "To Do", label: "To Do" },
-                  { value: "In Progress", label: "In Progress" },
-                  { value: "Done", label: "Done" },
+                  { value: 2, label: "Electronics" },
                 ]}
-                error={
-                  touched.category && errors.category ? errors.category : ""
-                }
+                error={touched.category_id && errors.category_id}
               />
             </div>
 
             <div className="sm:col-span-2">
               <InputSelect
                 label="Brand"
-                name="brand"
-                value={values.brand}
+                name="brand_id"
+                value={values.brand_id}
+                onBlur={handleBlur}
                 onChange={handleChange}
                 options={[
                   { value: "", label: "Select brand" },
-                  { value: "To Do", label: "To Do" },
-                  { value: "In Progress", label: "In Progress" },
-                  { value: "Done", label: "Done" },
+                  { value: 2, label: "Adidas" },
                 ]}
-                error={touched.brand && errors.brand ? errors.brand : ""}
+                error={touched.brand_id && errors.brand_id}
               />
             </div>
 
             <div className="sm:col-span-3">
               <Textarea
                 label="Short Description"
-                name="shortDescription"
-                value={values.shortDescription}
+                name="short_description"
+                value={values.short_description}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 maxLength={200}
-                error={touched.shortDescription && errors.shortDescription}
+                error={touched.short_description && errors.short_description}
               />
             </div>
 

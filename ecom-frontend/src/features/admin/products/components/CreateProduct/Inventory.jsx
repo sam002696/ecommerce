@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormikContext } from "formik";
 import Input from "../../../../../components/common/Input";
+import InputSelect from "../../../../../components/common/InputSelect";
 
 const Inventory = () => {
   const { values, handleChange, handleBlur, touched, errors } =
@@ -48,35 +49,43 @@ const Inventory = () => {
               <Input
                 label="Quantity"
                 type="number"
-                name="quantity"
-                value={values.quantity}
+                name="qty"
+                value={values.qty}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.quantity && errors.quantity}
+                error={touched.qty && errors.qty}
               />
             </div>
 
             <div className="sm:col-span-3">
-              <Input
+              <InputSelect
                 label="Status"
-                type="text"
                 name="status"
                 value={values.status}
-                onChange={handleChange}
                 onBlur={handleBlur}
+                onChange={handleChange}
+                options={[
+                  { value: "", label: "Select status" },
+                  { value: 1, label: "Active" },
+                  { value: 0, label: "Inactive" },
+                ]}
                 error={touched.status && errors.status}
               />
             </div>
 
             <div className="sm:col-span-3">
-              <Input
+              <InputSelect
                 label="Featured"
-                type="text"
-                name="featured"
-                value={values.featured}
-                onChange={handleChange}
+                name="is_featured"
+                value={values.is_featured}
                 onBlur={handleBlur}
-                error={touched.featured && errors.featured}
+                onChange={handleChange}
+                options={[
+                  { value: "", label: "Select featured" },
+                  { value: "yes", label: "Yes" },
+                  { value: "no", label: "No" },
+                ]}
+                error={touched.is_featured && errors.is_featured}
               />
             </div>
           </div>

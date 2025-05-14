@@ -27,11 +27,12 @@ function* fetchProductsSaga() {
 
 // CREATE PRODUCT
 function* createProductSaga({ payload }) {
+  const { productData } = payload;
   try {
     const response = yield call(() =>
       fetcher(PRODUCT_API.CREATE, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify(productData),
       })
     );
     yield put(createProductSuccess(response.data));

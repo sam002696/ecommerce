@@ -1,5 +1,5 @@
-import React from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { getCastedValue } from "../../utils/getCastedValue";
 
 const InputSelect = ({
   label,
@@ -7,7 +7,7 @@ const InputSelect = ({
   value,
   onChange,
   onBlur,
-  options,
+  options = [],
   error,
   ref,
 }) => {
@@ -16,22 +16,32 @@ const InputSelect = ({
       {label && (
         <label
           htmlFor={name}
-          className="block text-sm/6 font-medium text-gray-900"
+          className="block text-sm font-medium text-gray-900"
         >
           {label}
         </label>
       )}
-      <div className="mt-2 relative grid grid-cols-1">
+      <div className="mt-3 relative grid grid-cols-1">
         <select
           id={name}
           ref={ref}
           name={name}
           value={value}
-          onChange={onChange}
           onBlur={onBlur}
-          className={`block w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 border sm:text-sm/6
-            ${error ? "border-red-500 focus:border-red-500" : "border-gray-300"}
-            focus:outline-none focus:ring-2 focus:ring-indigo-600`}
+          onChange={(e) => {
+            onChange({
+              target: {
+                name,
+                value: getCastedValue(e.target.value, options),
+              },
+            });
+          }}
+          className={`block w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border sm:text-sm focus:outline-none focus:ring-2
+  ${
+    error
+      ? "border-red-500 focus:ring-red-500"
+      : "border-gray-300 focus:ring-indigo-600"
+  }`}
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>
