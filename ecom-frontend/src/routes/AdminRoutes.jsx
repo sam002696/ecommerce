@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import CreateProduct from "../features/admin/products/components/CreateProduct";
+import CreateProduct from "../features/admin/products/components/CreateProduct/CreateProduct";
 const AdminDashboard = lazy(() => import("../pages/admin/Dashboard/Dashboard"));
 
 const Products = lazy(() => import("../pages/admin/Products/Products"));

@@ -14,28 +14,35 @@ const Input = ({
   return (
     <div className="flex flex-col">
       {label && (
-        <label className="block text-sm/6 font-medium text-gray-900">
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium text-gray-900"
+        >
           {label}
         </label>
       )}
-      <input
-        ref={ref}
-        type={type}
-        value={value || ""}
-        name={name}
-        onChange={onChange}
-        onBlur={onBlur}
-        onKeyDown={onKeyDown ? (e) => onKeyDown(e) : undefined}
-        placeholder={placeholder}
-        className={`inline-block w-auto rounded-md bg-white px-3 py-1.5 text-base text-gray-900 border mt-2 ${
-          error
-            ? "border-red-500 focus:ring-red-500"
-            : "border-gray-300 focus:ring-indigo-600"
-        } placeholder:text-gray-400 focus:outline-none focus:ring-2 sm:text-sm`}
-        autoFocus={autofocus}
-        data-dndkit-disable-drag
-      />
-      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
+      <div className="mt-3 relative grid grid-cols-1">
+        <input
+          ref={ref}
+          type={type}
+          name={name}
+          value={value || ""}
+          onChange={onChange}
+          onBlur={onBlur}
+          onKeyDown={onKeyDown}
+          placeholder={placeholder}
+          autoFocus={autofocus}
+          className={`block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 border placeholder:text-gray-400 focus:outline-none focus:ring-2 sm:text-sm
+          ${
+            error
+              ? "border-red-500 focus:ring-red-500"
+              : "border-gray-300 focus:ring-indigo-600"
+          }`}
+          data-dndkit-disable-drag
+        />
+      </div>
+
+      {error && <span className="text-sm text-red-500 mt-1">{error}</span>}
     </div>
   );
 };
