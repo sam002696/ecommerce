@@ -7,8 +7,11 @@ import {
   updateProductSuccess,
   deleteProductSuccess,
   setCurrentProduct,
+  uploadTempImagesStart,
+  uploadTempImagesSuccess,
+  uploadTempImagesFailure,
 } from "./slice";
-import { PRODUCT_API } from "../../../utils/api/admin";
+import { PRODUCT_API, TEMPIMAGE_API } from "../../../utils/api/admin";
 
 import { setToastAlert } from "../../../store/slices/errorSlice";
 import fetcher from "../../../services/fetcher";
@@ -32,7 +35,7 @@ function* createProductSaga({ payload }) {
     const response = yield call(() =>
       fetcher(PRODUCT_API.CREATE, {
         method: "POST",
-        body: JSON.stringify(productData),
+        body: productData,
       })
     );
     yield put(createProductSuccess(response.data));
@@ -91,6 +94,35 @@ function* getSingleProductSaga({ payload }) {
   }
 }
 
+// UPLOAD TEMP IMAGES
+function* uploadTempImagesSaga({ payload }) {
+  try {
+    yield put(uploadTempImagesStart());
+    const uploaded = [];
+
+    for (const file of payload) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      const response = yield call(() =>
+        fetcher(TEMPIMAGE_API.CREATE, {
+          method: "POST",
+          body: formData,
+        })
+      );
+
+      if (response?.data) {
+        uploaded.push(response?.data);
+      }
+    }
+
+    yield put(uploadTempImagesSuccess(uploaded)); // contains id, original_url
+  } catch (error) {
+    yield put(uploadTempImagesFailure(error.message));
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
 // ROOT SAGA
 export default function* productSaga() {
   yield takeLatest("FETCH_PRODUCTS", fetchProductsSaga);
@@ -98,4 +130,5 @@ export default function* productSaga() {
   yield takeLatest("UPDATE_PRODUCT", updateProductSaga);
   yield takeLatest("DELETE_PRODUCT", deleteProductSaga);
   yield takeLatest("GET_SINGLE_PRODUCT", getSingleProductSaga);
+  yield takeLatest("UPLOAD_TEMP_IMAGE", uploadTempImagesSaga);
 }

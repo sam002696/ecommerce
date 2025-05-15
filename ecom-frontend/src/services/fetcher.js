@@ -1,26 +1,32 @@
 import Cookies from "js-cookie";
 
 const fetcher = async (url, options = {}) => {
-  const method = options.method || "GET";
+  const method = options.method?.toUpperCase() || "GET";
 
-  if (method === "get" || method === "GET") {
-    Object.keys(options).forEach((key) =>
-      url.searchParams.append(key, options[key])
+  // Handling query params for GET requests
+  if (method === "GET" && options.params && url instanceof URL) {
+    Object.keys(options.params).forEach((key) =>
+      url.searchParams.append(key, options.params[key])
     );
   }
 
-  let headers = {
+  const isFormData = options.body instanceof FormData;
+
+  const headers = {
     Authorization: "Bearer " + Cookies.get("access_token"),
-    "Content-Type": "application/json",
+    ...(isFormData ? {} : { "Content-Type": "application/json" }),
   };
 
-  if (options.hasFile) {
-    headers = { Authorization: "Bearer " + Cookies.get("access_token") };
-  }
-
-  const response = await fetch(url, { headers, ...options });
+  const response = await fetch(url, {
+    ...options,
+    method,
+    headers,
+    // if not formData, JSON.stringify body
+    body: isFormData ? options.body : JSON.stringify(options.body),
+  });
 
   const data = await response.json();
+
   if (!response.ok) {
     const error = new Error(data.message || "API Request Failed");
     error.response = data;

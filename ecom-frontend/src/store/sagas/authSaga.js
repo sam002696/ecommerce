@@ -23,7 +23,7 @@ function* loginSaga({ payload }) {
     const response = yield call(() =>
       fetcher(AUTH_API.LOGIN, {
         method: "POST",
-        body: JSON.stringify(loginData),
+        body: loginData,
       })
     );
 
@@ -52,7 +52,7 @@ function* registerSaga({ payload }) {
     const response = yield call(() =>
       fetcher(AUTH_API.REGISTER, {
         method: "POST",
-        body: JSON.stringify(registerData),
+        body: registerData,
       })
     );
 

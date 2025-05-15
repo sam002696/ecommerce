@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useFormikContext } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import FileInput from "../../../../../components/common/FileInput";
 
 const Gallery = () => {
-  const [images, setImages] = useState([]);
+  const gallery = useSelector(
+    (state) => state.adminProducts.currentProduct?.gallery || []
+  );
+  const dispatch = useDispatch();
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    const previewURLs = files.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
-    setImages(previewURLs);
+    if (files.length > 0) {
+      dispatch({ type: "UPLOAD_TEMP_IMAGE", payload: files });
+    }
   };
+
+  const { setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    if (gallery.length > 0) {
+      const ids = gallery.map((img) => img.id);
+      setFieldValue("gallery", ids);
+    }
+  }, [gallery, setFieldValue]);
+
+  console.log("gallery", gallery);
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2 py-10">
@@ -37,16 +51,16 @@ const Gallery = () => {
                 multiple
               />
 
-              {images.length > 0 && (
+              {gallery.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-4">
-                  {images.map((img, index) => (
+                  {gallery.map((img) => (
                     <div
-                      key={index}
+                      key={img.id}
                       className="w-24 h-24 overflow-hidden rounded-md border"
                     >
                       <img
-                        src={img.preview}
-                        alt={`Preview ${index}`}
+                        src={img.thumbnail_url || img.original_url}
+                        alt={img.name}
                         className="w-full h-full object-cover"
                       />
                     </div>

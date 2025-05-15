@@ -40,6 +40,28 @@ const productSlice = createSlice({
     setCurrentProduct: (state, { payload }) => {
       state.currentProduct = payload;
     },
+
+    /*---------------------
+ 
+      Temp image reducer
+
+    -----------------------*/
+
+    uploadTempImagesStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    uploadTempImagesSuccess: (state, { payload }) => {
+      state.currentProduct = {
+        ...(state.currentProduct || {}),
+        gallery: payload,
+      };
+      state.loading = false;
+    },
+    uploadTempImagesFailure: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -51,6 +73,9 @@ export const {
   updateProductSuccess,
   deleteProductSuccess,
   setCurrentProduct,
+  uploadTempImagesStart,
+  uploadTempImagesSuccess,
+  uploadTempImagesFailure,
 } = productSlice.actions;
 
 export default productSlice.reducer;

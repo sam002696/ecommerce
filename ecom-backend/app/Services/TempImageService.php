@@ -42,6 +42,7 @@ class TempImageService
         $tempImage->save();
 
         return [
+            'id' => $tempImage->id,
             'name' => $imageName,
             'original_url' => url('uploads/temp/' . $imageName),
             'thumbnail_url' => url('uploads/temp/thumb/' . $imageName)
