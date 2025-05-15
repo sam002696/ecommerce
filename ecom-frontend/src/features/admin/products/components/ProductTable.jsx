@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router";
 
 const ProductTable = () => {
   const { list } = useSelector((state) => state.adminProducts);
@@ -110,12 +111,12 @@ const ProductTable = () => {
                         {product.sku}
                       </td>
                       <td className="relative py-5 pr-6 text-right text-sm font-medium">
-                        <a
-                          href="#"
+                        <Link
+                          to={`/products/${product?.id}/edit`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           Edit<span className="sr-only">, {product.title}</span>
-                        </a>
+                        </Link>
                       </td>
                     </tr>
                   ))}

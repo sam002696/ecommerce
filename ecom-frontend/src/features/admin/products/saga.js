@@ -4,7 +4,7 @@ import {
   fetchProductsSuccess,
   fetchProductsFailure,
   createProductSuccess,
-  updateProductSuccess,
+  editProductSuccess,
   deleteProductSuccess,
   setCurrentProduct,
   uploadTempImagesStart,
@@ -53,18 +53,18 @@ function* createProductSaga({ payload }) {
   }
 }
 
-// UPDATE PRODUCT
-function* updateProductSaga({ payload }) {
+// EDIT PRODUCT
+function* editProductSaga({ payload }) {
   const { id, data } = payload;
   try {
     const response = yield call(() =>
       fetcher(PRODUCT_API.UPDATE(id), {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: data,
       })
     );
-    yield put(updateProductSuccess(response.data));
-    yield put(setToastAlert({ type: "success", message: "Product updated" }));
+    yield put(editProductSuccess(response.data));
+    yield put(setToastAlert({ type: "success", message: response.message }));
   } catch (error) {
     yield put(setToastAlert({ type: "error", message: error.message }));
   }
@@ -130,7 +130,7 @@ function* uploadTempImagesSaga({ payload }) {
 export default function* productSaga() {
   yield takeLatest("FETCH_PRODUCTS", fetchProductsSaga);
   yield takeLatest("CREATE_PRODUCT", createProductSaga);
-  yield takeLatest("UPDATE_PRODUCT", updateProductSaga);
+  yield takeLatest("EDIT_PRODUCT", editProductSaga);
   yield takeLatest("DELETE_PRODUCT", deleteProductSaga);
   yield takeLatest("GET_SINGLE_PRODUCT", getSingleProductSaga);
   yield takeLatest("UPLOAD_TEMP_IMAGE", uploadTempImagesSaga);

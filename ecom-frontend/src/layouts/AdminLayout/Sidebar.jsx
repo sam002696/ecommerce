@@ -24,7 +24,7 @@ const navigation = [
     children: [
       { name: "All products", href: "/products" },
       { name: "Create product", href: "/products/create" },
-      { name: "update product", href: "" },
+      { name: "Edit product", href: "/products/:id/edit" },
     ],
   },
   {

@@ -1,30 +1,15 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { useParams } from "react-router";
+
 import ProductInfo from "../ProductForm/ProductInfo";
+import ProductSize from "../ProductForm/ProductSize";
 import Pricing from "../ProductForm/Pricing";
 import Inventory from "../ProductForm/Inventory";
 import Gallery from "../ProductForm/Gallery";
-import ProductSize from "../ProductForm/ProductSize";
-import { useNavigate } from "react-router";
-
-const initialValues = {
-  title: "",
-  price: "",
-  category_id: "",
-  sku: "",
-  is_featured: "",
-  status: "",
-  compare_price: "",
-  description: "",
-  short_description: "",
-  image: null,
-  brand_id: "",
-  qty: "",
-  barcode: "",
-  sizes: [],
-};
+import { transformProductForForm } from "../utils/transformProductForForm";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -38,26 +23,36 @@ const validationSchema = Yup.object({
     .notOneOf([""], "Status is required"),
 });
 
-const CreateProduct = () => {
-  const navigate = useNavigate();
+const EditProduct = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const handleSubmit = (values) => {
-    console.log("Submitting full product:", values);
+  // const navigate = useNavigate();
 
+  const product = useSelector((state) => state?.adminProducts?.currentProduct);
+
+  useEffect(() => {
+    if (id) {
+      dispatch({ type: "GET_SINGLE_PRODUCT", payload: { id } });
+    }
+  }, [id, dispatch]);
+
+  const handleSubmit = (values) => {
     dispatch({
-      type: "CREATE_PRODUCT",
+      type: "EDIT_PRODUCT",
       payload: {
-        productData: values,
-        navigate,
+        id,
+        data: values,
+        // navigate,
       },
     });
   };
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={transformProductForForm(product)}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
       <Form>
         <div className="divide-y divide-gray-900/10 space-y-12">
@@ -72,7 +67,7 @@ const CreateProduct = () => {
             type="submit"
             className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
           >
-            Submit Product
+            Update Product
           </button>
         </div>
       </Form>
@@ -80,4 +75,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default EditProduct;

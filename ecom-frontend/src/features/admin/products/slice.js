@@ -25,10 +25,10 @@ const productSlice = createSlice({
     },
 
     createProductSuccess: (state, { payload }) => {
-      state.list.unshift(payload); // Add new product to top
+      state.list.unshift(payload);
     },
 
-    updateProductSuccess: (state, { payload }) => {
+    editProductSuccess: (state, { payload }) => {
       const index = state.list.findIndex((p) => p.id === payload.id);
       if (index !== -1) state.list[index] = payload;
     },
@@ -75,7 +75,7 @@ export const {
   fetchProductsSuccess,
   fetchProductsFailure,
   createProductSuccess,
-  updateProductSuccess,
+  editProductSuccess,
   deleteProductSuccess,
   setCurrentProduct,
   uploadTempImagesStart,

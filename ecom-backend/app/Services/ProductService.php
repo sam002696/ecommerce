@@ -127,7 +127,7 @@ class ProductService
 
     public function getProductById($id)
     {
-        $product = Product::with(['product_images', 'product_sizes'])->find($id);
+        $product = Product::with(['product_images', 'product_size'])->find($id);
 
         // to-do 
         // $productSizes = $product->product_sizes->pluck('size_id')->toArray();

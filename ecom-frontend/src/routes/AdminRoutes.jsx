@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import CreateProduct from "../features/admin/products/components/CreateProduct/CreateProduct";
+import EditProduct from "../features/admin/products/components/EditProduct/EditProduct";
+
 const AdminDashboard = lazy(() => import("../pages/admin/Dashboard/Dashboard"));
 
 const Products = lazy(() => import("../pages/admin/Products/Products"));
@@ -18,7 +20,7 @@ const AdminRoutes = [
     children: [
       { path: "/products", element: <Products /> },
       { path: "/products/create", element: <CreateProduct /> },
-      //   { path: ":id/edit", element: <EditProduct /> },
+      { path: "/products/:id/edit", element: <EditProduct /> },
     ],
   },
 ];

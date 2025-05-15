@@ -1,0 +1,17 @@
+export const transformProductForForm = (product) => ({
+  title: product?.title || "",
+  price: product?.price || "",
+  category_id: product?.category_id || "",
+  sku: product?.sku || "",
+  is_featured: product?.is_featured || "",
+  status: product?.status || "",
+  compare_price: product?.compare_price || "",
+  description: product?.description || "",
+  short_description: product?.short_description || "",
+  image: product?.image || null,
+  brand_id: product?.brand_id || "",
+  qty: product?.qty || "",
+  barcode: product?.barcode || "",
+  sizes: product?.sizes?.map((size) => size.id) || [],
+  gallery: product?.gallery?.map((img) => img.id) || [],
+});
