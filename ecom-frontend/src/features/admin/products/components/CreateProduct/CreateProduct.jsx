@@ -6,6 +6,8 @@ import ProductInfo from "./ProductInfo";
 import Pricing from "./Pricing";
 import Inventory from "./Inventory";
 import Gallery from "./Gallery";
+import ProductSize from "./ProductSize";
+import { useNavigate } from "react-router";
 
 const initialValues = {
   title: "",
@@ -21,6 +23,7 @@ const initialValues = {
   brand_id: "",
   qty: "",
   barcode: "",
+  sizes: [],
 };
 
 const validationSchema = Yup.object({
@@ -36,6 +39,7 @@ const validationSchema = Yup.object({
 });
 
 const CreateProduct = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSubmit = (values) => {
     console.log("Submitting full product:", values);
@@ -44,6 +48,7 @@ const CreateProduct = () => {
       type: "CREATE_PRODUCT",
       payload: {
         productData: values,
+        navigate,
       },
     });
   };
@@ -57,6 +62,7 @@ const CreateProduct = () => {
       <Form>
         <div className="divide-y divide-gray-900/10 space-y-12">
           <ProductInfo />
+          <ProductSize />
           <Pricing />
           <Inventory />
           <Gallery />

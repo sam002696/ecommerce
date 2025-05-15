@@ -62,6 +62,11 @@ const productSlice = createSlice({
       state.error = payload;
       state.loading = false;
     },
+    resetGallery: (state) => {
+      if (state.currentProduct) {
+        state.currentProduct.gallery = [];
+      }
+    },
   },
 });
 
@@ -76,6 +81,7 @@ export const {
   uploadTempImagesStart,
   uploadTempImagesSuccess,
   uploadTempImagesFailure,
+  resetGallery,
 } = productSlice.actions;
 
 export default productSlice.reducer;

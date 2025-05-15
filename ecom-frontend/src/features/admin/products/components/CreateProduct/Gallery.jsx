@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FileInput from "../../../../../components/common/FileInput";
 
 const Gallery = () => {
+  const { setFieldValue } = useFormikContext();
   const gallery = useSelector(
     (state) => state.adminProducts.currentProduct?.gallery || []
   );
@@ -16,8 +17,6 @@ const Gallery = () => {
     }
   };
 
-  const { setFieldValue } = useFormikContext();
-
   useEffect(() => {
     if (gallery.length > 0) {
       const ids = gallery.map((img) => img.id);
@@ -25,7 +24,7 @@ const Gallery = () => {
     }
   }, [gallery, setFieldValue]);
 
-  console.log("gallery", gallery);
+  // console.log("gallery", gallery);
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2 py-10">

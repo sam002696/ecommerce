@@ -10,6 +10,7 @@ import {
   uploadTempImagesStart,
   uploadTempImagesSuccess,
   uploadTempImagesFailure,
+  resetGallery,
 } from "./slice";
 import { PRODUCT_API, TEMPIMAGE_API } from "../../../utils/api/admin";
 
@@ -30,7 +31,7 @@ function* fetchProductsSaga() {
 
 // CREATE PRODUCT
 function* createProductSaga({ payload }) {
-  const { productData } = payload;
+  const { productData, navigate } = payload;
   try {
     const response = yield call(() =>
       fetcher(PRODUCT_API.CREATE, {
@@ -39,12 +40,14 @@ function* createProductSaga({ payload }) {
       })
     );
     yield put(createProductSuccess(response.data));
+    yield put(resetGallery());
     yield put(
       setToastAlert({
         type: "success",
-        message: "Product created successfully",
+        message: response.message,
       })
     );
+    navigate("/products");
   } catch (error) {
     yield put(setToastAlert({ type: "error", message: error.message }));
   }
