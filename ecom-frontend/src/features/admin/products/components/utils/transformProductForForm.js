@@ -12,6 +12,13 @@ export const transformProductForForm = (product) => ({
   brand_id: product?.brand_id || "",
   qty: product?.qty || "",
   barcode: product?.barcode || "",
-  sizes: product?.sizes?.map((size) => size.id) || [],
-  gallery: product?.gallery?.map((img) => img.id) || [],
+
+  sizes: product?.product_size?.map((ps) => ps.size_id) || [],
+  gallery:
+    product?.product_images?.map((img) => ({
+      id: img.id,
+      original_url: img.image_url,
+      thumbnail_url: img.image_url,
+      name: img.image_url.split("/").pop(),
+    })) || [],
 });

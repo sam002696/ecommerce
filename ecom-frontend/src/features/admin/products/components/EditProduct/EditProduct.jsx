@@ -8,8 +8,8 @@ import ProductInfo from "../ProductForm/ProductInfo";
 import ProductSize from "../ProductForm/ProductSize";
 import Pricing from "../ProductForm/Pricing";
 import Inventory from "../ProductForm/Inventory";
-import Gallery from "../ProductForm/Gallery";
 import { transformProductForForm } from "../utils/transformProductForForm";
+import GalleryEdit from "../ProductForm/GalleryEdit";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -60,7 +60,7 @@ const EditProduct = () => {
           <ProductSize />
           <Pricing />
           <Inventory />
-          <Gallery />
+          <GalleryEdit />
         </div>
         <div className="flex justify-end px-4 pb-8">
           <button
