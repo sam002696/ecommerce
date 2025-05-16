@@ -181,6 +181,41 @@ function* saveProductImagesSaga({ payload }) {
   }
 }
 
+// change default image
+
+function* changeDefaultProductImageSaga({ payload }) {
+  const { productId, image } = payload;
+
+  try {
+    const formData = new FormData();
+    formData.append("product_id", productId);
+    formData.append("image", image);
+
+    const response = yield call(() =>
+      fetcher(PRODUCT_IMAGE_API.UPDATE_DEFAULT_IMAGE, {
+        method: "POST",
+        body: formData,
+      })
+    );
+
+    yield put(
+      setToastAlert({
+        type: "success",
+        message: response?.message || "Default image updated",
+      })
+    );
+
+    yield put({ type: "GET_SINGLE_PRODUCT", payload: { id: productId } });
+  } catch (error) {
+    yield put(
+      setToastAlert({
+        type: "error",
+        message: error.message || "Failed to update default image",
+      })
+    );
+  }
+}
+
 // ROOT SAGA
 export default function* productSaga() {
   yield takeLatest("FETCH_PRODUCTS", fetchProductsSaga);
@@ -190,4 +225,5 @@ export default function* productSaga() {
   yield takeLatest("GET_SINGLE_PRODUCT", getSingleProductSaga);
   yield takeLatest("UPLOAD_TEMP_IMAGE", uploadTempImagesSaga);
   yield takeLatest("SAVE_PRODUCT_IMAGE", saveProductImagesSaga);
+  yield takeLatest("CHANGE_DEFAULT_IMAGE", changeDefaultProductImageSaga);
 }

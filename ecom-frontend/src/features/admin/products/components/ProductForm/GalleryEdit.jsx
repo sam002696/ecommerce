@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useFormikContext } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import FileInput from "../../../../../components/common/FileInput";
+import Button from "../../../../../components/common/Button";
 
 const GalleryEdit = ({ productId }) => {
   const dispatch = useDispatch();
@@ -50,6 +51,19 @@ const GalleryEdit = ({ productId }) => {
     }
   }, [reduxGallery, gallery, setFieldValue]);
 
+  const handleDefaultImageChange = (fileName) => {
+    // console.log("fileName", fileName);
+    dispatch({
+      type: "CHANGE_DEFAULT_IMAGE",
+      payload: {
+        productId,
+        image: fileName,
+      },
+    });
+  };
+
+  console.log("gallery", gallery);
+
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2 py-10">
       <div className="px-4 sm:px-0">
@@ -93,6 +107,17 @@ const GalleryEdit = ({ productId }) => {
               <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
                 {file.name}
               </p>
+
+              <div className="mt-2 flex gap-2">
+                <Button
+                  onClick={() => handleDefaultImageChange(file.name)}
+                  variant="primary"
+                  isDisabled={file.is_default}
+                >
+                  {file?.is_default === 1 ? "Default image" : "Set as Default"}
+                </Button>
+                <Button variant="danger">Delete</Button>
+              </div>
             </li>
           ))}
         </ul>

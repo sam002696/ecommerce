@@ -243,7 +243,21 @@ class ProductService
         $product = Product::find($request->product_id);
 
         $product->image = $request->image;
+
+
+
+
         $product->save();
+
+
+
+        ProductImage::where('product_id', $request->product_id)
+            ->update(['is_default' => false]);
+
+
+        ProductImage::where('product_id', $request->product_id)
+            ->where('image', $request->image)
+            ->update(['is_default' => true]);
 
         return $product;
     }

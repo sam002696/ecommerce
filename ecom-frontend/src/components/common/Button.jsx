@@ -10,6 +10,7 @@ const Button = ({
   icon: Icon = null,
   iconPosition = "left",
   className = "",
+  isDisabled,
 }) => {
   // Base styles for the button
   const baseStyles =
@@ -33,10 +34,12 @@ const Button = ({
     <button
       type={type}
       onClick={onClick}
-      disabled={isLoading}
+      disabled={isDisabled}
       className={`${baseStyles} ${
-        variants[isLoading ? "secondary" : variant]
-      } ${isLoading ? " cursor-not-allowed" : " cursor-pointer "} ${className}`}
+        variants[isLoading || isDisabled ? "secondary" : variant]
+      } ${
+        isLoading || isDisabled ? " cursor-not-allowed" : " cursor-pointer "
+      } ${className}`}
       style={{ minWidth: "90px" }}
     >
       {Icon && iconPosition === "left" && <Icon className="size-5 mr-2" />}

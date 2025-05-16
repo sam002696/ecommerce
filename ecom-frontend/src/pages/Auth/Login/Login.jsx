@@ -99,7 +99,12 @@ const Login = () => {
               </div>
             </div>
 
-            <Button type="submit" variant="primary" isLoading={isLoading}>
+            <Button
+              type="submit"
+              variant="primary"
+              isLoading={isLoading}
+              isDisabled={isLoading}
+            >
               Sign in
             </Button>
           </form>

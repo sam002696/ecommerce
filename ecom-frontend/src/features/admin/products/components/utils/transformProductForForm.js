@@ -19,6 +19,7 @@ export const transformProductForForm = (product) => ({
       id: img.id,
       original_url: img.image_url,
       thumbnail_url: img.image_url,
+      is_default: img.is_default,
       name: img.image_url.split("/").pop(),
     })) || [],
 });
