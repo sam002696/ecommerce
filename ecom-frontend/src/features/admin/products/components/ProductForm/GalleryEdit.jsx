@@ -26,7 +26,7 @@ const GalleryEdit = ({ productId }) => {
     }
   };
 
-  // Sync Redux gallery to Formik
+  // Syncing Redux gallery to Formik
   const prevGalleryRef = useRef([]);
 
   useEffect(() => {
@@ -73,26 +73,29 @@ const GalleryEdit = ({ productId }) => {
                 accept="image/*"
                 multiple
               />
-
-              {gallery.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-4">
-                  {gallery.map((img, index) => (
-                    <div
-                      key={img.id || index}
-                      className="w-24 h-24 overflow-hidden rounded-md border"
-                    >
-                      <img
-                        src={img.thumbnail_url || img.original_url}
-                        alt={img.name || `Gallery image ${index}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         </div>
+
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 px-4 py-6"
+        >
+          {gallery.map((file, index) => (
+            <li key={file.id || index} className="relative">
+              <div className="group overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                <img
+                  alt={file.name || `Gallery image ${index}`}
+                  src={file.thumbnail_url || file.original_url}
+                  className="pointer-events-none aspect-10/7 object-cover group-hover:opacity-75"
+                />
+              </div>
+              <p className="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
+                {file.name}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

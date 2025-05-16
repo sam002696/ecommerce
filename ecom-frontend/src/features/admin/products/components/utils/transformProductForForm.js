@@ -8,7 +8,7 @@ export const transformProductForForm = (product) => ({
   compare_price: product?.compare_price || "",
   description: product?.description || "",
   short_description: product?.short_description || "",
-  image: product?.image || null,
+  image: product?.image_url || null,
   brand_id: product?.brand_id || "",
   qty: product?.qty || "",
   barcode: product?.barcode || "",
