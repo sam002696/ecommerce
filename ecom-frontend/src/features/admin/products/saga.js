@@ -23,11 +23,17 @@ import { setToastAlert } from "../../../store/slices/errorSlice";
 import fetcher from "../../../services/fetcher";
 
 // FETCH ALL PRODUCTS
-function* fetchProductsSaga() {
+function* fetchProductsSaga({ payload }) {
   try {
     yield put(fetchProductsStart());
-    const response = yield call(() => fetcher(PRODUCT_API.ALL));
-    yield put(fetchProductsSuccess(response.data));
+
+    const page = payload?.page || 1;
+
+    const response = yield call(() =>
+      fetcher(`${PRODUCT_API.ALL}?page=${page}`)
+    );
+
+    yield put(fetchProductsSuccess(response));
   } catch (error) {
     yield put(fetchProductsFailure(error.message));
     yield put(setToastAlert({ type: "error", message: error.message }));

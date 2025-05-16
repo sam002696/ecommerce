@@ -1,17 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router";
+import Pagination from "../../../../components/common/Pagination";
 
 const ProductTable = () => {
-  const { list } = useSelector((state) => state.adminProducts);
   const dispatch = useDispatch();
+  const { list, meta } = useSelector((state) => state.adminProducts);
+
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch({
       type: "FETCH_PRODUCTS",
+      payload: { page: currentPage },
     });
-  }, [dispatch]);
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -71,7 +79,6 @@ const ProductTable = () => {
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
                 {list &&
-                  list !== null &&
                   list.length > 0 &&
                   list.map((product) => (
                     <tr key={product.id}>
@@ -85,9 +92,7 @@ const ProductTable = () => {
                                 className="size-11 rounded-full"
                               />
                             ) : (
-                              <>
-                                <PhotoIcon className="size-11 rounded-full" />
-                              </>
+                              <PhotoIcon className="size-11 rounded-full" />
                             )}
                           </div>
                           <div className="ml-4">
@@ -122,6 +127,16 @@ const ProductTable = () => {
                   ))}
               </tbody>
             </table>
+
+            {meta && (
+              <Pagination
+                currentPage={meta.current_page}
+                perPage={meta.per_page}
+                total={meta.total}
+                totalPages={meta.total_pages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ const initialState = {
   currentProduct: null,
   loading: false,
   error: null,
+  meta: {},
 };
 
 const productSlice = createSlice({
@@ -16,7 +17,8 @@ const productSlice = createSlice({
       state.error = null;
     },
     fetchProductsSuccess: (state, { payload }) => {
-      state.list = payload;
+      state.list = payload.data;
+      state.meta = payload.meta;
       state.loading = false;
     },
     fetchProductsFailure: (state, { payload }) => {
