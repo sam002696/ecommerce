@@ -1,20 +1,54 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormikContext } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import FileInput from "../../../../../components/common/FileInput";
-import { useDispatch } from "react-redux";
 
-const GalleryEdit = () => {
-  const { values } = useFormikContext();
+const GalleryEdit = ({ productId }) => {
   const dispatch = useDispatch();
+  const { values, setFieldValue } = useFormikContext();
 
-  const gallery = values.gallery || [];
+  const reduxGallery = useSelector(
+    (state) => state.adminProducts.currentProduct?.gallery || []
+  );
+
+  const gallery = React.useMemo(() => values.gallery || [], [values.gallery]);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length > 0) {
-      dispatch({ type: "UPLOAD_TEMP_IMAGE", payload: files });
+    if (files.length > 0 && productId) {
+      dispatch({
+        type: "SAVE_PRODUCT_IMAGE",
+        payload: {
+          files,
+          productId,
+        },
+      });
     }
   };
+
+  // Sync Redux gallery to Formik
+  const prevGalleryRef = useRef([]);
+
+  useEffect(() => {
+    const ids = reduxGallery.map((img) => img.id);
+    const prevIds = prevGalleryRef.current.map((img) => img.id);
+
+    const hasChanged =
+      ids.length !== prevIds.length || !ids.every((id, i) => id === prevIds[i]);
+
+    if (hasChanged) {
+      prevGalleryRef.current = reduxGallery;
+
+      const merged = [
+        ...gallery,
+        ...reduxGallery.filter(
+          (newImg) => !gallery.some((oldImg) => oldImg.id === newImg.id)
+        ),
+      ];
+
+      setFieldValue("gallery", merged);
+    }
+  }, [reduxGallery, gallery, setFieldValue]);
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2 py-10">

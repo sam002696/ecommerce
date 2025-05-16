@@ -11,8 +11,13 @@ import {
   uploadTempImagesSuccess,
   uploadTempImagesFailure,
   resetGallery,
+  appendEditProductGallery,
 } from "./slice";
-import { PRODUCT_API, TEMPIMAGE_API } from "../../../utils/api/admin";
+import {
+  PRODUCT_API,
+  TEMPIMAGE_API,
+  PRODUCT_IMAGE_API,
+} from "../../../utils/api/admin";
 
 import { setToastAlert } from "../../../store/slices/errorSlice";
 import fetcher from "../../../services/fetcher";
@@ -126,6 +131,56 @@ function* uploadTempImagesSaga({ payload }) {
   }
 }
 
+function* saveProductImagesSaga({ payload }) {
+  const { files, productId } = payload;
+
+  try {
+    yield put(uploadTempImagesStart());
+
+    const uploaded = [];
+
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("product_id", productId);
+
+      // Create local preview URL for instant UI feedback
+      const localPreview = URL.createObjectURL(file);
+
+      // API call to upload image
+      const response = yield call(() =>
+        fetcher(PRODUCT_IMAGE_API.CREATE, {
+          method: "POST",
+          body: formData,
+        })
+      );
+
+      const data = response?.data;
+
+      if (data) {
+        // Use local preview for now, until image_url is accessible
+        const uploadedImage = {
+          id: data.id,
+          original_url: data.image_url,
+          thumbnail_url: localPreview, // This is key for instant display
+          name: data.image_url.split("/").pop(),
+        };
+
+        uploaded.push(uploadedImage);
+
+        // Append to Redux gallery
+        yield put(appendEditProductGallery([uploadedImage]));
+
+        yield put(
+          setToastAlert({ type: "success", message: response?.message })
+        );
+      }
+    }
+  } catch (error) {
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
 // ROOT SAGA
 export default function* productSaga() {
   yield takeLatest("FETCH_PRODUCTS", fetchProductsSaga);
@@ -134,4 +189,5 @@ export default function* productSaga() {
   yield takeLatest("DELETE_PRODUCT", deleteProductSaga);
   yield takeLatest("GET_SINGLE_PRODUCT", getSingleProductSaga);
   yield takeLatest("UPLOAD_TEMP_IMAGE", uploadTempImagesSaga);
+  yield takeLatest("SAVE_PRODUCT_IMAGE", saveProductImagesSaga);
 }

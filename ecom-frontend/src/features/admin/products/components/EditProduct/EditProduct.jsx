@@ -60,7 +60,7 @@ const EditProduct = () => {
           <ProductSize />
           <Pricing />
           <Inventory />
-          <GalleryEdit />
+          <GalleryEdit productId={id} />
         </div>
         <div className="flex justify-end px-4 pb-8">
           <button

@@ -41,6 +41,16 @@ const productSlice = createSlice({
       state.currentProduct = payload;
     },
 
+    appendEditProductGallery: (state, { payload }) => {
+      if (state.currentProduct) {
+        const newImage = Array.isArray(payload) ? payload : [payload];
+        state.currentProduct.gallery = [
+          ...(state.currentProduct.gallery || []),
+          ...newImage,
+        ];
+      }
+    },
+
     /*---------------------
  
       Temp image reducer
@@ -82,6 +92,7 @@ export const {
   uploadTempImagesSuccess,
   uploadTempImagesFailure,
   resetGallery,
+  appendEditProductGallery,
 } = productSlice.actions;
 
 export default productSlice.reducer;
