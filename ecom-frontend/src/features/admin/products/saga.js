@@ -216,6 +216,37 @@ function* changeDefaultProductImageSaga({ payload }) {
   }
 }
 
+// delete product image
+
+function* deleteProductImageSaga({ payload }) {
+  const { productId, imageId } = payload;
+
+  try {
+    const response = yield call(() =>
+      fetcher(PRODUCT_IMAGE_API.DELETE(imageId), {
+        method: "DELETE",
+      })
+    );
+
+    yield put(
+      setToastAlert({
+        type: "success",
+        message: response.message,
+      })
+    );
+
+    // Refreshing product
+    yield put({ type: "GET_SINGLE_PRODUCT", payload: { id: productId } });
+  } catch (error) {
+    yield put(
+      setToastAlert({
+        type: "error",
+        message: error.message || "Failed to delete image",
+      })
+    );
+  }
+}
+
 // ROOT SAGA
 export default function* productSaga() {
   yield takeLatest("FETCH_PRODUCTS", fetchProductsSaga);
@@ -226,4 +257,5 @@ export default function* productSaga() {
   yield takeLatest("UPLOAD_TEMP_IMAGE", uploadTempImagesSaga);
   yield takeLatest("SAVE_PRODUCT_IMAGE", saveProductImagesSaga);
   yield takeLatest("CHANGE_DEFAULT_IMAGE", changeDefaultProductImageSaga);
+  yield takeLatest("DELETE_PRODUCT_IMAGE", deleteProductImageSaga);
 }

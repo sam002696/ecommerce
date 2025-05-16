@@ -62,7 +62,15 @@ const GalleryEdit = ({ productId }) => {
     });
   };
 
-  console.log("gallery", gallery);
+  const handleDeleteProductImage = (imageId) => {
+    dispatch({
+      type: "DELETE_PRODUCT_IMAGE",
+      payload: {
+        productId,
+        imageId: imageId,
+      },
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2 py-10">
@@ -116,7 +124,12 @@ const GalleryEdit = ({ productId }) => {
                 >
                   {file?.is_default === 1 ? "Default image" : "Set as Default"}
                 </Button>
-                <Button variant="danger">Delete</Button>
+                <Button
+                  onClick={() => handleDeleteProductImage(file.id)}
+                  variant="danger"
+                >
+                  Delete
+                </Button>
               </div>
             </li>
           ))}
