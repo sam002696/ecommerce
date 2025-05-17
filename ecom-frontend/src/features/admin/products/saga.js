@@ -12,11 +12,20 @@ import {
   uploadTempImagesFailure,
   resetGallery,
   appendEditProductGallery,
+  removeCurrentProduct,
+  fetchBrandsStart,
+  fetchBrandsSuccess,
+  fetchBrandsFailure,
+  fetchCategoriesStart,
+  fetchCategoriesSuccess,
+  fetchCategoriesFailure,
 } from "./slice";
 import {
   PRODUCT_API,
   TEMPIMAGE_API,
   PRODUCT_IMAGE_API,
+  BRAND_API,
+  CATEGORY_API,
 } from "../../../utils/api/admin";
 
 import { setToastAlert } from "../../../store/slices/errorSlice";
@@ -104,6 +113,7 @@ function* getSingleProductSaga({ payload }) {
     const response = yield call(() => fetcher(PRODUCT_API.SINGLE(id)));
     yield put(setCurrentProduct(response.data));
   } catch (error) {
+    yield put(removeCurrentProduct());
     yield put(setToastAlert({ type: "error", message: error.message }));
   }
 }
@@ -253,9 +263,35 @@ function* deleteProductImageSaga({ payload }) {
   }
 }
 
+// get all product brands
+
+function* fetchBrandsSaga() {
+  try {
+    yield put(fetchBrandsStart());
+    const response = yield call(() => fetcher(BRAND_API.ALL));
+    yield put(fetchBrandsSuccess(response.data));
+  } catch (error) {
+    yield put(fetchBrandsFailure(error.message));
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
+function* fetchCategoriesSaga() {
+  try {
+    yield put(fetchCategoriesStart());
+    const response = yield call(() => fetcher(CATEGORY_API.ALL));
+    yield put(fetchCategoriesSuccess(response.data));
+  } catch (error) {
+    yield put(fetchCategoriesFailure(error.message));
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
 // ROOT SAGA
 export default function* productSaga() {
   yield takeLatest("FETCH_PRODUCTS", fetchProductsSaga);
+  yield takeLatest("FETCH_BRANDS", fetchBrandsSaga);
+  yield takeLatest("FETCH_CATEGORIES", fetchCategoriesSaga);
   yield takeLatest("CREATE_PRODUCT", createProductSaga);
   yield takeLatest("EDIT_PRODUCT", editProductSaga);
   yield takeLatest("DELETE_PRODUCT", deleteProductSaga);

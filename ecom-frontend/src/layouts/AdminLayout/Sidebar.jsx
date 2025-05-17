@@ -49,6 +49,12 @@ export default function Sidebar() {
   const location = useLocation();
   // const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  function matchPathPattern(pattern, pathname) {
+    if (!pattern || !pathname) return false;
+    const regex = new RegExp("^" + pattern.replace(/:\w+/g, "[^/]+") + "$");
+    return regex.test(pathname);
+  }
+
   return (
     <>
       {/* Desktop Sidebar */}
@@ -126,7 +132,10 @@ export default function Sidebar() {
                                   key={subItem.name}
                                   to={subItem.href}
                                   className={classNames(
-                                    location.pathname === subItem.href
+                                    matchPathPattern(
+                                      subItem.href,
+                                      location.pathname
+                                    )
                                       ? "bg-gray-50 text-indigo-600"
                                       : "text-gray-600 hover:bg-gray-50 hover:text-indigo-600",
                                     "block rounded-md py-2 pl-11 pr-2 text-sm leading-6"

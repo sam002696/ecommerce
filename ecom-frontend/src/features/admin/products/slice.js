@@ -6,6 +6,8 @@ const initialState = {
   loading: false,
   error: null,
   meta: {},
+  brands: [],
+  categories: [],
 };
 
 const productSlice = createSlice({
@@ -41,6 +43,10 @@ const productSlice = createSlice({
 
     setCurrentProduct: (state, { payload }) => {
       state.currentProduct = payload;
+    },
+
+    removeCurrentProduct: (state) => {
+      state.currentProduct = null;
     },
 
     appendEditProductGallery: (state, { payload }) => {
@@ -79,6 +85,44 @@ const productSlice = createSlice({
         state.currentProduct.gallery = [];
       }
     },
+
+    /*---------------------
+ 
+      Product brands reducer
+
+    -----------------------*/
+
+    fetchBrandsStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchBrandsSuccess: (state, { payload }) => {
+      state.brands = payload;
+      state.loading = false;
+    },
+    fetchBrandsFailure: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
+
+    /*---------------------
+ 
+      Product Categories reducer
+
+    -----------------------*/
+
+    fetchCategoriesStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchCategoriesSuccess: (state, { payload }) => {
+      state.categories = payload;
+      state.loading = false;
+    },
+    fetchCategoriesFailure: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -95,6 +139,13 @@ export const {
   uploadTempImagesFailure,
   resetGallery,
   appendEditProductGallery,
+  removeCurrentProduct,
+  fetchBrandsStart,
+  fetchBrandsSuccess,
+  fetchBrandsFailure,
+  fetchCategoriesStart,
+  fetchCategoriesSuccess,
+  fetchCategoriesFailure,
 } = productSlice.actions;
 
 export default productSlice.reducer;

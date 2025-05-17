@@ -8,8 +8,9 @@ import ProductInfo from "../ProductForm/ProductInfo";
 import ProductSize from "../ProductForm/ProductSize";
 import Pricing from "../ProductForm/Pricing";
 import Inventory from "../ProductForm/Inventory";
-import { transformProductForForm } from "../utils/transformProductForForm";
+
 import GalleryEdit from "../ProductForm/GalleryEdit";
+import { transformProductForForm } from "../../utils/transformProductForForm";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),

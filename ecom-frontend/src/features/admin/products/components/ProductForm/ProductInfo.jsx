@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormikContext } from "formik";
 import Input from "../../../../../components/common/Input";
 import Textarea from "../../../../../components/common/Textarea";
 import InputSelect from "../../../../../components/common/InputSelect";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductInfo = () => {
+  const dispatch = useDispatch();
+  const { brands, categories } = useSelector((state) => state.adminProducts);
   const { values, handleChange, handleBlur, touched, errors } =
     useFormikContext();
+
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_BRANDS",
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_CATEGORIES",
+    });
+  }, [dispatch]);
+
+  // console.log("brands", brands);
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2">
@@ -43,7 +60,10 @@ const ProductInfo = () => {
                 onBlur={handleBlur}
                 options={[
                   { value: "", label: "Select category" },
-                  { value: 2, label: "Electronics" },
+                  ...categories.map((category) => ({
+                    value: category.id,
+                    label: category.name,
+                  })),
                 ]}
                 error={touched.category_id && errors.category_id}
               />
@@ -54,11 +74,14 @@ const ProductInfo = () => {
                 label="Brand"
                 name="brand_id"
                 value={values.brand_id}
-                onBlur={handleBlur}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 options={[
                   { value: "", label: "Select brand" },
-                  { value: 2, label: "Adidas" },
+                  ...brands.map((brand) => ({
+                    value: brand.id,
+                    label: brand.name,
+                  })),
                 ]}
                 error={touched.brand_id && errors.brand_id}
               />
