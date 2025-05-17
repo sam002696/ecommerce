@@ -35,7 +35,11 @@ function* loginSaga({ payload }) {
     yield put(loginSuccess(response.data));
     yield put(setToastAlert({ type: "success", message: "Login successful!" }));
 
-    if (navigate) navigate("/dashboard");
+    if (navigate && response?.data?.user?.role === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/storefrontpage");
+    }
   } catch (error) {
     const message = error.message || "Login failed.";
     yield put(loginFailure(message));

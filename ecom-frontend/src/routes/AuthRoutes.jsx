@@ -6,7 +6,7 @@ const Register = lazy(() => import("../pages/Auth/Register/Register"));
 
 // Defining routes
 const Authroutes = [
-  { path: "/", element: <Navigate to="/login" replace /> },
+  // { path: "/", element: <Navigate to="/login" replace /> },
   {
     path: "/login",
     element: <Login />,
