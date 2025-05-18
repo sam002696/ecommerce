@@ -8,9 +8,6 @@ const Header = () => {
       <header className="relative overflow-hidden">
         {/* Top navigation */}
         <TopNavigation />
-
-        {/* Hero section */}
-        <HeroSection />
       </header>
     </>
   );
