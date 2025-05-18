@@ -3,7 +3,7 @@ import React from "react";
 const Category = () => {
   return (
     <>
-      <section aria-labelledby="category-heading" className="bg-gray-50">
+      <section aria-labelledby="category-heading" className="bg-gray-50 mt-10">
         <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="sm:flex sm:items-baseline sm:justify-between">
             <h2
