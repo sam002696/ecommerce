@@ -7,6 +7,12 @@ const ShopPage = lazy(() => import("../pages/customer/Shop/ShopPage"));
 const ProductDetails = lazy(() =>
   import("../pages/customer/ProductOverview/ProductDetails")
 );
+const ShoppingCart = lazy(() =>
+  import("../pages/customer/ShoppingCart/ShoppingCart")
+);
+const CheckoutForm = lazy(() =>
+  import("../pages/customer/CheckoutForm/CheckoutForm")
+);
 
 const CustomerRoutes = [
   // { path: "/", element: <Navigate to="/" replace /> },
@@ -21,6 +27,14 @@ const CustomerRoutes = [
   {
     path: "/product-details",
     element: <ProductDetails />,
+  },
+  {
+    path: "/shopping-cart",
+    element: <ShoppingCart />,
+  },
+  {
+    path: "/checkout-form",
+    element: <CheckoutForm />,
   },
 ];
 
