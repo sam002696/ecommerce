@@ -3,13 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   list: [],
   currentProduct: null,
+  categories: [],
+  brands: [],
+  productFilters: {
+    category: [],
+    brand: [],
+  },
   loading: false,
   error: null,
   meta: {},
 };
 
 const productSlice = createSlice({
-  name: "adminProducts",
+  name: "customerProducts",
   initialState,
   reducers: {
     fetchProductsStart: (state) => {
@@ -26,8 +32,19 @@ const productSlice = createSlice({
       state.loading = false;
     },
 
+    fetchBrandsSuccess: (state, { payload }) => {
+      state.brands = payload;
+    },
+    fetchCategoriesSuccess: (state, { payload }) => {
+      state.categories = payload;
+    },
+
     setCurrentProduct: (state, { payload }) => {
       state.currentProduct = payload;
+    },
+
+    setProductFilters: (state, { payload }) => {
+      state.productFilters = payload;
     },
   },
 });
@@ -37,6 +54,9 @@ export const {
   fetchProductsSuccess,
   fetchProductsFailure,
   setCurrentProduct,
+  fetchBrandsSuccess,
+  fetchCategoriesSuccess,
+  setProductFilters,
 } = productSlice.actions;
 
 export default productSlice.reducer;

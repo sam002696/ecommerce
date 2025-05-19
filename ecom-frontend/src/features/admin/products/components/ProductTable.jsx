@@ -84,12 +84,12 @@ const ProductTable = () => {
                     <tr key={product.id}>
                       <td className="py-5 px-1 text-sm sm:pl-3">
                         <div className="flex items-center">
-                          <div className="size-11 shrink-0">
+                          <div className="size-10">
                             {product.image_url ? (
                               <img
                                 alt=""
                                 src={product.image_url}
-                                className="size-11 rounded-full"
+                                className="size-10 "
                               />
                             ) : (
                               <PhotoIcon className="size-11 rounded-full" />

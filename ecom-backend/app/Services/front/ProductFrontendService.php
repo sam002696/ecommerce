@@ -15,16 +15,16 @@ class ProductFrontendService
         $query = Product::where('status', 1);
 
         // Filter by multiple category IDs (comma-separated)
-        if (!empty($request->category)) {
-            $categoryIds = explode(',', $request->category);
+        if (!empty($request->category_id)) {
+            $categoryIds = explode(',', $request->category_id);
             $query->whereIn('category_id', $categoryIds);
         }
 
-        // Filter by multiple brand IDs (comma-separated)
-        if (!empty($request->brand)) {
-            $brandIds = explode(',', $request->brand);
+        if (!empty($request->brand_id)) {
+            $brandIds = explode(',', $request->brand_id);
             $query->whereIn('brand_id', $brandIds);
         }
+
 
         $products = $query->orderBy('created_at', 'desc')->paginate(10);
 

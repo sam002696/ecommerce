@@ -7,6 +7,7 @@ const CheckboxGroup = ({
   values = [],
   onChange,
   error,
+  direction = "horizontal",
 }) => {
   const handleChange = (value) => {
     if (values.includes(value)) {
@@ -24,7 +25,11 @@ const CheckboxGroup = ({
       {label && (
         <p className="block text-sm font-medium text-gray-900 mb-2">{label}</p>
       )}
-      <div className="flex gap-4 flex-wrap">
+      <div
+        className={`flex flex-wrap gap-4 ${
+          direction === "vertical" ? "flex-col" : "flex-row"
+        }`}
+      >
         {options.map((option) => (
           <label
             key={option.value}

@@ -3,82 +3,32 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
 import { useEffect } from "react";
 import { Link } from "react-router";
+import CheckboxGroup from "../../../components/common/CheckboxGroup";
+import { setProductFilters } from "../../../features/customer/products/slice";
 
 const breadcrumbs = [{ id: 1, name: "Men", href: "#" }];
-const filters = [
-  {
-    id: "color",
-    name: "Color",
-    options: [
-      { value: "white", label: "White" },
-      { value: "beige", label: "Beige" },
-      { value: "blue", label: "Blue" },
-      { value: "brown", label: "Brown" },
-      { value: "green", label: "Green" },
-      { value: "purple", label: "Purple" },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "All New Arrivals" },
-      { value: "tees", label: "Tees" },
-      { value: "crewnecks", label: "Crewnecks" },
-      { value: "sweatshirts", label: "Sweatshirts" },
-      { value: "pants-shorts", label: "Pants & Shorts" },
-    ],
-  },
-  {
-    id: "sizes",
-    name: "Sizes",
-    options: [
-      { value: "xs", label: "XS" },
-      { value: "s", label: "S" },
-      { value: "m", label: "M" },
-      { value: "l", label: "L" },
-      { value: "xl", label: "XL" },
-      { value: "2xl", label: "2XL" },
-    ],
-  },
-];
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee 8-Pack",
-    href: "#",
-    price: "$256",
-    description:
-      "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
-    options: "8 colors",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-02-image-card-01.jpg",
-    imageAlt:
-      "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32",
-    description:
-      "Look like a visionary CEO and wear the same black t-shirt every day.",
-    options: "Black",
-    imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-02-image-card-02.jpg",
-    imageAlt: "Front of plain black t-shirt.",
-  },
-  // More products...
-];
 
 const ShopPage = () => {
-  const { list } = useSelector((state) => state.customerProducts);
   const dispatch = useDispatch();
+  const { list, categories, brands, productFilters } = useSelector(
+    (state) => state.customerProducts
+  );
+
   useEffect(() => {
-    dispatch({
-      type: "FETCH_CUSTOMER_PRODUCTS",
-    });
+    dispatch({ type: "FETCH_CUSTOMER_PRODUCTS" });
+    dispatch({ type: "FETCH_CUSTOMER_BRANDS" });
+    dispatch({ type: "FETCH_CUSTOMER_CATEGORIES" });
   }, [dispatch]);
+
+  const handleFilterChange = (name, values) => {
+    const updatedFilters = {
+      ...productFilters,
+      [name]: values,
+    };
+
+    dispatch(setProductFilters(updatedFilters));
+    dispatch({ type: "FETCH_CUSTOMER_PRODUCTS" });
+  };
 
   return (
     <CustomerLayout>
@@ -139,77 +89,34 @@ const ShopPage = () => {
             <aside>
               <h2 className="sr-only">Filters</h2>
 
-              <button
-                type="button"
-                className="inline-flex items-center lg:hidden"
-              >
-                <span className="text-sm font-medium text-gray-700">
-                  Filters
-                </span>
-                <PlusIcon
-                  aria-hidden="true"
-                  className="ml-1 size-5 shrink-0 text-gray-400"
-                />
-              </button>
-
               <div className="hidden lg:block">
-                <form className="divide-y divide-gray-200">
-                  {filters.map((section) => (
-                    <div
-                      key={section.name}
-                      className="py-10 first:pt-0 last:pb-0"
-                    >
-                      <fieldset>
-                        <legend className="block text-sm font-medium text-gray-900">
-                          {section.name}
-                        </legend>
-                        <div className="space-y-3 pt-6">
-                          {section.options.map((option, optionIdx) => (
-                            <div key={option.value} className="flex gap-3">
-                              <div className="flex h-5 shrink-0 items-center">
-                                <div className="group grid size-4 grid-cols-1">
-                                  <input
-                                    defaultValue={option.value}
-                                    id={`${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    type="checkbox"
-                                    className="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
-                                  />
-                                  <svg
-                                    fill="none"
-                                    viewBox="0 0 14 14"
-                                    className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
-                                  >
-                                    <path
-                                      d="M3 8L6 11L11 3.5"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="opacity-0 group-has-checked:opacity-100"
-                                    />
-                                    <path
-                                      d="M3 7H11"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="opacity-0 group-has-indeterminate:opacity-100"
-                                    />
-                                  </svg>
-                                </div>
-                              </div>
-                              <label
-                                htmlFor={`${section.id}-${optionIdx}`}
-                                className="text-sm text-gray-600"
-                              >
-                                {option.label}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      </fieldset>
-                    </div>
-                  ))}
-                </form>
+                <div className="divide-y divide-gray-200 space-y-6">
+                  <CheckboxGroup
+                    label="Categories"
+                    name="category"
+                    options={categories.map((c) => ({
+                      value: c.id.toString(),
+                      label: c.name,
+                    }))}
+                    values={productFilters.category.map(String)}
+                    onChange={handleFilterChange}
+                    direction="vertical"
+                  />
+
+                  <div className="pt-6">
+                    <CheckboxGroup
+                      label="Brands"
+                      name="brand"
+                      options={brands.map((b) => ({
+                        value: b.id.toString(),
+                        label: b.name,
+                      }))}
+                      values={productFilters.brand.map(String)}
+                      onChange={handleFilterChange}
+                      direction="vertical"
+                    />
+                  </div>
+                </div>
               </div>
             </aside>
 
