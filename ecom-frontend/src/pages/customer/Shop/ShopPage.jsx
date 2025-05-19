@@ -1,5 +1,7 @@
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { useDispatch } from "react-redux";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
+import { useEffect } from "react";
 
 const breadcrumbs = [{ id: 1, name: "Men", href: "#" }];
 const filters = [
@@ -69,6 +71,13 @@ const products = [
 ];
 
 const ShopPage = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_CUSTOMER_PRODUCTS",
+    });
+  }, [dispatch]);
+
   return (
     <CustomerLayout>
       <div>

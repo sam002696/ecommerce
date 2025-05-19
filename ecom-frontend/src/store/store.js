@@ -4,6 +4,7 @@ import toastAlertReducer from "./slices/errorSlice";
 import rootSaga from "./sagas/rootSaga";
 import authReducer from "./slices/authSlice";
 import adminProductSlice from "../features/admin/products/slice";
+import customerProductSlice from "../features/customer/products/slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     toastAlert: toastAlertReducer,
     auth: authReducer,
     adminProducts: adminProductSlice,
+    customerProducts: customerProductSlice,
   },
 
   middleware: (getDefaultMiddleware) =>
