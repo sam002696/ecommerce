@@ -218,15 +218,16 @@ class ProductService
         // Setup Intervention Image manager
         $manager = new ImageManager(new Driver());
 
-        //  Large Thumbnail
+        // Large Thumbnail (high quality)
         $img = $manager->read($image->getPathName());
-        $img->scaleDown(1200);
-        $img->save(public_path('uploads/products/large/' . $imageName));
+        // $img->scaleDown(1200);
+        $img->save(public_path('uploads/products/large/' . $imageName), 100); // 100% quality
 
-        //  Small Thumbnail
+        // Small Thumbnail (high quality)
         $img = $manager->read($image->getPathName());
-        $img->coverDown(400, 460);
-        $img->save(public_path('uploads/products/small/' . $imageName));
+        // $img->coverDown(400, 460);
+        $img->save(public_path('uploads/products/small/' . $imageName), 100); // 100% quality
+
 
         //  Store image in product_images table
         $productImage = new ProductImage();

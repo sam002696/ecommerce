@@ -1,7 +1,8 @@
 import { PlusIcon } from "@heroicons/react/20/solid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
 import { useEffect } from "react";
+import { Link } from "react-router";
 
 const breadcrumbs = [{ id: 1, name: "Men", href: "#" }];
 const filters = [
@@ -71,6 +72,7 @@ const products = [
 ];
 
 const ShopPage = () => {
+  const { list } = useSelector((state) => state.customerProducts);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
@@ -220,33 +222,33 @@ const ShopPage = () => {
               </h2>
 
               <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                {products.map((product) => (
+                {list.map((product) => (
                   <div
                     key={product.id}
                     className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
                   >
                     <img
-                      alt={product.imageAlt}
-                      src={product.imageSrc}
+                      // alt={product.imageAlt}
+                      src={product.image_url}
                       className="aspect-3/4 bg-gray-200 object-cover group-hover:opacity-75 sm:h-96"
                     />
                     <div className="flex flex-1 flex-col space-y-2 p-4">
                       <h3 className="text-sm font-medium text-gray-900">
-                        <a href={product.href}>
+                        <Link to="">
                           <span
                             aria-hidden="true"
                             className="absolute inset-0"
                           />
-                          {product.name}
-                        </a>
+                          {product.title}
+                        </Link>
                       </h3>
                       <p className="text-sm text-gray-500">
                         {product.description}
                       </p>
                       <div className="flex flex-1 flex-col justify-end">
-                        <p className="text-sm text-gray-500 italic">
+                        {/* <p className="text-sm text-gray-500 italic">
                           {product.options}
-                        </p>
+                        </p> */}
                         <p className="text-base font-medium text-gray-900">
                           {product.price}
                         </p>

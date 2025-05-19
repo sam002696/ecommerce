@@ -34,7 +34,9 @@ class TempImageService
         // Generate thumbnail
         $manager = new ImageManager(new Driver());
         $img = $manager->read($originalPath . '/' . $imageName);
-        $img->scaleDown(400, 450)->save($thumbPath . '/' . $imageName);
+        // $img->scaleDown(400, 450)->save($thumbPath . '/' . $imageName, 100);
+
+        $img->save($thumbPath . '/' . $imageName, 100);
 
         // Save to DB
         $tempImage = new TempImage();
