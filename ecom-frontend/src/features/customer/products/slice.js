@@ -11,6 +11,7 @@ const initialState = {
   },
   featuredProducts: [],
   latestProducts: [],
+  singleProduct: null,
   loading: false,
   error: null,
   meta: {},
@@ -55,6 +56,21 @@ const productSlice = createSlice({
     fetchLatestProductSuccess: (state, { payload }) => {
       state.latestProducts = payload;
     },
+
+    // single product detail handlers
+    fetchSingleProductStart: (state) => {
+      state.loading = true;
+      state.error = null;
+      state.singleProduct = null;
+    },
+    fetchSingleProductSuccess: (state, { payload }) => {
+      state.singleProduct = payload;
+      state.loading = false;
+    },
+    fetchSingleProductFailure: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -68,6 +84,9 @@ export const {
   setProductFilters,
   fetchFeaturedProductSuccess,
   fetchLatestProductSuccess,
+  fetchSingleProductStart,
+  fetchSingleProductSuccess,
+  fetchSingleProductFailure,
 } = productSlice.actions;
 
 export default productSlice.reducer;

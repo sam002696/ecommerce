@@ -6,4 +6,5 @@ export const PRODUCT_API = {
   PRODUCT_CATEGORIES: `${API_BASE_URL}/products-categories`,
   PRODUCT_FEATURED: `${API_BASE_URL}/products/featured`,
   PRODUCT_LATEST: `${API_BASE_URL}/products/latest`,
+  SINGLE_PRODUCT: (id) => `${API_BASE_URL}/product-details/${id}`,
 };

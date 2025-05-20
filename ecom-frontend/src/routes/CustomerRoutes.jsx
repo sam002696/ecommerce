@@ -33,7 +33,7 @@ const CustomerRoutes = [
     element: <ShopPage />,
   },
   {
-    path: "/product-details",
+    path: "/product-details/:id",
     element: <ProductDetails />,
   },
   {

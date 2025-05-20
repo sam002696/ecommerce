@@ -31,20 +31,21 @@ const Featured = () => {
 
           <div className="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 lg:gap-x-8">
             {featuredProducts.map((featured) => (
-              <div key={featured.id} className="group relative">
-                <img
-                  // alt={featured.imageAlt}
-                  src={featured.image_url}
-                  className="h-96 w-full rounded-lg object-cover group-hover:opacity-75 sm:aspect-2/3 sm:h-auto"
-                />
-                <h3 className="mt-4 text-base font-semibold text-gray-900">
-                  <Link to="">
+              <Link to={`/product-details/${featured.id}`}>
+                <div key={featured.id} className="group relative">
+                  <img
+                    // alt={featured.imageAlt}
+                    src={featured.image_url}
+                    className="h-96 w-full rounded-lg object-cover group-hover:opacity-75 sm:aspect-2/3 sm:h-auto"
+                  />
+
+                  <h3 className="mt-4 text-base font-semibold text-gray-900">
                     <span className="absolute inset-0" />
                     {featured.title}
-                  </Link>
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">{featured.price}</p>
-              </div>
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">{featured.price}</p>
+                </div>
+              </Link>
             ))}
           </div>
 
