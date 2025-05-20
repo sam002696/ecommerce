@@ -9,6 +9,8 @@ const initialState = {
     category: [],
     brand: [],
   },
+  featuredProducts: [],
+  latestProducts: [],
   loading: false,
   error: null,
   meta: {},
@@ -46,6 +48,13 @@ const productSlice = createSlice({
     setProductFilters: (state, { payload }) => {
       state.productFilters = payload;
     },
+
+    fetchFeaturedProductSuccess: (state, { payload }) => {
+      state.featuredProducts = payload;
+    },
+    fetchLatestProductSuccess: (state, { payload }) => {
+      state.latestProducts = payload;
+    },
   },
 });
 
@@ -57,6 +66,8 @@ export const {
   fetchBrandsSuccess,
   fetchCategoriesSuccess,
   setProductFilters,
+  fetchFeaturedProductSuccess,
+  fetchLatestProductSuccess,
 } = productSlice.actions;
 
 export default productSlice.reducer;

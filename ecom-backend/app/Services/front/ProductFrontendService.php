@@ -64,7 +64,7 @@ class ProductFrontendService
     }
 
 
-    public function getFeaturedProducts($limit = 8)
+    public function getFeaturedProducts($limit = 3)
     {
         return Product::with('product_images')
             ->where('status', 1)

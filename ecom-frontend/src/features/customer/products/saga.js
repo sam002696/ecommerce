@@ -5,6 +5,8 @@ import {
   fetchProductsFailure,
   fetchBrandsSuccess,
   fetchCategoriesSuccess,
+  fetchFeaturedProductSuccess,
+  fetchLatestProductSuccess,
 } from "./slice";
 import { PRODUCT_API } from "../../../utils/api/customer";
 
@@ -56,9 +58,29 @@ function* fetchCategoriesSaga() {
   }
 }
 
+function* fetchFeaturedProductsSaga() {
+  try {
+    const response = yield call(() => fetcher(PRODUCT_API.PRODUCT_FEATURED));
+    yield put(fetchFeaturedProductSuccess(response.data));
+  } catch (error) {
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
+function* fetchLatestProductsSaga() {
+  try {
+    const response = yield call(() => fetcher(PRODUCT_API.PRODUCT_LATEST));
+    yield put(fetchLatestProductSuccess(response.data));
+  } catch (error) {
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
 // ROOT SAGA
 export default function* productSaga() {
   yield takeLatest("FETCH_CUSTOMER_PRODUCTS", fetchProductsSaga);
   yield takeLatest("FETCH_CUSTOMER_BRANDS", fetchBrandsSaga);
   yield takeLatest("FETCH_CUSTOMER_CATEGORIES", fetchCategoriesSaga);
+  yield takeLatest("FETCH_FEATURED_PRODUCTS", fetchFeaturedProductsSaga);
+  yield takeLatest("FETCH_LATEST_PRODUCTS", fetchLatestProductsSaga);
 }
