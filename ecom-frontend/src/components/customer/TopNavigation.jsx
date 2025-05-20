@@ -12,6 +12,8 @@ import {
   MagnifyingGlassIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
+import { Link } from "react-router";
 
 const navigation = {
   categories: [
@@ -144,6 +146,7 @@ const navigation = {
 };
 
 const TopNavigation = () => {
+  const { items } = useSelector((state) => state.customerCart);
   return (
     <>
       <nav
@@ -320,17 +323,21 @@ const TopNavigation = () => {
               </div>
 
               {/* Cart */}
+
               <div className="ml-4 flow-root lg:ml-6">
-                <a href="#" className="group -m-2 flex items-center p-2">
+                <Link
+                  to="/shopping-cart"
+                  className="group -m-2 flex items-center p-2"
+                >
                   <ShoppingBagIcon
                     aria-hidden="true"
                     className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
                   />
                   <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                    0
+                    {items.length}
                   </span>
                   <span className="sr-only">items in cart, view bag</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

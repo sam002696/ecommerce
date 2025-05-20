@@ -9,6 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
+import { addToCart } from "../../../features/customer/cart/slice";
 
 const policies = [
   {
@@ -55,6 +56,23 @@ const ProductDetails = () => {
   }));
 
   const [selectedSize, setSelectedSize] = useState(sizes[0] || null);
+
+  console.log("selectedSize", selectedSize);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    if (!singleProduct || !selectedSize) return;
+
+    dispatch(
+      addToCart({
+        id: singleProduct.id,
+        title: singleProduct.title,
+        price: singleProduct.price,
+        size: selectedSize.name,
+        image_url: singleProduct.image_url,
+      })
+    );
+  };
 
   return (
     <CustomerLayout>
@@ -177,12 +195,21 @@ const ProductDetails = () => {
                           key={size.name}
                           value={size}
                           disabled={!size.inStock}
-                          className={classNames(
-                            size.inStock
-                              ? "cursor-pointer"
-                              : "cursor-not-allowed opacity-25",
-                            "flex items-center justify-center rounded-md border border-gray-200 bg-white px-3 py-3 text-sm font-medium text-gray-900 uppercase hover:bg-gray-50 data-checked:bg-indigo-600 data-checked:text-white data-focus:ring-2 data-focus:ring-indigo-500 data-focus:ring-offset-2 sm:flex-1"
-                          )}
+                          className={() =>
+                            classNames(
+                              size.inStock
+                                ? "cursor-pointer"
+                                : "cursor-not-allowed opacity-25",
+                              // base styles
+                              "flex items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase sm:flex-1",
+                              // border/background/text based on checked state
+                              size.name == selectedSize?.name
+                                ? "border-transparent bg-indigo-600 text-white hover:bg-indigo-700"
+                                : "border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
+                              // focus ring
+                              "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            )
+                          }
                         >
                           {size.name}
                         </Radio>
@@ -193,6 +220,7 @@ const ProductDetails = () => {
                   {/* Add to Cart Button */}
                   <button
                     type="submit"
+                    onClick={handleAddToCart}
                     className="mt-8 w-full rounded-md bg-indigo-600 px-8 py-3 text-white font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     Add to cart
