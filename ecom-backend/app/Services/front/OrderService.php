@@ -2,6 +2,7 @@
 
 namespace App\Services\front;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Validator;
@@ -63,12 +64,12 @@ class OrderService
 
     public function fetchOrderDetails($orderId, $userId)
     {
-        return Order::where([
-            'user_id' => $userId,
-            'id' => $orderId
-        ])
-            ->with('order_items')
-            ->first();
+        $order = Order::where('id', $orderId)
+            ->where('user_id', $userId)
+            ->with('order_items.product')
+            ->firstOrFail();
+
+        return new OrderResource($order);
     }
 
     public function fetchAllOrders($request)

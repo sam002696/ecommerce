@@ -14,14 +14,14 @@ export function OrderReview({ shipping = 50, taxRate = 0.1 }) {
     <div className="mt-10 lg:mt-0">
       <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
       <div className="mt-4 space-y-4 rounded-lg border border-gray-200 bg-white p-6">
-        <Detail label="Subtotal" value={`₹${totalAmount.toFixed(2)}`} />
+        <Detail label="Subtotal" value={`৳${totalAmount.toFixed(2)}`} />
         <Detail
           label="Shipping estimate"
           info
-          value={`₹${shippingCost.toFixed(2)}`}
+          value={`৳${shippingCost.toFixed(2)}`}
         />
-        <Detail label="Tax estimate" info value={`₹${tax.toFixed(2)}`} />
-        <Detail label="Order total" value={`₹${orderTotal.toFixed(2)}`} large />
+        <Detail label="Tax estimate" info value={`৳${tax.toFixed(2)}`} />
+        <Detail label="Order total" value={`৳${orderTotal.toFixed(2)}`} large />
       </div>
       <button
         type="button"
