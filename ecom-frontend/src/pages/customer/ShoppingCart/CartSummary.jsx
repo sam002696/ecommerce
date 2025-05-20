@@ -1,8 +1,14 @@
 import React from "react";
 import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
+import { useNavigate } from "react-router";
 
 const CartSummary = ({ subtotal, shipping = 0, tax = 0 }) => {
+  const navigate = useNavigate();
   const total = subtotal + shipping + tax;
+
+  const handleCheckout = () => {
+    navigate("/checkout-form");
+  };
 
   return (
     <section className="rounded-lg bg-gray-50 p-6 lg:p-8">
@@ -32,6 +38,7 @@ const CartSummary = ({ subtotal, shipping = 0, tax = 0 }) => {
         </div>
       </dl>
       <button
+        onClick={handleCheckout}
         type="button"
         className="mt-6 w-full rounded-md bg-indigo-600 px-4 py-3 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       >
