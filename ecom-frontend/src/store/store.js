@@ -6,6 +6,7 @@ import authReducer from "./slices/authSlice";
 import adminProductSlice from "../features/admin/products/slice";
 import customerProductSlice from "../features/customer/products/slice";
 import customerCartSlice from "../features/customer/cart/slice";
+import customerOrderSlice from "../features/customer/order/slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     adminProducts: adminProductSlice,
     customerProducts: customerProductSlice,
     customerCart: customerCartSlice,
+    customerOrders: customerOrderSlice,
   },
 
   middleware: (getDefaultMiddleware) =>

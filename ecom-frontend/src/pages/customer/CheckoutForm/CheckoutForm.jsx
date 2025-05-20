@@ -64,11 +64,10 @@ export default function CheckoutForm() {
       zip: values.zip,
       subtotal: totalAmount,
       shipping: shippingCost,
-      tax,
       discount: 0,
       grand_total: grandTotal,
-      payment_status: "",
-      status: "",
+      payment_status: "not paid",
+      status: "pending",
       cart: items.map((i) => ({
         product_id: i.id,
         qty: i.quantity,
@@ -78,7 +77,9 @@ export default function CheckoutForm() {
       })),
     };
 
-    dispatch({ type: "PLACE_ORDER", payload });
+    console.log("payload", payload);
+
+    dispatch({ type: "CREATE_ORDER", payload });
   };
 
   return (

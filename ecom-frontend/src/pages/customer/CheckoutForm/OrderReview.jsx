@@ -24,7 +24,7 @@ export function OrderReview({ shipping = 50, taxRate = 0.1 }) {
         <Detail label="Order total" value={`₹${orderTotal.toFixed(2)}`} large />
       </div>
       <button
-        type="submit"
+        type="button"
         onClick={submitForm}
         className="mt-6 w-full rounded-md bg-indigo-600 px-4 py-3 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       >
