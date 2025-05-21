@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   list: [],
   loading: false,
+  singleOrder: null,
   error: null,
 };
 
@@ -38,6 +39,20 @@ const ordersSlice = createSlice({
       state.error = payload;
       state.loading = false;
     },
+
+    // FETCH SINGLE ORDER
+    fetchSingleOrderStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchSingleOrderSuccess: (state, { payload }) => {
+      state.singleOrder = payload;
+      state.loading = false;
+    },
+    fetchSingleOrderFailure: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -48,6 +63,9 @@ export const {
   createOrderStart,
   createOrderSuccess,
   createOrderFailure,
+  fetchSingleOrderStart,
+  fetchSingleOrderSuccess,
+  fetchSingleOrderFailure,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

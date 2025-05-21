@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 // const orders = [
 //   {
@@ -35,6 +35,7 @@ import { Link } from "react-router";
 // ];
 
 const OrderHistory = () => {
+  const navigate = useNavigate();
   const { list: orders } = useSelector((state) => state.customerOrders);
   const dispatch = useDispatch();
 
@@ -44,6 +45,14 @@ const OrderHistory = () => {
       type: "FETCH_ORDERS",
     });
   }, [dispatch]);
+
+  const handleViewOrder = (id) => {
+    navigate("/order-summary", {
+      state: {
+        orderId: id,
+      },
+    });
+  };
 
   return (
     <CustomerLayout>
@@ -98,13 +107,13 @@ const OrderHistory = () => {
                       </div>
                     </dl>
                     <div className="mt-6 space-y-4 sm:flex sm:space-y-0 sm:space-x-4 md:mt-0">
-                      <Link
-                        to=""
+                      <div
+                        onClick={() => handleViewOrder(order.id)}
                         className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden md:w-auto"
                       >
                         View Order
                         <span className="sr-only">{order.id}</span>
-                      </Link>
+                      </div>
                       <Link
                         to=""
                         className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden md:w-auto"

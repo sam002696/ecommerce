@@ -6,6 +6,9 @@ import {
   createOrderStart,
   createOrderSuccess,
   createOrderFailure,
+  fetchSingleOrderStart,
+  fetchSingleOrderSuccess,
+  fetchSingleOrderFailure,
 } from "./slice";
 import { ORDER_API } from "../../../utils/api/customer";
 import fetcher from "../../../services/fetcher";
@@ -44,8 +47,23 @@ function* createOrderSaga({ payload }) {
   }
 }
 
+function* fetchSingleOrderSaga({ payload }) {
+  const { id } = payload;
+  try {
+    yield put(fetchSingleOrderStart());
+
+    const response = yield call(() => fetcher(`${ORDER_API.SINGLE_ORDER(id)}`));
+
+    yield put(fetchSingleOrderSuccess(response.data));
+  } catch (error) {
+    yield put(fetchSingleOrderFailure(error.message));
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
 // ROOT ORDERS SAGA
 export default function* ordersSaga() {
   yield takeLatest("FETCH_ORDERS", fetchOrdersSaga);
   yield takeLatest("CREATE_ORDER", createOrderSaga);
+  yield takeLatest("FETCH_SINGLE_ORDER", fetchSingleOrderSaga);
 }
