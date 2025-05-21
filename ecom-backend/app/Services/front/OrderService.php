@@ -74,7 +74,8 @@ class OrderService
 
     public function fetchAllOrders($request)
     {
-        $query = Order::where('user_id', $request->user()->id)->with('order_items');
+        $query = Order::where('user_id', $request->user()->id)
+            ->with('order_items', 'order_items.product');
 
         // Optional filtering
         if ($request->filled('status')) {
