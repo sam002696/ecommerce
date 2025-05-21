@@ -69,7 +69,10 @@ class OrderService
             ->with('order_items.product')
             ->firstOrFail();
 
-        return new OrderResource($order);
+        // for a custom response
+        // return new OrderResource($order);
+
+        return $order;
     }
 
     public function fetchAllOrders($request)
