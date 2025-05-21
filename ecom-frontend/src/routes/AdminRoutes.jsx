@@ -1,6 +1,9 @@
 import { lazy } from "react";
 import CreateProduct from "../features/admin/products/components/CreateProduct/CreateProduct";
 import EditProduct from "../features/admin/products/components/EditProduct/EditProduct";
+import Orders from "../features/admin/orders/components/Orders/Orders";
+import EditOrder from "../features/admin/orders/components/EditOrder/EditOrder";
+import OrderLayout from "../pages/admin/Orders/OrderLayout";
 
 const AdminDashboard = lazy(() => import("../pages/admin/Dashboard/Dashboard"));
 
@@ -21,6 +24,15 @@ const AdminRoutes = [
       { path: "/products", element: <Products /> },
       { path: "/products/create", element: <CreateProduct /> },
       { path: "/products/:id/edit", element: <EditProduct /> },
+    ],
+  },
+  {
+    path: "/orders",
+    element: <OrderLayout />,
+    children: [
+      { path: "/orders", element: <Orders /> },
+
+      { path: "/orders/:id/edit", element: <EditOrder /> },
     ],
   },
 ];

@@ -28,12 +28,11 @@ const navigation = [
     ],
   },
   {
-    name: "Projects",
+    name: "Orders",
     icon: FolderIcon,
     children: [
-      { name: "GraphQL API", href: "/projects/graphql" },
-      { name: "iOS App", href: "/projects/ios" },
-      { name: "Android App", href: "/projects/android" },
+      { name: "All orders", href: "/orders" },
+      { name: "Update order", href: "/orders/:id/edit" },
     ],
   },
   { name: "Calendar", href: "/calendar", icon: CalendarIcon },
