@@ -1,5 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { AuthUser } from "../../helpers/AuthUser";
 
 const userNavigation = [
   { name: "Your profile", href: "#" },
@@ -7,6 +8,8 @@ const userNavigation = [
 ];
 
 const UserMenu = () => {
+  const user = AuthUser.getUser();
+
   return (
     <Menu as="div" className="relative">
       <MenuButton className="-m-1.5 flex items-center p-1.5">
@@ -18,7 +21,7 @@ const UserMenu = () => {
         />
         <span className="hidden lg:flex lg:items-center">
           <span className="ml-4 text-sm font-semibold text-gray-900">
-            Tom Cook
+            {user?.name}
           </span>
           <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" />
         </span>

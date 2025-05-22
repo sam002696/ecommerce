@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import { AuthUser } from "../../helpers/AuthUser";
 
 const navigation = {
   categories: [
@@ -147,6 +148,7 @@ const navigation = {
 
 const TopNavigation = () => {
   const { items } = useSelector((state) => state.customerCart);
+  const user = AuthUser.getUser();
   return (
     <>
       <nav
@@ -284,19 +286,23 @@ const TopNavigation = () => {
 
             <div className="ml-auto flex items-center">
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                <a
-                  href="#"
-                  className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                >
-                  Sign in
-                </a>
-                <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                <a
-                  href="#"
-                  className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                >
-                  Create account
-                </a>
+                {!user && (
+                  <>
+                    <Link
+                      to="/login"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      Sign in
+                    </Link>
+                    <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
+                    <Link
+                      to="/register"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                    >
+                      Create account
+                    </Link>
+                  </>
+                )}
               </div>
 
               <div className="hidden lg:ml-8 lg:flex">
