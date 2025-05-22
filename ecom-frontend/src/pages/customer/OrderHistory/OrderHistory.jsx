@@ -172,8 +172,8 @@ const OrderHistory = () => {
                                     <span className="hidden sm:inline">
                                       {" "}
                                       on{" "}
-                                      <time dateTime={order.created_at}>
-                                        {order.created_at}
+                                      <time dateTime={order.updated_at}>
+                                        {order.updated_at}
                                       </time>
                                     </span>
                                   </p>

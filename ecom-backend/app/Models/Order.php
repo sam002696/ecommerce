@@ -20,6 +20,7 @@ class Order extends Model
     {
         return [
             'created_at' => 'datetime:d M, Y',
+            'updated_at' => 'datetime:d M, Y',
         ];
     }
 }
