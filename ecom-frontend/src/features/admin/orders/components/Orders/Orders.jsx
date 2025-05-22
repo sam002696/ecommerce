@@ -1,7 +1,12 @@
 import React from "react";
+import OrdersTable from "./OrdersTable";
 
 const Orders = () => {
-  return <div>orders</div>;
+  return (
+    <>
+      <OrdersTable />
+    </>
+  );
 };
 
 export default Orders;
