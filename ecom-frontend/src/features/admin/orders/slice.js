@@ -6,6 +6,8 @@ const initialState = {
   meta: {},
   singleOrder: null,
   error: null,
+  payment_status: "",
+  status: "",
 };
 
 const ordersSlice = createSlice({
@@ -27,6 +29,22 @@ const ordersSlice = createSlice({
       state.loading = false;
     },
 
+    // update order
+    updateOrderStart: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    updateOrderSuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+      // state.payment_status = payload.payment_status;
+      // state.status = payload.status;
+    },
+    updateOrderFailure: (state, { payload }) => {
+      state.error = payload;
+      state.loading = false;
+    },
+
     // FETCH SINGLE ORDER
     fetchSingleOrderStart: (state) => {
       state.loading = true;
@@ -35,6 +53,8 @@ const ordersSlice = createSlice({
     fetchSingleOrderSuccess: (state, { payload }) => {
       state.singleOrder = payload;
       state.loading = false;
+      state.payment_status = payload.payment_status;
+      state.status = payload.status;
     },
     fetchSingleOrderFailure: (state, { payload }) => {
       state.error = payload;
@@ -53,6 +73,9 @@ export const {
   fetchSingleOrderStart,
   fetchSingleOrderSuccess,
   fetchSingleOrderFailure,
+  updateOrderStart,
+  updateOrderSuccess,
+  updateOrderFailure,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;
