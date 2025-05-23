@@ -10,14 +10,11 @@ import {
   HomeIcon,
   UsersIcon,
   FolderIcon,
-  CalendarIcon,
-  DocumentDuplicateIcon,
-  ChartPieIcon,
+  // CalendarIcon,
 } from "@heroicons/react/24/outline";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
-  { name: "Team", href: "/team", icon: UsersIcon },
   {
     name: "Products",
     icon: FolderIcon,
@@ -35,9 +32,7 @@ const navigation = [
       { name: "Update order", href: "/orders/:id/edit" },
     ],
   },
-  { name: "Calendar", href: "/calendar", icon: CalendarIcon },
-  { name: "Documents", href: "/documents", icon: DocumentDuplicateIcon },
-  { name: "Reports", href: "/reports", icon: ChartPieIcon },
+  // { name: "Calendar", href: "/calendar", icon: CalendarIcon },
 ];
 
 function classNames(...classes) {

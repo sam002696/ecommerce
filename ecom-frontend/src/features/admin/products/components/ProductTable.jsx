@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Pagination from "../../../../components/common/Pagination";
+import ConfirmDialog from "../../../../components/common/ConfirmDialog";
 
 const ProductTable = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const { list, meta } = useSelector((state) => state.adminProducts);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +23,21 @@ const ProductTable = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleCreateProduct = () => {
+    navigate("/products/create");
+  };
+
+  const handleDeleteClick = (productId) => {
+    setSelectedProductId(productId);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    dispatch({ type: "DELETE_PRODUCT", payload: { id: selectedProductId } });
+    setConfirmOpen(false);
+    setSelectedProductId(null);
   };
 
   return (
@@ -35,6 +54,7 @@ const ProductTable = () => {
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
             type="button"
+            onClick={handleCreateProduct}
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Create product
@@ -122,6 +142,14 @@ const ProductTable = () => {
                         >
                           Edit<span className="sr-only">, {product.title}</span>
                         </Link>
+
+                        <button
+                          type="button"
+                          className="text-red-600 hover:text-red-900 ml-4"
+                          onClick={() => handleDeleteClick(product.id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -140,6 +168,14 @@ const ProductTable = () => {
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Product"
+        description="Are you sure you want to delete this product? This action cannot be undone."
+      />
     </div>
   );
 };

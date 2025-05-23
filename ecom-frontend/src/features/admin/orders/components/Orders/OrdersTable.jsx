@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "../../../../../components/common/Pagination";
 import { Link } from "react-router";
+import { paymentStatusStyles } from "../../utils";
 
 const OrdersTable = () => {
   const dispatch = useDispatch();
@@ -86,7 +87,12 @@ const OrdersTable = () => {
                           </div>
                         </td>
                         <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
-                          <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
+                          <span
+                            className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+                              paymentStatusStyles[order.payment_status] ||
+                              paymentStatusStyles.Default
+                            }`}
+                          >
                             {order.payment_status}
                           </span>
                         </td>

@@ -6,6 +6,7 @@ import {
   fetchSingleOrderStart,
   fetchSingleOrderSuccess,
   fetchSingleOrderFailure,
+  updateOrderSuccess,
   // updateOrderSuccess,
 } from "./slice";
 import { ORDER_API } from "../../../utils/api/admin";
@@ -46,7 +47,7 @@ function* fetchSingleOrderSaga({ payload }) {
 // update order
 
 function* updateOrderSaga({ payload }) {
-  const { id, data } = payload;
+  const { id, data, navigate } = payload;
   try {
     const response = yield call(() =>
       fetcher(ORDER_API.UPDATE(id), {
@@ -55,14 +56,15 @@ function* updateOrderSaga({ payload }) {
       })
     );
 
-    // yield put(updateOrderSuccess(response.data));
-
     yield put(
       setToastAlert({
         type: "success",
         message: response.message,
       })
     );
+
+    yield put(updateOrderSuccess(response.data));
+    navigate("/orders");
   } catch (error) {
     yield put(setToastAlert({ type: "error", message: error.message }));
   }

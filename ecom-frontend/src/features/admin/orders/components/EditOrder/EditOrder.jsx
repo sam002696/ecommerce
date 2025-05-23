@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { Formik, Form } from "formik";
 import OrderStatus from "./OrderStatus";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 const EditOrder = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { payment_status, status } = useSelector((state) => state.adminOrders);
@@ -27,6 +28,7 @@ const EditOrder = () => {
       payload: {
         id,
         data: values,
+        navigate,
       },
     });
     setSubmitting(false);

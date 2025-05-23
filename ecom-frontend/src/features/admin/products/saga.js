@@ -94,13 +94,13 @@ function* editProductSaga({ payload }) {
 function* deleteProductSaga({ payload }) {
   const { id } = payload;
   try {
-    yield call(() =>
+    const response = yield call(() =>
       fetcher(PRODUCT_API.DELETE(id), {
         method: "DELETE",
       })
     );
     yield put(deleteProductSuccess(id));
-    yield put(setToastAlert({ type: "success", message: "Product deleted" }));
+    yield put(setToastAlert({ type: "success", message: response.message }));
   } catch (error) {
     yield put(setToastAlert({ type: "error", message: error.message }));
   }

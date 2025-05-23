@@ -6,8 +6,8 @@ const initialState = {
   meta: {},
   singleOrder: null,
   error: null,
-  payment_status: "",
-  status: "",
+  payment_status: null,
+  status: null,
 };
 
 const ordersSlice = createSlice({
@@ -37,8 +37,8 @@ const ordersSlice = createSlice({
     updateOrderSuccess: (state) => {
       state.loading = false;
       state.error = null;
-      // state.payment_status = payload.payment_status;
-      // state.status = payload.status;
+      state.payment_status = null;
+      state.status = null;
     },
     updateOrderFailure: (state, { payload }) => {
       state.error = payload;
