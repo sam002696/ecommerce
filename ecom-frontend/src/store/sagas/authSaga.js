@@ -79,17 +79,17 @@ function* registerSaga({ payload }) {
   }
 }
 
-function* logoutSaga() {
+function* logoutSaga({ payload }) {
+  const { navigate } = payload;
   // Clear cookies and storage
   yield call([AuthUser, AuthUser.logout]);
 
   // Reset Redux auth state
   yield put({ type: "auth/logout" });
 
-  // Optionally redirect to login page
-  // navigate("/login"); <-- only if you pass it in
+  // redirecting to login page
+  navigate("/login");
 }
-
 // Root Auth Saga
 export default function* authSaga() {
   yield takeLatest("LOGIN", loginSaga);
