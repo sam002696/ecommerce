@@ -17,9 +17,11 @@ import { setToastAlert } from "../../../store/slices/errorSlice";
 import fetcher from "../../../services/fetcher";
 
 // FETCH ALL PRODUCTS
-function* fetchProductsSaga() {
+function* fetchProductsSaga({ payload }) {
   try {
     yield put(fetchProductsStart());
+
+    const page = payload?.page || 1;
 
     const { productFilters } = yield select((state) => state.customerProducts);
 
@@ -33,7 +35,8 @@ function* fetchProductsSaga() {
       queryParams.append("brand_id", productFilters.brand.join(","));
     }
 
-    const url = `${PRODUCT_API.ALL}?${queryParams.toString()}`;
+    const url = `${PRODUCT_API.ALL}?${queryParams.toString()}&page=${page}`;
+
     const response = yield call(() => fetcher(url));
 
     yield put(fetchProductsSuccess(response));

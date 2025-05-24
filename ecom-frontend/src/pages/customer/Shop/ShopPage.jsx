@@ -1,21 +1,32 @@
 // import { PlusIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import CheckboxGroup from "../../../components/common/CheckboxGroup";
 import { setProductFilters } from "../../../features/customer/products/slice";
+import Pagination from "../../../components/common/Pagination";
 
-const breadcrumbs = [{ id: 1, name: "Men", href: "#" }];
+const breadcrumbs = [
+  { id: 1, name: "Home", href: "/" },
+  { id: 2, name: "Shop", href: "/shop" },
+];
 
 const ShopPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-  const { list, categories, brands, productFilters } = useSelector(
+  const { list, categories, brands, productFilters, meta } = useSelector(
     (state) => state.customerProducts
   );
 
   useEffect(() => {
-    dispatch({ type: "FETCH_CUSTOMER_PRODUCTS" });
+    dispatch({
+      type: "FETCH_CUSTOMER_PRODUCTS",
+      payload: { page: currentPage },
+    });
+  }, [dispatch, currentPage]);
+
+  useEffect(() => {
     dispatch({ type: "FETCH_CUSTOMER_BRANDS" });
     dispatch({ type: "FETCH_CUSTOMER_CATEGORIES" });
   }, [dispatch]);
@@ -27,9 +38,15 @@ const ShopPage = () => {
     };
 
     dispatch(setProductFilters(updatedFilters));
-    dispatch({ type: "FETCH_CUSTOMER_PRODUCTS" });
+    dispatch({
+      type: "FETCH_CUSTOMER_PRODUCTS",
+      payload: { page: currentPage },
+    });
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <CustomerLayout>
       <div>
@@ -61,7 +78,7 @@ const ShopPage = () => {
                   </div>
                 </li>
               ))}
-              <li className="text-sm">
+              {/* <li className="text-sm">
                 <a
                   href="#"
                   aria-current="page"
@@ -69,7 +86,7 @@ const ShopPage = () => {
                 >
                   New Arrivals
                 </a>
-              </li>
+              </li> */}
             </ol>
           </nav>
         </div>
@@ -77,11 +94,11 @@ const ShopPage = () => {
         <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
           <div className="border-b border-gray-200 pt-24 pb-10">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              New Arrivals
+              Browse Our Collection
             </h1>
             <p className="mt-4 text-base text-gray-500">
-              Checkout out the latest release of Basic Tees, new and improved
-              with four openings!
+              Explore a wide range of quality products handpicked just for you.
+              Use the filters to find exactly what you're looking for.
             </p>
           </div>
 
@@ -163,6 +180,18 @@ const ShopPage = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="mt-10">
+                {meta && (
+                  <Pagination
+                    currentPage={meta.current_page}
+                    perPage={meta.per_page}
+                    total={meta.total}
+                    totalPages={meta.total_pages}
+                    onPageChange={handlePageChange}
+                  />
+                )}
               </div>
             </section>
           </div>

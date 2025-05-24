@@ -2,6 +2,7 @@
 
 namespace App\Services\front;
 
+use App\Http\Resources\front\ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
@@ -29,7 +30,7 @@ class ProductFrontendService
         $products = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return [
-            'products' => $products->items(),
+            'products' => ProductResource::collection($products),
             'pagination' => [
                 'current_page' => $products->currentPage(),
                 'per_page' => $products->perPage(),

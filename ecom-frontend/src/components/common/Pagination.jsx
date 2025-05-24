@@ -28,15 +28,21 @@ const Pagination = ({
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <p className="text-sm text-gray-700">
-          Showing{" "}
-          <span className="font-medium">{(currentPage - 1) * perPage + 1}</span>{" "}
-          to{" "}
-          <span className="font-medium">
-            {Math.min(currentPage * perPage, total)}
-          </span>{" "}
-          of <span className="font-medium">{total}</span> results
-        </p>
+        {total === 0 ? (
+          <p className="text-sm text-gray-700">No results found.</p>
+        ) : (
+          <p className="text-sm text-gray-700">
+            Showing{" "}
+            <span className="font-medium">
+              {(currentPage - 1) * perPage + 1}
+            </span>{" "}
+            to{" "}
+            <span className="font-medium">
+              {Math.min(currentPage * perPage, total)}
+            </span>{" "}
+            of <span className="font-medium">{total}</span> results
+          </p>
+        )}
 
         <nav
           className="isolate inline-flex -space-x-px rounded-md shadow-sm"
