@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\ProductSize;
@@ -30,7 +31,7 @@ class ProductService
         $products = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return [
-            'products' => $products->items(),
+            'products' => ProductResource::collection($products),
             'pagination' => [
                 'current_page' => $products->currentPage(),
                 'per_page' => $products->perPage(),

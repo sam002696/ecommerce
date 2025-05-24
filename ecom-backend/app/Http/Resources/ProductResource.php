@@ -14,9 +14,10 @@ class ProductResource extends JsonResource
             'id'          => $this->id,
             'title'       => $this->title,
             'price'       => $this->price,
+            'status'      => $this->status,
             'image_url'   => $this->image_url,
-            'description' => $this->description,
-            // Add only what you want to expose publicly
+            'sku'         => $this->sku,
+
         ];
     }
 }

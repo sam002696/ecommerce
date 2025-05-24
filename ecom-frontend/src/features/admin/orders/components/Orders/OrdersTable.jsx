@@ -83,7 +83,7 @@ const OrdersTable = () => {
                         </td>
                         <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
                           <div className="text-gray-900">
-                            {order.grand_total}
+                            ৳{order.grand_total}
                           </div>
                         </td>
                         <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">

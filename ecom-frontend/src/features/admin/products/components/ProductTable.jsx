@@ -115,17 +115,13 @@ const ProductTable = () => {
                               <PhotoIcon className="size-11 rounded-full" />
                             )}
                           </div>
-                          <div className="ml-4">
-                            <div className="font-medium text-gray-900">
-                              name
-                            </div>
-                            <div className="mt-1 text-gray-500">email</div>
-                          </div>
                         </div>
                       </td>
                       <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
                         <div className="text-gray-900">{product.title}</div>
-                        <div className="mt-1 text-gray-500">department</div>
+                        <div className="mt-1 text-gray-500">
+                          ৳{product.price}
+                        </div>
                       </td>
                       <td className="px-3 py-5 text-sm whitespace-nowrap text-gray-500">
                         <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">

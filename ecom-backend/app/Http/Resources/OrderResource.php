@@ -14,11 +14,11 @@ class OrderResource extends JsonResource
             'id'            => $this->id,
             'status'        => $this->status,
             'payment_status' => $this->payment_status,
-            'subtotal'      => $this->subtotal,
+            // 'subtotal'      => $this->subtotal,
             'grand_total'   => $this->grand_total,
-            'shipping'      => $this->shipping,
-            'created_at'    => $this->created_at,
-            'order_items'   => OrderItemResource::collection($this->whenLoaded('order_items')),
+            // 'shipping'      => $this->shipping,
+            // 'created_at'    => $this->created_at,
+            // 'order_items'   => OrderItemResource::collection($this->whenLoaded('order_items')),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,7 +27,7 @@ class OrderService
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return [
-            'orders' => $orders->items(),
+            'orders' => OrderResource::collection($orders),
             'pagination' => [
                 'current_page' => $orders->currentPage(),
                 'per_page' => $orders->perPage(),
