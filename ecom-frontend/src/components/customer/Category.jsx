@@ -1,5 +1,10 @@
 import React from "react";
 
+import categoryImage1 from "../../assets/images/category/category-image-1.jpg";
+import categoryImage2 from "../../assets/images/category/category-image-2.jpg";
+import categoryImage3 from "../../assets/images/category/category-image-3.jpg";
+import { Link } from "react-router";
+
 const Category = () => {
   return (
     <>
@@ -25,7 +30,7 @@ const Category = () => {
             <div className="group relative aspect-2/1 overflow-hidden rounded-lg sm:row-span-2 sm:aspect-square">
               <img
                 alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
-                src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-featured-category.jpg"
+                src={categoryImage1}
                 className="absolute size-full object-cover group-hover:opacity-75"
               />
               <div
@@ -35,10 +40,10 @@ const Category = () => {
               <div className="absolute inset-0 flex items-end p-6">
                 <div>
                   <h3 className="font-semibold text-white">
-                    <a href="#">
+                    <Link to="/shop">
                       <span className="absolute inset-0" />
                       New Arrivals
-                    </a>
+                    </Link>
                   </h3>
                   <p aria-hidden="true" className="mt-1 text-sm text-white">
                     Shop now
@@ -49,7 +54,7 @@ const Category = () => {
             <div className="group relative aspect-2/1 overflow-hidden rounded-lg sm:aspect-auto">
               <img
                 alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
-                src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-category-01.jpg"
+                src={categoryImage2}
                 className="absolute size-full object-cover group-hover:opacity-75"
               />
               <div
@@ -73,7 +78,7 @@ const Category = () => {
             <div className="group relative aspect-2/1 overflow-hidden rounded-lg sm:aspect-auto">
               <img
                 alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
-                src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-category-02.jpg"
+                src={categoryImage3}
                 className="absolute size-full object-cover group-hover:opacity-75"
               />
               <div

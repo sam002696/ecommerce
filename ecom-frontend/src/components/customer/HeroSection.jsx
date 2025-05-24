@@ -1,5 +1,14 @@
 import React from "react";
 
+import homePageImage1 from "../../assets/images/home/homepage-img-1.jpg";
+import homePageImage2 from "../../assets/images/home/homepage-img-2.jpg";
+import homePageImage3 from "../../assets/images/home/homepage-img-3.jpg";
+import homePageImage4 from "../../assets/images/home/homepage-img-4.jpg";
+import homePageImage5 from "../../assets/images/home/homepage-img-5.jpg";
+import homePageImage6 from "../../assets/images/home/homepage-img-6.jpg";
+import homePageImage7 from "../../assets/images/home/homepage-img-7.jpg";
+import { Link } from "react-router";
+
 const HeroSection = () => {
   return (
     <>
@@ -27,37 +36,14 @@ const HeroSection = () => {
                       <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
+                          src={homePageImage1}
                           className="size-full object-cover"
                         />
                       </div>
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-02.jpg"
-                          className="size-full object-cover"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
-                        <img
-                          alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-03.jpg"
-                          className="size-full object-cover"
-                        />
-                      </div>
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
-                        <img
-                          alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
-                          className="size-full object-cover"
-                        />
-                      </div>
-                      <div className="h-64 w-44 overflow-hidden rounded-lg">
-                        <img
-                          alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-05.jpg"
+                          src={homePageImage2}
                           className="size-full object-cover"
                         />
                       </div>
@@ -66,14 +52,37 @@ const HeroSection = () => {
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
+                          src={homePageImage3}
                           className="size-full object-cover"
                         />
                       </div>
                       <div className="h-64 w-44 overflow-hidden rounded-lg">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-hero-image-tile-07.jpg"
+                          src={homePageImage4}
+                          className="size-full object-cover"
+                        />
+                      </div>
+                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <img
+                          alt=""
+                          src={homePageImage5}
+                          className="size-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
+                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <img
+                          alt=""
+                          src={homePageImage6}
+                          className="size-full object-cover"
+                        />
+                      </div>
+                      <div className="h-64 w-44 overflow-hidden rounded-lg">
+                        <img
+                          alt=""
+                          src={homePageImage7}
                           className="size-full object-cover"
                         />
                       </div>
@@ -82,12 +91,12 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              <a
-                href="#"
+              <Link
+                to="/shop"
                 className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-center font-medium text-white hover:bg-indigo-700"
               >
                 Shop Collection
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -286,7 +286,13 @@ const TopNavigation = () => {
 
             <div className="ml-auto flex items-center">
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                {!user && (
+                {user ? (
+                  <>
+                    <p className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                      {user.name}
+                    </p>
+                  </>
+                ) : (
                   <>
                     <Link
                       to="/login"
