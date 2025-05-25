@@ -13,6 +13,7 @@ import {
 import { ORDER_API } from "../../../utils/api/customer";
 import fetcher from "../../../services/fetcher";
 import { setToastAlert } from "../../../store/slices/errorSlice";
+import { clearCart } from "../cart/slice";
 
 // FETCH ALL ORDERS
 function* fetchOrdersSaga() {
@@ -41,6 +42,9 @@ function* createOrderSaga({ payload }) {
     // on success, response.data is the created order
     yield put(createOrderSuccess(response.data));
     yield put(setToastAlert({ type: "success", message: response.message }));
+
+    // remove cart items after successful order creation
+    yield put(clearCart());
   } catch (error) {
     yield put(createOrderFailure(error.message));
     yield put(setToastAlert({ type: "error", message: error.message }));

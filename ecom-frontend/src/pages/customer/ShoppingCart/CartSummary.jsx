@@ -16,25 +16,25 @@ const CartSummary = ({ subtotal, shipping = 0, tax = 0 }) => {
       <dl className="mt-6 space-y-4">
         <div className="flex justify-between text-sm text-gray-600">
           <dt>Subtotal</dt>
-          <dd>₹{subtotal.toFixed(2)}</dd>
+          <dd>৳{subtotal.toFixed(2)}</dd>
         </div>
         <div className="flex justify-between border-t border-gray-200 pt-4 text-sm text-gray-600">
           <dt className="flex items-center">
             Shipping estimate
             <QuestionMarkCircleIcon className="ml-2 h-5 w-5 text-gray-400 hover:text-gray-500" />
           </dt>
-          <dd>₹{shipping.toFixed(2)}</dd>
+          <dd>৳{shipping.toFixed(2)}</dd>
         </div>
         <div className="flex justify-between border-t border-gray-200 pt-4 text-sm text-gray-600">
           <dt className="flex items-center">
             Tax estimate
             <QuestionMarkCircleIcon className="ml-2 h-5 w-5 text-gray-400 hover:text-gray-500" />
           </dt>
-          <dd>₹{tax.toFixed(2)}</dd>
+          <dd>৳{tax.toFixed(2)}</dd>
         </div>
         <div className="flex justify-between border-t border-gray-200 pt-4 text-base font-medium text-gray-900">
           <dt>Order total</dt>
-          <dd>₹{total.toFixed(2)}</dd>
+          <dd>৳{total.toFixed(2)}</dd>
         </div>
       </dl>
       <button

@@ -44,13 +44,12 @@ const ProductDetails = () => {
   const sizesData = singleProduct?.product_size || [];
 
   const sizeMap = {
-    1: "XS",
-    2: "S",
-    3: "M",
-    4: "L",
-    5: "XL",
-    6: "2XL",
-    7: "3XL",
+    1: "S",
+    2: "M",
+    3: "L",
+    4: "XL",
+    5: "2XL",
+    6: "3XL",
   };
 
   const sizes = sizesData.map((s) => ({

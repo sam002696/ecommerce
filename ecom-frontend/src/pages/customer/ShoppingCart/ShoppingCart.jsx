@@ -7,7 +7,7 @@ import CartSummary from "./CartSummary";
 export default function ShoppingCart() {
   const { items, totalAmount } = useSelector((s) => s.customerCart);
 
-  const shipping = items.length ? 50 : 0;
+  const shipping = items.length ? 100 : 0;
   const tax = Math.round((totalAmount + shipping) * 0.1 * 100) / 100;
 
   return (

@@ -27,7 +27,7 @@ const CartItem = ({ item }) => {
             <h3 className="text-sm font-medium text-gray-700">{item.title}</h3>
             <p className="mt-1 text-sm text-gray-500">{item.size}</p>
             <p className="mt-1 text-sm font-medium text-gray-900">
-              ₹{item.price.toFixed(2)}
+              ৳{item.price.toFixed(2)}
             </p>
           </div>
 

@@ -1,10 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Cart } from "../../../helpers/Cart";
 
+const calculateInitialTotals = (items) => {
+  let totalAmount = 0;
+  let totalQuantity = 0;
+
+  items.forEach((item) => {
+    totalAmount += item.price * item.quantity;
+    totalQuantity += item.quantity;
+  });
+
+  return { totalAmount, totalQuantity };
+};
+
+const items = Cart.getCartData();
+const { totalAmount, totalQuantity } = calculateInitialTotals(items);
+
 const initialState = {
-  items: Cart.getCartData(),
-  totalQuantity: 0,
-  totalAmount: 0,
+  items,
+  totalAmount,
+  totalQuantity,
 };
 
 const findCartIndex = (items, id, size) =>

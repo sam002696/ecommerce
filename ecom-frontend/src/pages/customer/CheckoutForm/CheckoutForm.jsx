@@ -11,15 +11,15 @@ import { DeliveryMethod } from "./DeliveryMethod";
 import { PaymentMethod } from "./PaymentMethod";
 import { OrderReview } from "./OrderReview";
 
-const deliveryMethods = [
-  {
-    id: 1,
-    title: "Standard",
-    turnaround: "4–10 business days",
-    price: "$5.00",
-  },
-  { id: 2, title: "Express", turnaround: "2–5 business days", price: "$16.00" },
-];
+// const deliveryMethods = [
+//   {
+//     id: 1,
+//     title: "Standard",
+//     turnaround: "4–10 business days",
+//     price: "$5.00",
+//   },
+//   { id: 2, title: "Express", turnaround: "2–5 business days", price: "$16.00" },
+// ];
 const paymentMethods = [{ id: "cod", title: "Cash on delivery" }];
 
 export default function CheckoutForm() {
@@ -112,15 +112,15 @@ export default function CheckoutForm() {
                     touched={touched}
                   />
 
-                  <DeliveryMethod
+                  {/* <DeliveryMethod
                     methods={deliveryMethods}
                     selectedId={values.deliveryId}
-                    // onChange={(method) =>
-                    //   handleChange({
-                    //     target: { name: "deliveryId", value: method.id },
-                    //   }) || setSelectedDelivery(method)
-                    // }
-                  />
+                    onChange={(method) =>
+                      handleChange({
+                        target: { name: "deliveryId", value: method.id },
+                      }) || setSelectedDelivery(method)
+                    }
+                  /> */}
 
                   <PaymentMethod
                     methods={paymentMethods}
