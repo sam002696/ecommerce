@@ -11,11 +11,14 @@ import { useParams } from "react-router";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
 import { addToCart } from "../../../features/customer/cart/slice";
 
+// import ToastAlert from "../../../components/common/ToastAlert";
+import { setToastAlert } from "../../../store/slices/errorSlice";
+
 const policies = [
   {
     name: "International delivery",
     icon: GlobeAmericasIcon,
-    description: "Get your order in 2 years",
+    description: "Get your order in less time",
   },
   {
     name: "Loyalty rewards",
@@ -55,13 +58,22 @@ const ProductDetails = () => {
     inStock: true,
   }));
 
-  const [selectedSize, setSelectedSize] = useState(sizes[0] || null);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   console.log("selectedSize", selectedSize);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
-    if (!singleProduct || !selectedSize) return;
+
+    if (!selectedSize) {
+      dispatch(
+        setToastAlert({
+          type: "error",
+          message: "Please select a size before adding to cart",
+        })
+      );
+      return;
+    }
 
     dispatch(
       addToCart({
@@ -70,6 +82,13 @@ const ProductDetails = () => {
         price: singleProduct.price,
         size: selectedSize.name,
         image_url: singleProduct.image_url,
+      })
+    );
+
+    dispatch(
+      setToastAlert({
+        type: "success",
+        message: "Item added to cart successfully",
       })
     );
   };
@@ -114,8 +133,10 @@ const ProductDetails = () => {
                     )}
                   </p>
                 </div>
+
                 {/* Static Reviews */}
-                <div className="mt-4">
+
+                {/* <div className="mt-4">
                   <div className="flex items-center">
                     <p className="text-sm text-gray-700">4.2</p>
                     <div className="ml-1 flex items-center">
@@ -138,7 +159,7 @@ const ProductDetails = () => {
                       120 reviews
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* Images */}
@@ -238,7 +259,7 @@ const ProductDetails = () => {
                 </div>
 
                 {/* Fabric & Care (Static) */}
-                <div className="mt-8 border-t border-gray-200 pt-8">
+                {/* <div className="mt-8 border-t border-gray-200 pt-8">
                   <h2 className="text-sm font-medium text-gray-900">
                     Fabric &amp; Care
                   </h2>
@@ -248,7 +269,7 @@ const ProductDetails = () => {
                     <li>Ultra-soft cotton blend</li>
                     <li>Ethically made</li>
                   </ul>
-                </div>
+                </div> */}
 
                 {/* Policies */}
                 <section className="mt-10" aria-labelledby="policies-heading">

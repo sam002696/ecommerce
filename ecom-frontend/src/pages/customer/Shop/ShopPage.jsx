@@ -158,7 +158,7 @@ const ShopPage = () => {
                     />
                     <div className="flex flex-1 flex-col space-y-2 p-4">
                       <h3 className="text-sm font-medium text-gray-900">
-                        <Link to="">
+                        <Link to={`/product-details/${product.id}`}>
                           <span
                             aria-hidden="true"
                             className="absolute inset-0"
