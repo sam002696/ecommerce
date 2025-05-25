@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   list: [],
+  meta: null,
   loading: false,
+
   singleOrder: null,
   error: null,
 };
@@ -17,7 +19,8 @@ const ordersSlice = createSlice({
       state.error = null;
     },
     fetchOrdersSuccess: (state, { payload }) => {
-      state.list = payload;
+      state.list = payload.data;
+      state.meta = payload.meta;
       state.loading = false;
     },
     fetchOrdersFailure: (state, { payload }) => {

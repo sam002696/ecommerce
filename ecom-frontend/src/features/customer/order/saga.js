@@ -16,12 +16,13 @@ import { setToastAlert } from "../../../store/slices/errorSlice";
 import { clearCart } from "../cart/slice";
 
 // FETCH ALL ORDERS
-function* fetchOrdersSaga() {
+function* fetchOrdersSaga({ payload }) {
   try {
+    const page = payload?.page || 1;
     yield put(fetchOrdersStart());
-    const response = yield call(() => fetcher(ORDER_API.ALL));
+    const response = yield call(() => fetcher(`${ORDER_API.ALL}?page=${page}`));
     // assuming response.data contains the array of orders
-    yield put(fetchOrdersSuccess(response.data));
+    yield put(fetchOrdersSuccess(response));
   } catch (error) {
     yield put(fetchOrdersFailure(error.message));
     yield put(setToastAlert({ type: "error", message: error.message }));

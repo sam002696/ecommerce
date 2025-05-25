@@ -1,18 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CustomerLayout from "../../../layouts/CustomerLayout/CustomerLayout";
 import OrderCard from "./OrderCard";
+import Pagination from "../../../components/common/Pagination";
 
 const OrderHistory = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.customerOrders.list);
+  const { list: orders, meta } = useSelector((state) => state.customerOrders);
 
   useEffect(() => {
     // Fetch orders when the component
     dispatch({
       type: "FETCH_ORDERS",
+      payload: { page: currentPage },
     });
-  }, [dispatch]);
+  }, [dispatch, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <CustomerLayout>
@@ -32,6 +39,16 @@ const OrderHistory = () => {
             {orders.map((order) => (
               <OrderCard key={order.id} order={order} />
             ))}
+
+            {meta && (
+              <Pagination
+                currentPage={meta.current_page}
+                perPage={meta.per_page}
+                total={meta.total}
+                totalPages={meta.total_pages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </div>
         </div>
       </div>
