@@ -20,14 +20,13 @@ const OrderSummary = () => {
     });
   }, [dispatch, orderId]);
 
-  // avoid rendering until data is loaded
-  if (!singleOrder) {
-    return null;
-  }
-
-  // map status → step index for the progress bar
+  // mapping status → step index for the progress bar
+  // inside OrderSummary component
+  const steps = ["Order placed", "Processing", "Shipped", "Delivered"];
+  // your status → index mapping:
   const stepMap = { pending: 1, shipped: 2, delivered: 3, cancelled: 0 };
   const step = stepMap[singleOrder.status] || 0;
+  const fillPercent = (step / (steps.length - 1)) * 100; // 0, 33.3, 66.7, 100
 
   return (
     <CustomerLayout>
@@ -146,9 +145,7 @@ const OrderSummary = () => {
                     <div className="mt-6">
                       <div className="overflow-hidden rounded-full bg-gray-200">
                         <div
-                          style={{
-                            width: `calc((${step} * 2 + 1) / 8 * 100%)`,
-                          }}
+                          style={{ width: `${fillPercent}%` }}
                           className="h-2 rounded-full bg-indigo-600"
                         />
                       </div>
