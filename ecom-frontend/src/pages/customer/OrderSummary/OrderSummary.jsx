@@ -21,12 +21,11 @@ const OrderSummary = () => {
   }, [dispatch, orderId]);
 
   // mapping status → step index for the progress bar
-  // inside OrderSummary component
   const steps = ["Order placed", "Processing", "Shipped", "Delivered"];
-  // your status → index mapping:
+
   const stepMap = { pending: 1, shipped: 2, delivered: 3, cancelled: 0 };
-  const step = stepMap[singleOrder.status] || 0;
-  const fillPercent = (step / (steps.length - 1)) * 100; // 0, 33.3, 66.7, 100
+  const step = stepMap[singleOrder?.status] || 0;
+  const fillPercent = (step / (steps.length - 1)) * 100;
 
   return (
     <CustomerLayout>
@@ -40,7 +39,7 @@ const OrderSummary = () => {
           <div className="mt-2 border-b border-gray-200 pb-5 text-sm sm:flex sm:justify-between">
             <dl className="flex">
               <dt className="text-gray-500">Order number&nbsp;</dt>
-              <dd className="font-medium text-gray-900">{singleOrder.id}</dd>
+              <dd className="font-medium text-gray-900">{singleOrder?.id}</dd>
               <dt>
                 <span className="sr-only">Date</span>
                 <span aria-hidden="true" className="mx-2 text-gray-400">
@@ -48,14 +47,14 @@ const OrderSummary = () => {
                 </span>
               </dt>
               <dd className="font-medium text-gray-900">
-                <time dateTime={singleOrder.updated_at}>
-                  {singleOrder.created_at}
+                <time dateTime={singleOrder?.updated_at}>
+                  {singleOrder?.created_at}
                 </time>
               </dd>
             </dl>
             <div className="mt-4 sm:mt-0">
               <a
-                href={`/order/${singleOrder.id}/invoice`}
+                href={`/order/${singleOrder?.id}/invoice`}
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 View invoice
@@ -69,7 +68,7 @@ const OrderSummary = () => {
             <h2 className="sr-only">Products purchased</h2>
 
             <div className="space-y-24">
-              {singleOrder.order_items.map((item) => (
+              {singleOrder?.order_items.map((item) => (
                 <div
                   key={item.id}
                   className="grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-8"
@@ -105,11 +104,11 @@ const OrderSummary = () => {
                           Delivery address
                         </dt>
                         <dd className="mt-3 text-gray-500">
-                          <span className="block">{singleOrder.name}</span>
-                          <span className="block">{singleOrder.address}</span>
+                          <span className="block">{singleOrder?.name}</span>
+                          <span className="block">{singleOrder?.address}</span>
                           <span className="block">
-                            {singleOrder.city}, {singleOrder.state}{" "}
-                            {singleOrder.zip}
+                            {singleOrder?.city}, {singleOrder?.state}{" "}
+                            {singleOrder?.zip}
                           </span>
                         </dd>
                       </div>
@@ -119,8 +118,8 @@ const OrderSummary = () => {
                           Shipping updates
                         </dt>
                         <dd className="mt-3 space-y-3 text-gray-500">
-                          <p>{singleOrder.email}</p>
-                          <p>{singleOrder.mobile}</p>
+                          <p>{singleOrder?.email}</p>
+                          <p>{singleOrder?.mobile}</p>
                           <button
                             type="button"
                             className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -133,11 +132,11 @@ const OrderSummary = () => {
 
                     {/* Status + Date */}
                     <p className="mt-6 font-medium text-gray-900 md:mt-10">
-                      {singleOrder.status.charAt(0).toUpperCase() +
-                        singleOrder.status.slice(1)}{" "}
+                      {singleOrder?.status.charAt(0).toUpperCase() +
+                        singleOrder?.status.slice(1)}{" "}
                       on{" "}
-                      <time dateTime={singleOrder.updated_at}>
-                        {singleOrder.created_at}
+                      <time dateTime={singleOrder?.updated_at}>
+                        {singleOrder?.created_at}
                       </time>
                     </p>
 
@@ -193,10 +192,11 @@ const OrderSummary = () => {
                 <div>
                   <dt className="font-medium text-gray-900">Billing address</dt>
                   <dd className="mt-3 text-gray-500">
-                    <span className="block">{singleOrder.name}</span>
-                    <span className="block">{singleOrder.address}</span>
+                    <span className="block">{singleOrder?.name}</span>
+                    <span className="block">{singleOrder?.address}</span>
                     <span className="block">
-                      {singleOrder.city}, {singleOrder.state} {singleOrder.zip}
+                      {singleOrder?.city}, {singleOrder?.state}{" "}
+                      {singleOrder?.zip}
                     </span>
                   </dd>
                 </div>
@@ -220,7 +220,7 @@ const OrderSummary = () => {
                     </div>
                     <div className="ml-4">
                       <p className="text-gray-900">
-                        {singleOrder.payment_status.toUpperCase()}
+                        {singleOrder?.payment_status.toUpperCase()}
                       </p>
                     </div>
                   </dd>
@@ -232,25 +232,25 @@ const OrderSummary = () => {
                 <div className="flex items-center justify-between pb-4">
                   <dt className="text-gray-600">Subtotal</dt>
                   <dd className="font-medium text-gray-900">
-                    ৳{singleOrder.subtotal}
+                    ৳{singleOrder?.subtotal}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between py-4">
                   <dt className="text-gray-600">Shipping</dt>
                   <dd className="font-medium text-gray-900">
-                    ৳{singleOrder.shipping}
+                    ৳{singleOrder?.shipping}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between py-4">
                   <dt className="text-gray-600">Discount</dt>
                   <dd className="font-medium text-gray-900">
-                    ৳{singleOrder.discount || 0}
+                    ৳{singleOrder?.discount || 0}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between pt-4">
                   <dt className="font-medium text-gray-900">Order total</dt>
                   <dd className="font-medium text-indigo-600">
-                    ৳{singleOrder.grand_total}
+                    ৳{singleOrder?.grand_total}
                   </dd>
                 </div>
               </dl>
