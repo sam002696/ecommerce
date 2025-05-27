@@ -6,9 +6,9 @@ const OrderCard = ({ order }) => (
   <div>
     <OrderHeader order={order} />
     <OrderItems
-      items={order.order_items}
-      status={order.status}
-      updatedAt={order.updated_at}
+      items={order?.order_items}
+      status={order?.status}
+      updatedAt={order?.updated_at}
     />
   </div>
 );

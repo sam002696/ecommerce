@@ -36,9 +36,8 @@ const OrderHistory = () => {
           </header>
 
           <div className="mt-16 space-y-16 sm:space-y-24">
-            {orders.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
+            {orders &&
+              orders.map((order) => <OrderCard key={order.id} order={order} />)}
 
             {meta && (
               <Pagination

@@ -10,6 +10,7 @@ import { ShippingInfo } from "./ShippingInfo";
 import { DeliveryMethod } from "./DeliveryMethod";
 import { PaymentMethod } from "./PaymentMethod";
 import { OrderReview } from "./OrderReview";
+import { useNavigate } from "react-router";
 
 // const deliveryMethods = [
 //   {
@@ -23,6 +24,7 @@ import { OrderReview } from "./OrderReview";
 const paymentMethods = [{ id: "cod", title: "Cash on delivery" }];
 
 export default function CheckoutForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items, totalAmount } = useSelector((s) => s.customerCart);
   // const [selectedDelivery, setSelectedDelivery] = useState(deliveryMethods[0]);
@@ -79,7 +81,13 @@ export default function CheckoutForm() {
 
     console.log("payload", payload);
 
-    dispatch({ type: "CREATE_ORDER", payload });
+    dispatch({
+      type: "CREATE_ORDER",
+      payload: {
+        orderData: payload,
+        navigate,
+      },
+    });
   };
 
   return (

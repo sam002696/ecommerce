@@ -2,6 +2,7 @@
 
 namespace App\Services\front;
 
+use App\Events\OrderPlaced;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -58,6 +59,8 @@ class OrderService
             $orderItem->name = $item['name'] ?? '';
             $orderItem->save();
         }
+
+        event(new OrderPlaced($order));
 
         return $order;
     }

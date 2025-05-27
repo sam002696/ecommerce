@@ -32,12 +32,14 @@ function* fetchOrdersSaga({ payload }) {
 // CREATE NEW ORDER
 function* createOrderSaga({ payload }) {
   try {
+    const { orderData, navigate } = payload;
+
     yield put(createOrderStart());
 
     const response = yield call(() =>
       fetcher(ORDER_API.CREATE, {
         method: "POST",
-        body: payload,
+        body: orderData,
       })
     );
     // on success, response.data is the created order
@@ -46,6 +48,10 @@ function* createOrderSaga({ payload }) {
 
     // remove cart items after successful order creation
     yield put(clearCart());
+    // navigate to orders page
+    if (navigate) {
+      navigate("/order-history");
+    }
   } catch (error) {
     yield put(createOrderFailure(error.message));
     yield put(setToastAlert({ type: "error", message: error.message }));
