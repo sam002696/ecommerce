@@ -23,6 +23,6 @@ class SendOrderNotification
      */
     public function handle(OrderPlaced $event): void
     {
-        Mail::to('test@example.com')->send(new NewOrderNotification($event->order));
+        Mail::to('sadmansakib221@gmail.com')->send(new NewOrderNotification($event->order));
     }
 }
