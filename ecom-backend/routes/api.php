@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\front\InvoiceController;
 use App\Http\Controllers\front\OrderController;
 use App\Http\Controllers\front\ProductController as FrontProductController;
 use App\Http\Controllers\front\ShippingController as FrontShippingController;
@@ -63,5 +64,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('get-all-orders', [OrderController::class, 'getAllOrders']);
 
         Route::get('shipping-charge', [FrontShippingController::class, 'getShipping']);
+
+
+        //download order invoice route
+        Route::get('download-invoice/{orderId}', [InvoiceController::class, 'downloadInvoice']);
     });
 });
