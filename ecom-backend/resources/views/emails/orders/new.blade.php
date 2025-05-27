@@ -5,7 +5,7 @@
 <p><strong>Total:</strong> {{ $order->grand_total }}</p>
 
 <ul>
-    @foreach ($order->items as $item)
+    @foreach ($order->order_items as $item)
         <li>{{ $item->name }} ({{ $item->qty }}) - {{ $item->price }}</li>
     @endforeach
 </ul>

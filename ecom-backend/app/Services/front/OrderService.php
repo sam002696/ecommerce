@@ -60,6 +60,7 @@ class OrderService
             $orderItem->save();
         }
 
+        $order->load('order_items');
         event(new OrderPlaced($order));
 
         return $order;
