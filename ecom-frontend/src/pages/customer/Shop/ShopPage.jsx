@@ -174,7 +174,7 @@ const ShopPage = () => {
                           {product.options}
                         </p> */}
                         <p className="text-base font-medium text-gray-900">
-                          {product.price}
+                          ৳{product.price}
                         </p>
                       </div>
                     </div>

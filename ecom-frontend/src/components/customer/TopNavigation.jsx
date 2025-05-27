@@ -322,16 +322,16 @@ const TopNavigation = () => {
                       <MenuItem>
                         {({ active }) => (
                           <Link
-                            to="/profile"
+                            to="/order-history"
                             className={`block px-4 py-2 text-sm ${
                               active ? "bg-gray-100" : ""
                             }`}
                           >
-                            Your Profile
+                            Your orders
                           </Link>
                         )}
                       </MenuItem>
-                      <MenuItem>
+                      {/* <MenuItem>
                         {({ active }) => (
                           <Link
                             to="/settings"
@@ -342,7 +342,7 @@ const TopNavigation = () => {
                             Settings
                           </Link>
                         )}
-                      </MenuItem>
+                      </MenuItem> */}
                       <MenuItem>
                         {({ active }) => (
                           <button

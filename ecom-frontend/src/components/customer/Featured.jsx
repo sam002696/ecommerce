@@ -43,7 +43,9 @@ const Featured = () => {
                     <span className="absolute inset-0" />
                     {featured.title}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">{featured.price}</p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    ৳{featured.price}
+                  </p>
                 </div>
               </Link>
             ))}
