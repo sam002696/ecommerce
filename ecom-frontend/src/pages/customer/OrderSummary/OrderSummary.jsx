@@ -52,7 +52,7 @@ const OrderSummary = () => {
                 </time>
               </dd>
             </dl>
-            <div className="mt-4 sm:mt-0">
+            {/* <div className="mt-4 sm:mt-0">
               <a
                 href={`/order/${singleOrder?.id}/invoice`}
                 className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -60,7 +60,7 @@ const OrderSummary = () => {
                 View invoice
                 <span aria-hidden="true"> &rarr;</span>
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* ─── Products Purchased ──────────────────────────────────────── */}

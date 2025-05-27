@@ -56,6 +56,17 @@ const ordersSlice = createSlice({
       state.error = payload;
       state.loading = false;
     },
+
+    downloadOrderInvoiceStart: (state) => {
+      state.loading = true;
+    },
+    downloadOrderInvoiceSuccess: (state) => {
+      state.loading = false;
+    },
+    downloadOrderInvoiceFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -69,6 +80,9 @@ export const {
   fetchSingleOrderStart,
   fetchSingleOrderSuccess,
   fetchSingleOrderFailure,
+  downloadOrderInvoiceStart,
+  downloadOrderInvoiceSuccess,
+  downloadOrderInvoiceFailure,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

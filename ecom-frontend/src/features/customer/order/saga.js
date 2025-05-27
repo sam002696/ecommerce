@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
+import Cookies from "js-cookie";
 import {
   fetchOrdersStart,
   fetchOrdersSuccess,
@@ -9,6 +10,9 @@ import {
   fetchSingleOrderStart,
   fetchSingleOrderSuccess,
   fetchSingleOrderFailure,
+  downloadOrderInvoiceStart,
+  downloadOrderInvoiceSuccess,
+  downloadOrderInvoiceFailure,
 } from "./slice";
 import { ORDER_API } from "../../../utils/api/customer";
 import fetcher from "../../../services/fetcher";
@@ -72,9 +76,48 @@ function* fetchSingleOrderSaga({ payload }) {
   }
 }
 
+function* downloadOrderInvoiceSaga({ payload }) {
+  const { orderId } = payload;
+
+  try {
+    yield put(downloadOrderInvoiceStart());
+
+    const response = yield call(() =>
+      fetch(`${ORDER_API.DOWNLOAD_INVOICE(orderId)}`, {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + Cookies.get("access_token"),
+        },
+      })
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to download invoice.");
+    }
+
+    const blob = yield response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    // triggering download
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `invoice_order_${orderId}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+
+    yield put(downloadOrderInvoiceSuccess());
+  } catch (error) {
+    yield put(downloadOrderInvoiceFailure(error.message));
+    yield put(setToastAlert({ type: "error", message: error.message }));
+  }
+}
+
 // ROOT ORDERS SAGA
 export default function* ordersSaga() {
   yield takeLatest("FETCH_ORDERS", fetchOrdersSaga);
   yield takeLatest("CREATE_ORDER", createOrderSaga);
   yield takeLatest("FETCH_SINGLE_ORDER", fetchSingleOrderSaga);
+  yield takeLatest("DOWNLOAD_ORDER_INVOICE", downloadOrderInvoiceSaga);
 }

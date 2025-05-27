@@ -1,9 +1,19 @@
-import React from "react";
+// import React from "react";
 import { Link, useNavigate } from "react-router";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { useDispatch } from "react-redux";
+// import { CheckIcon } from "@heroicons/react/24/outline";
 
 const OrderHeader = ({ order }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleDownloadInvoice = (orderId) => {
+    dispatch({
+      type: "DOWNLOAD_ORDER_INVOICE",
+      payload: { orderId },
+    });
+  };
+
   const handleView = () =>
     navigate("/order-summary", { state: { orderId: order.id } });
 
@@ -43,12 +53,12 @@ const OrderHeader = ({ order }) => {
         >
           View Order
         </button>
-        <Link
-          to=""
+        <button
+          onClick={() => handleDownloadInvoice(order.id)}
           className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 md:w-auto"
         >
-          View Invoice
-        </Link>
+          Download Invoice
+        </button>
       </div>
     </div>
   );
