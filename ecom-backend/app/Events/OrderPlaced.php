@@ -29,10 +29,14 @@ class OrderPlaced
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn(): PrivateChannel
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        return new PrivateChannel('admin.notifications');
+    }
+
+    //  custom name for frontend
+    public function broadcastAs()
+    {
+        return 'order.placed';
     }
 }
