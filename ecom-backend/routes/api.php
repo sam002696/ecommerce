@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\admin\OrderController as AdminOrderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\ShippingController;
@@ -55,6 +56,12 @@ Route::middleware('auth:sanctum')->group(function () {
         // to-do : optimize this
         Route::get('shipping-charge', [ShippingController::class, 'getShipping']);
         Route::post('shipping-charge', [ShippingController::class, 'updateShipping']);
+
+
+        // notification routes
+        Route::get('notifications', [NotificationController::class, 'index']);
+        Route::post('notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
+        Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount']);
     });
 
     // Customer-only routes
