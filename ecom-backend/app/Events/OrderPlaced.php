@@ -27,16 +27,11 @@ class OrderPlaced
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): PrivateChannel
+    public function broadcastOn(): array
     {
-        return new PrivateChannel('admin.notifications');
-    }
-
-    //  custom name for frontend
-    public function broadcastAs()
-    {
-        return 'order.placed';
+        return [
+            new PrivateChannel('channel-name'),
+        ];
     }
 }

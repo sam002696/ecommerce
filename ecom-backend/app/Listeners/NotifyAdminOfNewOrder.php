@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\BroadcastOrderNotification;
 use App\Events\OrderPlaced;
 
 use App\Models\User;
@@ -22,7 +23,7 @@ class NotifyAdminOfNewOrder
     /**
      * Handle the event.
      */
-    public function handle(OrderPlaced $event): void
+    public function handle(BroadcastOrderNotification $event): void
     {
         $admins = User::where('role', 'admin')->get();
 

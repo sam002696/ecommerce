@@ -5,7 +5,6 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use App\Models\Order;
 
@@ -30,23 +29,10 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['database', 'broadcast']; // Add 'mail' if you still want emails
+        return ['database', 'broadcast'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    // public function toMail(object $notifiable): MailMessage
-    // {
-    //     return (new MailMessage)
-    //         ->subject('New Order Placed')
-    //         ->line('A new order has been placed.')
-    //         ->line("Order ID: {$this->order->id}")
-    //         ->line("Customer: {$this->order->name}")
-    //         ->line("Total: ₹{$this->order->grand_total}")
-    //         ->action('View Order', url("/admin/orders/{$this->order->id}"))
-    //         ->line('Thank you!');
-    // }
+
 
     /**
      * Get the database representation of the notification.

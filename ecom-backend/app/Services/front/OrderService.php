@@ -2,6 +2,7 @@
 
 namespace App\Services\front;
 
+use App\Events\BroadcastOrderNotification;
 use App\Events\OrderPlaced;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -62,6 +63,9 @@ class OrderService
 
         $order->load('order_items');
         event(new OrderPlaced($order));
+
+
+        // event(new BroadcastOrderNotification($order));
 
         return $order;
     }
