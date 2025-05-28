@@ -2,12 +2,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { Suspense } from "react";
 import Loader from "./components/common/Loader";
 import AppRoutes from "./routes";
+import AdminNotificationListener from "./components/admin/AdminNotificationListener";
 
 const App = () => {
   return (
     <Router>
       {/* Showing loader while loading */}
       <Suspense fallback={<Loader />}>
+        <AdminNotificationListener />
         <Routes>
           {/* Rendering routes and their children */}
           {AppRoutes.map(({ path, element, children }, index) => (

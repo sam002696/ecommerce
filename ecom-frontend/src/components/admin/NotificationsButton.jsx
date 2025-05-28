@@ -1,6 +1,14 @@
 import { BellIcon } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const NotificationsButton = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_NOTIFICATIONS" });
+  }, [dispatch]);
+
   return (
     <button
       type="button"

@@ -16,6 +16,8 @@
     "axios": "^1.9.0",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
+    "laravel-echo": "^2.1.4",
+    "pusher-js": "^8.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
