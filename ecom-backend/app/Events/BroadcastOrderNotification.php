@@ -43,6 +43,7 @@ class BroadcastOrderNotification implements ShouldBroadcast
                 'customer_name' => $this->order->name,
                 'total'         => $this->order->grand_total,
                 'placed_at'     => $this->order->created_at->format('d M Y, h:i A'),
+                'message'       => "A new order has been placed by {$this->order->name} (Order ID: {$this->order->id}) for a total of BDT {$this->order->grand_total}.",
             ],
         ];
     }

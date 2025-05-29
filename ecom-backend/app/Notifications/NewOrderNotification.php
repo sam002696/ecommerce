@@ -29,7 +29,7 @@ class NewOrderNotification extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['database', 'broadcast'];
+        return ['database'];
     }
 
 
@@ -44,19 +44,20 @@ class NewOrderNotification extends Notification implements ShouldQueue
             'customer_name' => $this->order->name,
             'total' => $this->order->grand_total,
             'placed_at' => $this->order->created_at->format('d M Y, h:i A'),
+            'message'       => "A new order has been placed by {$this->order->name} (Order ID: {$this->order->id}) for a total of BDT {$this->order->grand_total}.",
         ];
     }
 
     /**
      * Broadcast representation (for Laravel Echo).
      */
-    public function toBroadcast(object $notifiable): BroadcastMessage
-    {
-        return new BroadcastMessage([
-            'order_id' => $this->order->id,
-            'customer_name' => $this->order->name,
-            'total' => $this->order->grand_total,
-            'placed_at' => $this->order->created_at->format('d M Y, h:i A'),
-        ]);
-    }
+    // public function toBroadcast(object $notifiable): BroadcastMessage
+    // {
+    //     return new BroadcastMessage([
+    //         'order_id' => $this->order->id,
+    //         'customer_name' => $this->order->name,
+    //         'total' => $this->order->grand_total,
+    //         'placed_at' => $this->order->created_at->format('d M Y, h:i A'),
+    //     ]);
+    // }
 }

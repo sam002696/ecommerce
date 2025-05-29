@@ -50,7 +50,7 @@ const NotificationsButton = () => {
             ) : (
               notifications.map((notification) => (
                 <div
-                  key={notification.data.id}
+                  key={notification.id}
                   className="flex w-full items-start rounded-lg bg-white p-4 shadow ring-1 ring-black/5"
                 >
                   <div className="shrink-0">
@@ -60,23 +60,23 @@ const NotificationsButton = () => {
                     />
                   </div>
                   <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      {notification.data?.customer_name}
+                    <p className="text-sm text-gray-900">
+                      {notification.data?.message}
                     </p>
-                    <p className="mt-1 text-sm text-gray-500">
-                      A new order has been placed with ID :{" "}
-                      {notification.data?.order_id}
+                    <p className="mt-1 text-xs text-gray-500">
+                      {notification.data?.placed_at}
                     </p>
                   </div>
-                  <div className="ml-4 flex-shrink-0">
-                    {/* <button
-                      onClick={() => removeNotification(notification.id)}
-                      className="text-gray-400 hover:text-gray-500 focus:outline-none"
-                    >
-                      <span className="sr-only">Close</span>
-                      <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-                    </button> */}
-                  </div>
+                  {/* Optional close button */}
+                  {/* <div className="ml-4 flex-shrink-0">
+      <button
+        onClick={() => removeNotification(notification.id)}
+        className="text-gray-400 hover:text-gray-500 focus:outline-none"
+      >
+        <span className="sr-only">Close</span>
+        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
+    </div> */}
                 </div>
               ))
             )}
