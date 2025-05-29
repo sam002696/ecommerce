@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class BroadcastOrderNotification implements ShouldBroadcastNow
+class BroadcastOrderNotification implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -20,7 +20,7 @@ class BroadcastOrderNotification implements ShouldBroadcastNow
 
     public function __construct(Order $order)
     {
-        $this->order = $order->load('order_items');
+        $this->order = $order;
     }
 
     public function broadcastOn()
@@ -32,5 +32,18 @@ class BroadcastOrderNotification implements ShouldBroadcastNow
     public function broadcastAs()
     {
         return 'new-order';
+    }
+
+
+    public function broadcastWith(): array
+    {
+        return [
+            'data' => [
+                'order_id'      => $this->order->id,
+                'customer_name' => $this->order->name,
+                'total'         => $this->order->grand_total,
+                'placed_at'     => $this->order->created_at->format('d M Y, h:i A'),
+            ],
+        ];
     }
 }

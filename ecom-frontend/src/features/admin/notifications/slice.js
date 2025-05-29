@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const notificationsSlice = createSlice({
-  name: "notifications",
+  name: "adminNotifications",
   initialState,
   reducers: {
     fetchNotificationsStart(state) {

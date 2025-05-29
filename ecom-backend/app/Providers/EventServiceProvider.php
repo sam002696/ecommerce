@@ -15,7 +15,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         \App\Events\OrderPlaced::class => [
             \App\Listeners\SendOrderNotification::class,        // Handles mail notification
-            // \App\Listeners\NotifyAdminOfNewOrder::class,        // Handles broadcast + database notification
+            \App\Listeners\NotifyAdminOfNewOrder::class,        // Handles broadcast + database notification
         ],
     ];
 

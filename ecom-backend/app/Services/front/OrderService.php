@@ -65,7 +65,7 @@ class OrderService
         event(new OrderPlaced($order));
 
 
-        // event(new BroadcastOrderNotification($order));
+        event(new BroadcastOrderNotification($order));
 
         return $order;
     }
