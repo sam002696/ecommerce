@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AdminLayout from "../../../layouts/AdminLayout/AdminLayout";
 import StatCard from "../../../components/admin/StatCard";
+import { useDispatch, useSelector } from "react-redux";
 
 const Dashboard = () => {
+  const { dashboardData } = useSelector((state) => state.adminDashboard);
+  const dispatch = useDispatch();
+
   const stats = [
-    { title: "Total Orders", value: 120 },
-    { title: "Active Users", value: 45 },
-    { title: "Revenue", value: "$3,200" },
+    { title: "Total Orders", value: dashboardData.orders_count || 0 },
+    { title: "Active Users", value: dashboardData.users_count || 0 },
+    { title: "Revenue", value: dashboardData.total_revenue || 0 },
+    { title: "Products", value: dashboardData.products_count || 0 },
   ];
+
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_DASHBOARD_DATA",
+    });
+  }, [dispatch]);
 
   return (
     <AdminLayout>
@@ -18,8 +29,6 @@ const Dashboard = () => {
           <StatCard key={stat.title} title={stat.title} value={stat.value} />
         ))}
       </div>
-
-      {/* Add more sections like charts, recent orders, etc. here */}
     </AdminLayout>
   );
 };

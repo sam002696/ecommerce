@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\admin\OrderController as AdminOrderController;
 use App\Http\Controllers\admin\ProductController;
@@ -62,6 +63,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('notifications', [NotificationController::class, 'index']);
         Route::post('notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead']);
         Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount']);
+
+
+        // admin dashboard routes
+        Route::get('dashboard/stats', [DashboardController::class, 'getStats']);
     });
 
     // Customer-only routes
