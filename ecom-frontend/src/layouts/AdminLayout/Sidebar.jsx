@@ -8,10 +8,11 @@ import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation } from "react-router";
 import {
   HomeIcon,
-  UsersIcon,
   FolderIcon,
   // CalendarIcon,
 } from "@heroicons/react/24/outline";
+
+import EcomLogo from "../../assets/logo/Merchly.png";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -54,11 +55,7 @@ export default function Sidebar() {
       {/* Desktop Sidebar */}
       <aside className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col border-r border-gray-200 bg-white px-6 pb-4">
         <div className="flex h-16 shrink-0 items-center">
-          <img
-            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-            className="h-8 w-auto"
-            alt="Logo"
-          />
+          <img src={EcomLogo} className="h-12 w-auto" alt="Logo" />
         </div>
         <nav className="mt-8 flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">

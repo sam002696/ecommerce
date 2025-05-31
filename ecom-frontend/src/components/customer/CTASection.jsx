@@ -1,4 +1,12 @@
 import React from "react";
+import { Link } from "react-router";
+
+import ctaImage1 from "../../assets/images/cta/cta-image-1.jpg";
+import ctaImage2 from "../../assets/images/cta/cta-image-2.jpg";
+import ctaImage3 from "../../assets/images/cta/cta-image-3.jpg";
+import ctaImage4 from "../../assets/images/cta/cta-image-4.jpg";
+import ctaImage5 from "../../assets/images/cta/cta-image-5.jpg";
+import ctaImage6 from "../../assets/images/cta/cta-image-6.jpg";
 
 const CTASection = () => {
   return (
@@ -18,10 +26,10 @@ const CTASection = () => {
                     Up to 50% off.
                   </h2>
                   <div className="mt-6 text-base">
-                    <a href="#" className="font-semibold text-white">
+                    <Link to="/shop" className="font-semibold text-white">
                       Shop the sale
                       <span aria-hidden="true"> &rarr;</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -31,7 +39,7 @@ const CTASection = () => {
                       <div className="shrink-0">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-category-01.jpg"
+                          src={ctaImage1}
                           className="size-64 rounded-lg object-cover md:size-72"
                         />
                       </div>
@@ -39,7 +47,7 @@ const CTASection = () => {
                       <div className="mt-6 shrink-0 sm:mt-0">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-category-02.jpg"
+                          src={ctaImage2}
                           className="size-64 rounded-lg object-cover md:size-72"
                         />
                       </div>
@@ -48,7 +56,7 @@ const CTASection = () => {
                       <div className="shrink-0">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-favorite-01.jpg"
+                          src={ctaImage3}
                           className="size-64 rounded-lg object-cover md:size-72"
                         />
                       </div>
@@ -56,7 +64,7 @@ const CTASection = () => {
                       <div className="mt-6 shrink-0 sm:mt-0">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-favorite-02.jpg"
+                          src={ctaImage4}
                           className="size-64 rounded-lg object-cover md:size-72"
                         />
                       </div>
@@ -65,7 +73,7 @@ const CTASection = () => {
                       <div className="shrink-0">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-category-01.jpg"
+                          src={ctaImage5}
                           className="size-64 rounded-lg object-cover md:size-72"
                         />
                       </div>
@@ -73,7 +81,7 @@ const CTASection = () => {
                       <div className="mt-6 shrink-0 sm:mt-0">
                         <img
                           alt=""
-                          src="https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-03-category-02.jpg"
+                          src={ctaImage6}
                           className="size-64 rounded-lg object-cover md:size-72"
                         />
                       </div>

@@ -135,7 +135,7 @@ const Footer = () => {
 
           <div className="border-t border-gray-200 py-10">
             <p className="text-sm text-gray-500">
-              Copyright &copy; 2021 Your Company, Inc.
+              Copyright &copy; 2025 Merchly, Inc.
             </p>
           </div>
         </div>
