@@ -27,13 +27,11 @@ function* loginSaga({ payload }) {
       })
     );
 
-    if (response.status !== "success") throw new Error(response.message);
-
     // Saving login data using your helper class (persists token & user)
     yield call([AuthUser, AuthUser.saveLoginData], response.data);
 
     yield put(loginSuccess(response.data));
-    yield put(setToastAlert({ type: "success", message: "Login successful!" }));
+    yield put(setToastAlert({ type: "success", message: response.message }));
 
     if (navigate && response?.data?.user?.role === "admin") {
       navigate("/dashboard");

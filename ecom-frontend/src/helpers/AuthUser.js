@@ -48,9 +48,13 @@ class AuthUserHelper {
   }
 
   // Logout function
-  logout() {
+  logout(callback) {
     Cookies.remove("access_token");
     localStorage.removeItem("auth_user");
+
+    if (typeof callback === "function") {
+      callback(); // custom behavior (e.g. redirect)
+    }
   }
 }
 

@@ -69,10 +69,10 @@ const TopNavigation = () => {
 
             {/* Logo */}
             <div className="ml-4 flex lg:ml-0">
-              <a href="#">
+              <Link to="/">
                 <span className="sr-only">Merchly</span>
                 <img alt="" src={EcomLogo} className="h-12 w-auto" />
-              </a>
+              </Link>
             </div>
 
             {/* Flyout menus */}

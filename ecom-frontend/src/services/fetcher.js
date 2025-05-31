@@ -1,4 +1,6 @@
 import Cookies from "js-cookie";
+import { AuthUser } from "../helpers/AuthUser";
+import { toast } from "react-toastify";
 
 const fetcher = async (url, options = {}) => {
   const method = options.method?.toUpperCase() || "GET";
@@ -27,7 +29,23 @@ const fetcher = async (url, options = {}) => {
 
   const data = await response.json();
 
+  if (
+    response.status === 401 &&
+    data.message === "Invalid or missing authentication token"
+  ) {
+    toast.error(data.message || "Session expired. Redirecting to login...");
+
+    setTimeout(() => {
+      AuthUser.logout(() => {
+        window.location.href = "/login";
+      });
+    }, 5000);
+
+    return;
+  }
+
   if (!response.ok) {
+    // toast.error(data.message || "API Request Failed");
     const error = new Error(data.message || "API Request Failed");
     error.response = data;
     throw error;

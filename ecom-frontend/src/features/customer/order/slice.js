@@ -19,8 +19,8 @@ const ordersSlice = createSlice({
       state.error = null;
     },
     fetchOrdersSuccess: (state, { payload }) => {
-      state.list = payload.data;
-      state.meta = payload.meta;
+      state.list = payload?.data;
+      state.meta = payload?.meta;
       state.loading = false;
     },
     fetchOrdersFailure: (state, { payload }) => {

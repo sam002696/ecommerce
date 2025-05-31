@@ -47,7 +47,7 @@ function* createOrderSaga({ payload }) {
       })
     );
     // on success, response.data is the created order
-    yield put(createOrderSuccess(response.data));
+    yield put(createOrderSuccess(response?.data));
     yield put(setToastAlert({ type: "success", message: response.message }));
 
     // remove cart items after successful order creation
@@ -69,7 +69,7 @@ function* fetchSingleOrderSaga({ payload }) {
 
     const response = yield call(() => fetcher(`${ORDER_API.SINGLE_ORDER(id)}`));
 
-    yield put(fetchSingleOrderSuccess(response.data));
+    yield put(fetchSingleOrderSuccess(response?.data));
   } catch (error) {
     yield put(fetchSingleOrderFailure(error.message));
     yield put(setToastAlert({ type: "error", message: error.message }));

@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import PrivateRoute from "./PrivateRoute";
 
 const StoreFrontPage = lazy(() =>
   import("../pages/customer/StoreFront/StoreFrontPage")
@@ -44,10 +45,24 @@ const CustomerRoutes = [
     path: "/checkout-form",
     element: <CheckoutForm />,
   },
+
+  // {
+  //   path: "/",
+  //   element: <PrivateRoute />,
+  //   children: [{ path: "order-history", element: <OrderHistory /> }],
+  // },
+
+  // {
+  //   path: "/",
+  //   element: <PrivateRoute />,
+  //   children: [{ path: "order-summary", element: <OrderSummary /> }],
+  // },
+
   {
     path: "/order-history",
     element: <OrderHistory />,
   },
+
   {
     path: "/order-summary",
     element: <OrderSummary />,

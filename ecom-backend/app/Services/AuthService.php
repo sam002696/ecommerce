@@ -53,7 +53,7 @@ class AuthService
 
         $user = User::where('email', $request->email)->firstOrFail();
         // Generating sanctum token
-        $token = $user->createToken('auth_token', ['*'], Carbon::now()->addDays(5))->plainTextToken;
+        $token = $user->createToken('auth_token', ['*'], Carbon::now()->addSeconds(30))->plainTextToken;
 
         // Returning user and token
         return ['user' => $user, 'token' => $token];
