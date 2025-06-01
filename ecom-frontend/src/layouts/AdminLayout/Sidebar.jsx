@@ -33,7 +33,6 @@ const navigation = [
       { name: "Update order", href: "/orders/:id/edit" },
     ],
   },
-  // { name: "Calendar", href: "/calendar", icon: CalendarIcon },
 ];
 
 function classNames(...classes) {

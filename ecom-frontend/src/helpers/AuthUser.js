@@ -47,6 +47,11 @@ class AuthUserHelper {
     return !!this.getToken() && !!this.getUser();
   }
 
+  getRole() {
+    const user = this.getUser();
+    return user?.role || null; //  admin or customer
+  }
+
   // Logout function
   logout(callback) {
     Cookies.remove("access_token");

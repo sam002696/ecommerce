@@ -3,6 +3,7 @@ import React from "react";
 import * as Yup from "yup";
 
 import { Link, useNavigate } from "react-router";
+import EcomLogo from "../../../assets/logo/Merchly.png";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "../../../components/common/Input";
 import Button from "../../../components/common/Button";
@@ -46,8 +47,8 @@ const Register = () => {
     <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <img
-          alt="Taskify"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+          alt="Merchly Logo"
+          src={EcomLogo}
           className="mx-auto h-16 w-auto"
         />
         <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">

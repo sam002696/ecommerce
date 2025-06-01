@@ -4,22 +4,19 @@ import Loader from "./components/common/Loader";
 import AppRoutes from "./routes";
 import AdminNotificationListener from "./components/admin/AdminNotificationListener";
 
+const renderRoutes = (routes) =>
+  routes.map(({ path, element, children }, index) => (
+    <Route key={index} path={path} element={element}>
+      {children && renderRoutes(children)}
+    </Route>
+  ));
+
 const App = () => {
   return (
     <Router>
-      {/* Showing loader while loading */}
       <Suspense fallback={<Loader />}>
         <AdminNotificationListener />
-        <Routes>
-          {/* Rendering routes and their children */}
-          {AppRoutes.map(({ path, element, children }, index) => (
-            <Route key={index} path={path} element={element}>
-              {children?.map(({ path, element }, subIndex) => (
-                <Route key={subIndex} path={path} element={element} />
-              ))}
-            </Route>
-          ))}
-        </Routes>
+        <Routes>{renderRoutes(AppRoutes)}</Routes>
       </Suspense>
     </Router>
   );

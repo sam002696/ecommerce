@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { Navigate } from "react-router";
+import PublicOnlyRoute from "./PublicOnlyRoute";
 
 const Login = lazy(() => import("../pages/Auth/Login/Login"));
 const Register = lazy(() => import("../pages/Auth/Register/Register"));
@@ -9,11 +10,19 @@ const Authroutes = [
   // { path: "/", element: <Navigate to="/login" replace /> },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <PublicOnlyRoute>
+        <Login />
+      </PublicOnlyRoute>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <PublicOnlyRoute>
+        <Register />
+      </PublicOnlyRoute>
+    ),
   },
   //   {
   //     path: "*",

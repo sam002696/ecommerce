@@ -69,7 +69,7 @@ const TopNavigation = () => {
 
             {/* Logo */}
             <div className="ml-4 flex lg:ml-0">
-              <Link to="/">
+              <Link to="/home">
                 <span className="sr-only">Merchly</span>
                 <img alt="" src={EcomLogo} className="h-12 w-auto" />
               </Link>
