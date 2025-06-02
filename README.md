@@ -9,8 +9,6 @@ A full-stack, role-based e-commerce application built with **ReactJS**, **Redux 
 - **Frontend**: [http://your-frontend-domain.com](http://your-frontend-domain.com)
 - **Backend API**: [http://your-backend-api.com](http://your-backend-api.com)
 
-> _(Replace with actual URLs upon deployment)_
-
 ---
 
 ## 🎯 Objective
