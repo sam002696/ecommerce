@@ -36,7 +36,7 @@ function* loginSaga({ payload }) {
     if (navigate && response?.data?.user?.role === "admin") {
       navigate("/dashboard");
     } else {
-      navigate("/");
+      navigate("/home");
     }
   } catch (error) {
     const message = error.message || "Login failed.";
