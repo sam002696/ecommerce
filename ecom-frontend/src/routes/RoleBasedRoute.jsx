@@ -7,13 +7,14 @@ const RoleBasedRoute = ({ allowedRoles }) => {
   console.log("allowedRoles", allowedRoles[0]);
   // const isAuthenticated = AuthUser.isAuthenticated();
   const role = AuthUser.getRole();
+  const isAuthenticated = AuthUser.isAuthenticated();
 
   console.log("role", role);
 
   // If not logged in, redirect to login
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   // If authenticated but role not allowed
   if (!allowedRoles.includes(role)) {

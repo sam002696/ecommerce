@@ -2,6 +2,7 @@ import { lazy } from "react";
 import PrivateRoute from "./PrivateRoute";
 import RoleBasedRoute from "./RoleBasedRoute";
 import NotFound from "../pages/NotFound/NotFound";
+import RoleGuardedHome from "../components/common/RoleGuardedHome";
 
 const StoreFrontPage = lazy(() =>
   import("../pages/customer/StoreFront/StoreFrontPage")
@@ -26,7 +27,7 @@ const OrderSummary = lazy(() =>
 );
 
 const CustomerRoutes = [
-  // { path: "/", element: <Navigate to="/" replace /> },
+  { path: "/", element: <RoleGuardedHome /> },
   {
     path: "/home",
     element: <StoreFrontPage />,
@@ -59,7 +60,7 @@ const CustomerRoutes = [
   // },
 
   {
-    path: "/",
+    path: "/order",
     element: <RoleBasedRoute allowedRoles={["customer"]} />,
     children: [
       { path: "order-history", element: <OrderHistory /> },
