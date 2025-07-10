@@ -124,7 +124,7 @@ const TopNavigation = () => {
                       <MenuItem>
                         {({ active }) => (
                           <Link
-                            to="/order-history"
+                            to="/order/history"
                             className={`block px-4 py-2 text-sm ${
                               active ? "bg-gray-100" : ""
                             }`}

@@ -54,7 +54,7 @@ function* createOrderSaga({ payload }) {
     yield put(clearCart());
     // navigate to orders page
     if (navigate) {
-      navigate("/order-history");
+      navigate("/order/history");
     }
   } catch (error) {
     yield put(createOrderFailure(error.message));

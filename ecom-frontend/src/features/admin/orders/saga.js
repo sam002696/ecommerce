@@ -64,7 +64,7 @@ function* updateOrderSaga({ payload }) {
     );
 
     yield put(updateOrderSuccess(response.data));
-    navigate("/orders");
+    navigate("/dashboard/orders");
   } catch (error) {
     yield put(setToastAlert({ type: "error", message: error.message }));
   }

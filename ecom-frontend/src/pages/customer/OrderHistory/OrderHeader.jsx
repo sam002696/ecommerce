@@ -15,7 +15,7 @@ const OrderHeader = ({ order }) => {
   };
 
   const handleView = () =>
-    navigate("/order-summary", { state: { orderId: order.id } });
+    navigate("/order/summary", { state: { orderId: order.id } });
 
   return (
     <div className="bg-gray-50 px-4 py-6 sm:rounded-lg sm:p-6 md:flex md:items-center md:justify-between md:space-x-6 lg:space-x-8">

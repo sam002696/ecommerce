@@ -20,17 +20,17 @@ const navigation = [
     name: "Products",
     icon: FolderIcon,
     children: [
-      { name: "All products", href: "/products" },
-      { name: "Create product", href: "/products/create" },
-      { name: "Edit product", href: "/products/:id/edit" },
+      { name: "All products", href: "/dashboard/products" },
+      { name: "Create product", href: "/dashboard/products/create" },
+      { name: "Edit product", href: "/dashboard/products/:id/edit" },
     ],
   },
   {
     name: "Orders",
     icon: FolderIcon,
     children: [
-      { name: "All orders", href: "/orders" },
-      { name: "Update order", href: "/orders/:id/edit" },
+      { name: "All orders", href: "/dashboard/orders" },
+      { name: "Update order", href: "/dashboard/orders/:id/edit" },
     ],
   },
 ];

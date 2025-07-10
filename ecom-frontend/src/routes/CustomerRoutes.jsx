@@ -63,8 +63,8 @@ const CustomerRoutes = [
     path: "/order",
     element: <RoleBasedRoute allowedRoles={["customer"]} />,
     children: [
-      { path: "order-history", element: <OrderHistory /> },
-      { path: "order-summary", element: <OrderSummary /> },
+      { path: "history", element: <OrderHistory /> },
+      { path: "summary", element: <OrderSummary /> },
     ],
   },
 

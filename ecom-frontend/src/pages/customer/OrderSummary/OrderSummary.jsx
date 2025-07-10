@@ -11,7 +11,8 @@ const OrderSummary = () => {
   const { singleOrder } = useSelector((state) => state.customerOrders);
   const dispatch = useDispatch();
   const location = useLocation();
-  const { orderId } = location.state;
+  const orderId =
+    location && location.state ? location.state.orderId : undefined;
 
   useEffect(() => {
     dispatch({
