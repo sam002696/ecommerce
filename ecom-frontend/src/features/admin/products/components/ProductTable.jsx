@@ -26,7 +26,7 @@ const ProductTable = () => {
   };
 
   const handleCreateProduct = () => {
-    navigate("/products/create");
+    navigate("/dashboard/products/create");
   };
 
   const handleDeleteClick = (productId) => {

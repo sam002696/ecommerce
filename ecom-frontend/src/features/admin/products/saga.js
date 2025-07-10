@@ -67,7 +67,7 @@ function* createProductSaga({ payload }) {
         message: response.message,
       })
     );
-    navigate("/products");
+    navigate("/dashboard/products");
   } catch (error) {
     yield put(setToastAlert({ type: "error", message: error.message }));
   }
