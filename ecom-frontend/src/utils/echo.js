@@ -10,7 +10,7 @@ const echo = new Echo({
   cluster: "ap2",
   forceTLS: true,
   encrypted: true,
-  authEndpoint: "http://localhost:8000/broadcasting/auth",
+  authEndpoint: "http://localhost:8081/broadcasting/auth",
   auth: {
     headers: {
       Authorization: "Bearer " + Cookies.get("access_token"),
