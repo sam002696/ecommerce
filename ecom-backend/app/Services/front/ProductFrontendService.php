@@ -7,6 +7,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class ProductFrontendService
 {
@@ -16,43 +17,62 @@ class ProductFrontendService
     {
         $cacheKey = $this->generateProductCacheKey($request);
 
-        // Cache for 10 minutes
-        $cached = Cache::remember($cacheKey, 600, function () use ($request) {
-            $query = Product::where('status', 1);
+        if (Redis::exists($cacheKey)) {
+            return json_decode(Redis::get($cacheKey), true);
+        }
 
-            if (!empty($request->category_id)) {
-                $categoryIds = explode(',', $request->category_id);
-                $query->whereIn('category_id', $categoryIds);
-            }
+        $query = Product::where('status', 1);
 
-            if (!empty($request->brand_id)) {
-                $brandIds = explode(',', $request->brand_id);
-                $query->whereIn('brand_id', $brandIds);
-            }
+        if (!empty($request->category_id)) {
+            $categoryIds = explode(',', $request->category_id);
+            $query->whereIn('category_id', $categoryIds);
+        }
 
-            $products = $query->orderBy('created_at', 'desc')->paginate(10);
+        if (!empty($request->brand_id)) {
+            $brandIds = explode(',', $request->brand_id);
+            $query->whereIn('brand_id', $brandIds);
+        }
 
-            return [
-                'products' => ProductResource::collection($products),
-                'pagination' => [
-                    'current_page' => $products->currentPage(),
-                    'per_page' => $products->perPage(),
-                    'total' => $products->total(),
-                    'total_pages' => $products->lastPage(),
-                    'has_more_pages' => $products->hasMorePages(),
-                ]
-            ];
-        });
+        $products = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return $cached;
+        $response = [
+            'products' => ProductResource::collection($products),
+            'pagination' => [
+                'current_page' => $products->currentPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+                'total_pages' => $products->lastPage(),
+                'has_more_pages' => $products->hasMorePages(),
+            ]
+        ];
+
+        Redis::setex($cacheKey, 600, json_encode($response)); // cache for 10 minutes
+
+        return $response;
     }
 
 
 
     public function getsingleProduct($id)
     {
-        return Product::with(['product_images', 'product_size'])
-            ->find($id);
+        $cacheKey = "product:detail:{$id}";
+
+        // Check if product is cached
+        if (Redis::exists($cacheKey)) {
+            return json_decode(Redis::get($cacheKey), true);
+        }
+
+        // Fetch from DB if not in cache
+        $product = Product::with(['product_images', 'product_size'])->find($id);
+
+        if (!$product) {
+            return null; // Avoid caching nulls
+        }
+
+        // Cache it for 15 minutes
+        Redis::setex($cacheKey, 900, $product->toJson());
+
+        return $product;
     }
 
 
