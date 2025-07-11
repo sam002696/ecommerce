@@ -73,6 +73,7 @@ class ProductService
 
 
         $this->clearProductListCache();
+        $this->clearSingleProductCache($product->id);
 
         // handle sizes
         if (!empty($request->sizes)) {
@@ -173,6 +174,8 @@ class ProductService
 
         $this->clearProductListCache();
 
+        $this->clearSingleProductCache($product->id);
+
         // handle sizes
         if (!empty($request->sizes)) {
             ProductSize::where('product_id', $product->id)->delete();
@@ -207,6 +210,8 @@ class ProductService
 
         $product->delete();
         $this->clearProductListCache();
+
+        $this->clearSingleProductCache($product->id);
 
         return true;
     }
@@ -244,6 +249,7 @@ class ProductService
         $productImage->save();
 
         $this->clearProductListCache();
+        $this->clearSingleProductCache($request->product_id);
 
         return $productImage;
     }
@@ -261,6 +267,7 @@ class ProductService
         $product->save();
 
         $this->clearProductListCache();
+        $this->clearSingleProductCache($request->product_id);
 
 
 
@@ -288,12 +295,25 @@ class ProductService
         $productImage->delete();
 
         $this->clearProductListCache();
+        $this->clearSingleProductCache($productImage->product_id);
         return true;
     }
 
+
+    // this function clears the cache for the product list
     private function clearProductListCache(): void
     {
         $keys = Redis::keys('products:*');
+        foreach ($keys as $key) {
+            Redis::del($key);
+        }
+    }
+
+
+    // this function clears the cache for a single product
+    private function clearSingleProductCache($productId): void
+    {
+        $keys = Redis::keys("product:detail:{$productId}");
         foreach ($keys as $key) {
             Redis::del($key);
         }
