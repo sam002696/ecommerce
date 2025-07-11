@@ -8,6 +8,7 @@ use App\Models\ProductImage;
 use App\Models\ProductSize;
 use App\Models\TempImage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -70,6 +71,8 @@ class ProductService
         // Create the product first
         $product = Product::create($data);
 
+
+        $this->clearProductListCache();
 
         // handle sizes
         if (!empty($request->sizes)) {
@@ -168,6 +171,8 @@ class ProductService
         $product->update($data);
 
 
+        $this->clearProductListCache();
+
         // handle sizes
         if (!empty($request->sizes)) {
             ProductSize::where('product_id', $product->id)->delete();
@@ -201,6 +206,8 @@ class ProductService
         }
 
         $product->delete();
+        $this->clearProductListCache();
+
         return true;
     }
 
@@ -236,6 +243,8 @@ class ProductService
         $productImage->image = $imageName;
         $productImage->save();
 
+        $this->clearProductListCache();
+
         return $productImage;
     }
 
@@ -251,6 +260,8 @@ class ProductService
 
         $product->save();
 
+        $this->clearProductListCache();
+
 
 
         ProductImage::where('product_id', $request->product_id)
@@ -260,6 +271,7 @@ class ProductService
         ProductImage::where('product_id', $request->product_id)
             ->where('image', $request->image)
             ->update(['is_default' => true]);
+
 
         return $product;
     }
@@ -274,6 +286,16 @@ class ProductService
         File::delete(public_path('uploads/products/small/' . $productImage->image));
 
         $productImage->delete();
+
+        $this->clearProductListCache();
         return true;
+    }
+
+    private function clearProductListCache(): void
+    {
+        $keys = Redis::keys('products:*');
+        foreach ($keys as $key) {
+            Redis::del($key);
+        }
     }
 }
