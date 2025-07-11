@@ -18,8 +18,13 @@ class ProductService
 {
     public function getAllProducts($request)
     {
-        $query = Product::with(['product_images', 'product_size']);
+        $cacheKey = $this->generateAdminProductCacheKey($request);
 
+        if (Redis::exists($cacheKey)) {
+            return json_decode(Redis::get($cacheKey), true);
+        }
+
+        $query = Product::with(['product_images', 'product_size']);
 
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
@@ -31,7 +36,7 @@ class ProductService
 
         $products = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return [
+        $response = [
             'products' => ProductResource::collection($products),
             'pagination' => [
                 'current_page' => $products->currentPage(),
@@ -41,7 +46,12 @@ class ProductService
                 'has_more_pages' => $products->hasMorePages(),
             ]
         ];
+
+        Redis::setex($cacheKey, 120, json_encode($response)); // Cache for 2 minutes
+
+        return $response;
     }
+
 
     public function createProduct($request)
     {
@@ -303,11 +313,16 @@ class ProductService
     // this function clears the cache for the product list
     private function clearProductListCache(): void
     {
-        $keys = Redis::keys('products:*');
-        foreach ($keys as $key) {
+        $adminKeys = Redis::keys('admin:products:*');
+        $frontendKeys = Redis::keys('products:*');
+
+        $allKeys = array_merge($adminKeys, $frontendKeys);
+
+        foreach ($allKeys as $key) {
             Redis::del($key);
         }
     }
+
 
 
     // this function clears the cache for a single product
@@ -317,5 +332,17 @@ class ProductService
         foreach ($keys as $key) {
             Redis::del($key);
         }
+    }
+
+
+    private function generateAdminProductCacheKey($request): string
+    {
+        $params = [
+            'page' => $request->get('page', 1),
+            'search' => $request->get('search', ''),
+            'status' => $request->get('status', ''),
+        ];
+
+        return 'admin:products:' . md5(json_encode($params));
     }
 }
