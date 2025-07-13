@@ -4,9 +4,9 @@ namespace App\Services\front;
 
 use App\Events\BroadcastOrderNotification;
 use App\Events\OrderPlaced;
-use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
 class OrderService
@@ -17,7 +17,6 @@ class OrderService
             throw new \Exception('Cart is empty');
         }
 
-        // Basic validation
         Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email',
@@ -30,65 +29,68 @@ class OrderService
             'status' => 'in:pending,shipped,delivered,cancelled',
         ])->validate();
 
-        // Save Order
         $order = new Order();
-        $order->name = $request->name;
-        $order->email = $request->email;
-        $order->mobile = $request->mobile;
-        $order->address = $request->address;
-        $order->city = $request->city;
-        $order->state = $request->state;
-        $order->zip = $request->zip;
-        $order->subtotal = $request->subtotal;
-        $order->grand_total = $request->grand_total;
-        $order->discount = $request->discount ?? 0;
-        $order->shipping = $request->shipping;
+        $order->fill($request->only([
+            'name', 'email', 'mobile', 'address', 'city', 'state', 'zip',
+            'subtotal', 'grand_total', 'discount', 'shipping'
+        ]));
         $order->payment_status = $request->payment_status ?? 'not paid';
         $order->status = $request->status ?? 'pending';
         $order->user_id = $request->user()->id;
         $order->save();
 
-        // Save Order Items
         foreach ($request->cart as $item) {
-            $orderItem = new OrderItem();
-            $orderItem->order_id = $order->id;
-            $orderItem->product_id = $item['product_id'];
-            $orderItem->qty = $item['qty'];
-            $orderItem->unit_price = $item['price'];
-            $orderItem->price = $item['qty'] * $item['price'];
-            $orderItem->size = $item['size'] ?? null;
-            $orderItem->name = $item['name'] ?? '';
-            $orderItem->save();
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['product_id'],
+                'qty' => $item['qty'],
+                'unit_price' => $item['price'],
+                'price' => $item['qty'] * $item['price'],
+                'size' => $item['size'] ?? null,
+                'name' => $item['name'] ?? '',
+            ]);
         }
 
         $order->load('order_items');
         event(new OrderPlaced($order));
-
-
         event(new BroadcastOrderNotification($order));
+
+        // Clear frontend order cache for user
+        $this->clearUserOrderCache($order->user_id);
 
         return $order;
     }
 
     public function fetchOrderDetails($orderId, $userId)
     {
+        $cacheKey = "user:{$userId}:order:{$orderId}";
+
+        if (Redis::exists($cacheKey)) {
+            return json_decode(Redis::get($cacheKey), true);
+        }
+
         $order = Order::where('id', $orderId)
             ->where('user_id', $userId)
             ->with('order_items.product')
             ->firstOrFail();
 
-        // for a custom response
-        // return new OrderResource($order);
+        Redis::setex($cacheKey, 300, json_encode($order)); // Cache for 5 mins
 
         return $order;
     }
 
     public function fetchAllOrders($request)
     {
-        $query = Order::where('user_id', $request->user()->id)
-            ->with('order_items', 'order_items.product');
+        $userId = $request->user()->id;
+        $cacheKey = $this->generateUserOrderCacheKey($request, $userId);
 
-        // Optional filtering
+        if (Redis::exists($cacheKey)) {
+            return json_decode(Redis::get($cacheKey), true);
+        }
+
+        $query = Order::where('user_id', $userId)
+            ->with('order_items.product');
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -99,7 +101,7 @@ class OrderService
 
         $orders = $query->orderBy('created_at', 'desc')->paginate(10);
 
-        return [
+        $response = [
             'orders' => $orders->items(),
             'pagination' => [
                 'current_page' => $orders->currentPage(),
@@ -109,5 +111,30 @@ class OrderService
                 'has_more_pages' => $orders->hasMorePages(),
             ]
         ];
+
+        Redis::setex($cacheKey, 300, json_encode($response)); // Cache for 5 mins
+
+        return $response;
+    }
+
+    private function generateUserOrderCacheKey($request, $userId): string
+    {
+        $params = [
+            'page' => $request->get('page', 1),
+            'status' => $request->get('status', ''),
+            'payment_status' => $request->get('payment_status', '')
+        ];
+
+        return 'user:' . $userId . ':orders:' . md5(json_encode($params));
+    }
+
+    private function clearUserOrderCache($userId): void
+    {
+        $keys = Redis::keys("user:{$userId}:orders:*");
+        $keys = array_merge($keys, Redis::keys("user:{$userId}:order:*"));
+
+        foreach ($keys as $key) {
+            Redis::del($key);
+        }
     }
 }
