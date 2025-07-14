@@ -52,7 +52,7 @@ class ApiResponseService
     /**
      * Handling unexpected errors.
      */
-    public static function handleUnexpectedError(Exception $exception)
+    public static function handleUnexpectedError(\Throwable $exception)
     {
         // Returning a structured error response
         return response()->json([

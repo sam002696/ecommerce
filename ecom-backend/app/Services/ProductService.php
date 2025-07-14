@@ -110,10 +110,17 @@ class ProductService
                 $manager = new ImageManager(new Driver());
 
                 $sourcePath = public_path('uploads/temp/' . $tempImage->name);
-                $largePath = public_path('uploads/products/large/' . $imageName);
-                $smallPath = public_path('uploads/products/small/' . $imageName);
+                $largeDir = public_path('uploads/products/large');
+                $smallDir = public_path('uploads/products/small');
 
-                // Generate images
+                //  Ensure the directories exist
+                File::ensureDirectoryExists($largeDir);
+                File::ensureDirectoryExists($smallDir);
+
+                $largePath = $largeDir . '/' . $imageName;
+                $smallPath = $smallDir . '/' . $imageName;
+
+                // Generate and save images
                 $manager->read($sourcePath)->scaleDown(1200)->save($largePath);
                 $manager->read($sourcePath)->scaleDown(400, 460)->save($smallPath);
 
@@ -122,19 +129,16 @@ class ProductService
                 $productImage->image = $imageName;
                 $productImage->save();
 
+                $this->clearSingleProductCache($productImage->product_id);
+
                 // Set main image if first
                 if ($key == 0) {
                     $product->image = $imageName;
                     $product->save();
                 }
-
-                // Optional: Save to product_images
-                // ProductImage::create([
-                //     'product_id' => $product->id,
-                //     'image' => $imageName,
-                // ]);
             }
-        }
+}
+
 
         return $product;
     }
@@ -332,6 +336,8 @@ class ProductService
         foreach ($keys as $key) {
             Redis::del($key);
         }
+
+        
     }
 
 
