@@ -69,8 +69,8 @@ class ProductFrontendService
             return null; // Avoid caching nulls
         }
 
-        // Cache it for 15 minutes
-        Redis::setex($cacheKey, 900, $product->toJson());
+        // Cache it for 2 minutes
+        Redis::setex($cacheKey, 120, $product->toJson());
 
         return $product;
     }

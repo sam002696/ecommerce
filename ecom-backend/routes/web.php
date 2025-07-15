@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redis;
 
 // use Illuminate\Support\Facades\Cache;
 
@@ -10,6 +11,11 @@ Route::get('/', function () {
 
 
 // Route::get('/redis-test', function () {
-//     Cache::put('redis_key', 'Redis is working ffff! 🎉', 60);
-//     return Cache::get('redis_key');
+//     Redis::set('test_key', 'Hello Redis!');
+//     $value = Redis::get('test_key');
+
+//     return response()->json([
+//         'message' => 'Redis is working!',
+//         'value' => $value,
+//     ]);
 // });
