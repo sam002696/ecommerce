@@ -31,8 +31,17 @@ class OrderService
 
         $order = new Order();
         $order->fill($request->only([
-            'name', 'email', 'mobile', 'address', 'city', 'state', 'zip',
-            'subtotal', 'grand_total', 'discount', 'shipping'
+            'name',
+            'email',
+            'mobile',
+            'address',
+            'city',
+            'state',
+            'zip',
+            'subtotal',
+            'grand_total',
+            'discount',
+            'shipping'
         ]));
         $order->payment_status = $request->payment_status ?? 'not paid';
         $order->status = $request->status ?? 'pending';
@@ -57,6 +66,8 @@ class OrderService
 
         // Clear frontend order cache for user
         $this->clearUserOrderCache($order->user_id);
+        // Clear admin order list cache
+        $this->clearAdminOrderListCache();
 
         return $order;
     }
@@ -132,6 +143,15 @@ class OrderService
     {
         $keys = Redis::keys("user:{$userId}:orders:*");
         $keys = array_merge($keys, Redis::keys("user:{$userId}:order:*"));
+
+        foreach ($keys as $key) {
+            Redis::del($key);
+        }
+    }
+
+    private function clearAdminOrderListCache(): void
+    {
+        $keys = Redis::keys('admin:orders:*');
 
         foreach ($keys as $key) {
             Redis::del($key);

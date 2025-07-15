@@ -133,7 +133,7 @@ const ProductTable = () => {
                       </td>
                       <td className="relative py-5 pr-6 text-right text-sm font-medium">
                         <Link
-                          to={`/products/${product?.id}/edit`}
+                          to={`/dashboard/products/${product?.id}/edit`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           Edit<span className="sr-only">, {product.title}</span>
