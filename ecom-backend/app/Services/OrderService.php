@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
 class OrderService
@@ -11,7 +12,7 @@ class OrderService
     /**
      * Fetch all orders with optional filters (status, payment).
      */
-   public function getAllOrders($request)
+    public function getAllOrders($request)
     {
         $cacheKey = $this->generateAdminOrderCacheKey($request);
 
@@ -114,12 +115,11 @@ class OrderService
 
     private function clearFrontendUserOrderCache($userId): void
     {
-       $keys = Redis::keys("user:{$userId}:orders:*");
-       $keys = array_merge($keys, Redis::keys("user:{$userId}:order:*"));
+        $keys = Redis::keys("user:{$userId}:orders:*");
+        $keys = array_merge($keys, Redis::keys("user:{$userId}:order:*"));
 
-       foreach ($keys as $key) {
-        Redis::del($key);
-       }
+        foreach ($keys as $key) {
+            Redis::del($key);
+        }
     }
-
 }

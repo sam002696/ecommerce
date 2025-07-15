@@ -93,7 +93,7 @@ const GalleryEdit = ({ productId }) => {
                 name="image"
                 onChange={handleFileChange}
                 accept="image/*"
-                multiple
+                // multiple
               />
             </div>
           </div>

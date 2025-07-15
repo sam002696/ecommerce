@@ -101,7 +101,7 @@ const OrdersTable = () => {
                         </td>
                         <td className="relative py-5 pr-6 text-right text-sm font-medium">
                           <Link
-                            to={`/orders/${order?.id}/edit`}
+                            to={`/dashboard/orders/${order?.id}/edit`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             Edit
